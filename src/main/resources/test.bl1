@@ -1,0 +1,14 @@
+(relation Position "A point in three-dimensional space.\n" "Really!\n" (x int) (y int) (z int))
+(relation Entity (name string) (age int))
+(relation Message (mesg string))
+
+(assert (Position (x 1) (y 1) (z 1)))
+(retract (Position (x ?x) (y ?x)))
+
+(rule collision
+  (Position (x ?x) (y ?y) (z ?z))
+  (Position (x ?x) (y ?y) (z ?z))
+  (forall (Position (x ?x) (y ?y))
+    (Position (x ?y) (y ?x)))
+  =>
+  (assert (Message (mesg "oops"))))
