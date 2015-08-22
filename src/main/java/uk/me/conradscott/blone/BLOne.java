@@ -2,6 +2,8 @@ package uk.me.conradscott.blone;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.DiagnosticErrorListener;
+import org.antlr.v4.runtime.atn.PredictionMode;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,13 +41,18 @@ public final class BLOne {
 
             final CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-            //            logTokenStream(tokens);
+            // logTokenStream(tokens);
 
             final BLOneParser parser = new BLOneParser(tokens);
 
+            // Test for ambiguity in the grammar.
+            parser.removeErrorListeners();
+            parser.addErrorListener(new DiagnosticErrorListener());
+            parser.getInterpreter().setPredictionMode(PredictionMode.LL_EXACT_AMBIG_DETECTION);
+
             final BLOneParser.ProgramContext context = parser.program();
 
-            final ParseTreeVisitor<Void> visitor = new LoggingVisitor();
+            final ParseTreeVisitor<LoggingVisitor> visitor = new LoggingVisitor();
             visitor.visit(context);
         } catch (final FileNotFoundException e) {
             LOGGER.error("Cannot open resource \"" + NAME + "\".", e);
