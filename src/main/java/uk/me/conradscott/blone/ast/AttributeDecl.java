@@ -5,11 +5,11 @@ import org.jetbrains.annotations.NotNull;
 public final class AttributeDecl implements LocatedIfc {
     private final LocationIfc m_location;
     private final String m_name;
-    @NotNull private final TypeIfc m_type;
+    @NotNull private final PrimitiveType m_type;
 
     public AttributeDecl(@NotNull final LocationIfc location,
                          @NotNull final String name,
-                         @NotNull final TypeIfc type)
+                         @NotNull final PrimitiveType type)
     {
         m_location = location;
         m_name = name;
@@ -20,7 +20,7 @@ public final class AttributeDecl implements LocatedIfc {
         return m_name;
     }
 
-    @NotNull public TypeIfc getType() {
+    @NotNull public PrimitiveType getType() {
         return m_type;
     }
 
