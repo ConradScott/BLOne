@@ -8,6 +8,6 @@ public final class ConditionElementBuilder {
     private ConditionElementBuilder() {}
 
     @NotNull static ConditionElementIfc build(@NotNull final BLOneParser.ConditionElementContext ctx) {
-        return null;
+        return ConditionElementVisitor.INSTANCE.visitConditionElement(ctx);
     }
 }

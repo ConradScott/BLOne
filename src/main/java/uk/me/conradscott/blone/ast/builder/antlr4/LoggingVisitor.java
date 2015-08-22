@@ -13,17 +13,21 @@ import uk.me.conradscott.blone.ast.RuleDecl;
 import uk.me.conradscott.blone.ast.RuleScope;
 import uk.me.conradscott.blone.ast.ScopeIfc;
 
-public final class LoggingVisitor extends BLOneParserBaseVisitor<Void> {
+public final class LoggingVisitor extends BLOneParserBaseVisitor<LoggingVisitor> {
     private static final Logger LOGGER = LogManager.getLogger(LoggingVisitor.class);
 
     private final ScopeIfc<String, RelationDecl> m_relationScope = new RelationScope();
     private final ScopeIfc<String, RuleDecl> m_ruleScope = new RuleScope();
 
-    @Override public Void visitProgram(final BLOneParser.ProgramContext ctx) {
+    @Override public LoggingVisitor visitProgram(final BLOneParser.ProgramContext ctx) {
         super.visitProgram(ctx);
 
         for (final RelationDecl relationDecl : m_relationScope) {
             LOGGER.info(relationDecl.getName());
+
+            if (relationDecl.getDocumentationString() != null) {
+                LOGGER.info(relationDecl.getDocumentationString());
+            }
 
             for (final AttributeDecl attributeDecl : relationDecl) {
                 LOGGER.info("\t(" + attributeDecl.getName() + ' ' + attributeDecl.getType().getName() + ')');
@@ -34,30 +38,30 @@ public final class LoggingVisitor extends BLOneParserBaseVisitor<Void> {
             LOGGER.info(ruleDecl.getName());
         }
 
-        return defaultResult();
+        return this;
     }
 
-    @Override public Void visitRelationDecl(final BLOneParser.RelationDeclContext ctx) {
+    @Override public LoggingVisitor visitRelationDecl(final BLOneParser.RelationDeclContext ctx) {
         final RelationDecl decl = RelationDeclBuilder.build(ctx);
         m_relationScope.put(decl);
-        return defaultResult();
+        return this;
     }
 
-    @Override public Void visitRuleDecl(final BLOneParser.RuleDeclContext ctx) {
+    @Override public LoggingVisitor visitRuleDecl(final BLOneParser.RuleDeclContext ctx) {
         final RuleDecl decl = RuleDeclBuilder.build(ctx);
         m_ruleScope.put(decl);
-        return defaultResult();
+        return this;
     }
 
-    @Override public Void visitAssertion(final BLOneParser.AssertionContext ctx) {
-        final Assertion assertion = new Assertion(Utils.location(ctx.getStart()),
+    @Override public LoggingVisitor visitAssertion(final BLOneParser.AssertionContext ctx) {
+        final Assertion assertion = new Assertion(Locations.build( ctx.getStart() ),
                                                   RelationExprBuilder.build(ctx.relationExpr()));
-        return defaultResult();
+        return this;
     }
 
-    @Override public Void visitRetraction(final BLOneParser.RetractionContext ctx) {
-        final Retraction retraction = new Retraction(Utils.location(ctx.getStart()),
+    @Override public LoggingVisitor visitRetraction(final BLOneParser.RetractionContext ctx) {
+        final Retraction retraction = new Retraction(Locations.build( ctx.getStart() ),
                                                      PatternCEBuilder.build(ctx.patternCE()));
-        return defaultResult();
+        return this;
     }
 }

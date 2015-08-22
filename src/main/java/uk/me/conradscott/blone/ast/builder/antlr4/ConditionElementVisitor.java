@@ -29,17 +29,17 @@ public class ConditionElementVisitor extends BLOneParserBaseVisitor<ConditionEle
 
     @Override public ConditionElementIfc visitAssignedPatternCE(final BLOneParser.AssignedPatternCEContext ctx) {
         final TerminalNode node = ctx.Variable();
-        final Variable variable = new Variable(Utils.location(node.getSymbol()), node.getText());
+        final Variable variable = new Variable(Locations.build( node.getSymbol() ), node.getText());
 
         final ConditionElementIfc conditionElementIfc = ctx.conditionElement().accept(this);
 
-        return new AssignedPatternCE(Utils.location(ctx), variable, conditionElementIfc);
+        return new AssignedPatternCE(Locations.build( ctx ), variable, conditionElementIfc);
     }
 
     @Override public ConditionElementIfc visitNotCE(final BLOneParser.NotCEContext ctx) {
         final ConditionElementIfc conditionElementIfc = ctx.conditionElement().accept(this);
 
-        return new NegationCE(Utils.location(ctx), conditionElementIfc);
+        return new NegationCE(Locations.build( ctx ), conditionElementIfc);
     }
 
     @Override public ConditionElementIfc visitAndCE(final BLOneParser.AndCEContext ctx) {
@@ -49,7 +49,7 @@ public class ConditionElementVisitor extends BLOneParserBaseVisitor<ConditionEle
             conjuncts.add(context.accept(this));
         }
 
-        return new ConjunctionCE(Utils.location(ctx), conjuncts);
+        return new ConjunctionCE(Locations.build( ctx ), conjuncts);
     }
 
     @Override public ConditionElementIfc visitOrCE(final BLOneParser.OrCEContext ctx) {
@@ -59,7 +59,7 @@ public class ConditionElementVisitor extends BLOneParserBaseVisitor<ConditionEle
             disjuncts.add(context.accept(this));
         }
 
-        return new DisjunctionCE(Utils.location(ctx), disjuncts);
+        return new DisjunctionCE(Locations.build( ctx ), disjuncts);
     }
 
     @Override public ConditionElementIfc visitExistsCE(final BLOneParser.ExistsCEContext ctx) {
@@ -69,9 +69,9 @@ public class ConditionElementVisitor extends BLOneParserBaseVisitor<ConditionEle
             conjuncts.add(context.accept(this));
         }
 
-        final ConjunctionCE predicate = new ConjunctionCE(Utils.location(ctx), conjuncts);
+        final ConjunctionCE predicate = new ConjunctionCE(Locations.build( ctx ), conjuncts);
 
-        return new ExistentialCE(Utils.location(ctx), predicate);
+        return new ExistentialCE(Locations.build( ctx ), predicate);
     }
 
     @Override public ConditionElementIfc visitForallCE(final BLOneParser.ForallCEContext ctx) {
@@ -83,9 +83,9 @@ public class ConditionElementVisitor extends BLOneParserBaseVisitor<ConditionEle
             conjuncts.add(context.accept(this));
         }
 
-        final ConjunctionCE predicate = new ConjunctionCE(Utils.location(ctx), conjuncts);
+        final ConjunctionCE predicate = new ConjunctionCE(Locations.build( ctx ), conjuncts);
 
-        return new UniversalCE(Utils.location(ctx), range, predicate);
+        return new UniversalCE(Locations.build( ctx ), range, predicate);
     }
 
     @Override

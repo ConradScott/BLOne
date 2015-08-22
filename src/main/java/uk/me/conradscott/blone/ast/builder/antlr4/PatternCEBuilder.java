@@ -11,6 +11,6 @@ final class PatternCEBuilder {
     @NotNull static PatternCE build(final BLOneParser.PatternCEContext ctx) {
         final Token name = ctx.Identifier().getSymbol();
 
-        return new PatternCE(Utils.location(ctx.getStart()), name.getText());
+        return new PatternCE(Locations.build( ctx.getStart() ), name.getText());
     }
 }

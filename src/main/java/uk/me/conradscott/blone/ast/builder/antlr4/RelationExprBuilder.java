@@ -11,6 +11,6 @@ final class RelationExprBuilder {
     @NotNull static RelationExpr build(final BLOneParser.RelationExprContext ctx) {
         final Token name = ctx.Identifier().getSymbol();
 
-        return new RelationExpr(Utils.location(ctx.getStart()), name.getText());
+        return new RelationExpr(Locations.build( ctx.getStart() ), name.getText());
     }
 }

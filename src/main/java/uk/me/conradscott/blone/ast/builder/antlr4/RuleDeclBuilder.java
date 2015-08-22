@@ -2,7 +2,6 @@ package uk.me.conradscott.blone.ast.builder.antlr4;
 
 import com.google.common.collect.Lists;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.ConditionElementIfc;
 import uk.me.conradscott.blone.ast.ConjunctionCE;
@@ -19,21 +18,14 @@ public final class RuleDeclBuilder {
         final List<ConditionElementIfc> conjuncts = Lists.newArrayListWithCapacity(conditionElementContexts.size());
 
         for (final BLOneParser.ConditionElementContext conditionElementContext : conditionElementContexts) {
-            conjuncts.add(ConditionElementVisitor.INSTANCE.visitConditionElement(conditionElementContext));
+            conjuncts.add(ConditionElementBuilder.build(conditionElementContext));
         }
 
-        final ConditionElementIfc conditionElement = new ConjunctionCE(Utils.location(ctx), conjuncts);
+        final ConditionElementIfc conditionElement = new ConjunctionCE(Locations.build( ctx ), conjuncts);
 
-        return new RuleDecl(Utils.location(ctx),
+        return new RuleDecl(Locations.build( ctx ),
                             ctx.Identifier().getSymbol().getText(),
-                            getDocumentationString(ctx),
+                            DocumentationStringBuilder.build(ctx.documentationString()),
                             conditionElement);
-    }
-
-    @Nullable private static String getDocumentationString(@NotNull final BLOneParser.RuleDeclContext ctx) {
-        final BLOneParser.DocumentationStringContext documentationStringContext = ctx.documentationString();
-
-        return (documentationStringContext == null) ? null
-                                                    : Utils.concatenateStringLiterals(documentationStringContext.StringLiteral());
     }
 }
