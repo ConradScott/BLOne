@@ -10,7 +10,7 @@ final class Locations {
     private Locations() {}
 
     @NotNull static LocationIfc build( @NotNull final Token token ) {
-        return new Location(token.getTokenSource().getSourceName(), token.getLine(), token.getCharPositionInLine());
+        return new Location( token.getTokenSource().getSourceName(), token.getLine(), token.getCharPositionInLine() );
     }
 
     @NotNull static LocationIfc build( @NotNull final ParserRuleContext ctx ) {

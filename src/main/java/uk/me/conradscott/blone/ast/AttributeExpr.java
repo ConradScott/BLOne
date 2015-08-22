@@ -7,9 +7,9 @@ public final class AttributeExpr implements LocatedIfc {
     private final String m_name;
     private final ExpressionIfc m_expression;
 
-    public AttributeExpr(@NotNull final LocationIfc location,
-                         @NotNull final String name,
-                         @NotNull final ExpressionIfc expression)
+    public AttributeExpr( @NotNull final LocationIfc location,
+                          @NotNull final String name,
+                          @NotNull final ExpressionIfc expression )
     {
         m_location = location;
         m_name = name;

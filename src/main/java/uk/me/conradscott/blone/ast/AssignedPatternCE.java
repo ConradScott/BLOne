@@ -7,9 +7,9 @@ public class AssignedPatternCE implements ConditionElementIfc {
     @NotNull private final Variable m_variable;
     @NotNull private final ConditionElementIfc m_conditionElement;
 
-    public AssignedPatternCE(@NotNull final LocationIfc location,
-                             @NotNull final Variable variable,
-                             @NotNull final ConditionElementIfc conditionElement)
+    public AssignedPatternCE( @NotNull final LocationIfc location,
+                              @NotNull final Variable variable,
+                              @NotNull final ConditionElementIfc conditionElement )
     {
         m_location = location;
         m_variable = variable;

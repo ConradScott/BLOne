@@ -14,7 +14,7 @@ public final class Location implements LocationIfc {
      * @param lineno     Line numbers start from one.
      * @param column     Column numbers start from one.
      */
-    public Location(@NotNull final String sourceFile, final int lineno, final int column) {
+    public Location( @NotNull final String sourceFile, final int lineno, final int column ) {
         assert lineno > 0;
         assert column > 0;
 
@@ -35,21 +35,21 @@ public final class Location implements LocationIfc {
         return m_column;
     }
 
-    @Override public boolean equals(final Object obj) {
-        if (this == obj) {
+    @Override public boolean equals( final Object obj ) {
+        if ( this == obj ) {
             return true;
         }
-        if ((obj == null) || (getClass() != obj.getClass())) {
+        if ( ( obj == null ) || ( getClass() != obj.getClass() ) ) {
             return false;
         }
-        final Location that = (Location) obj;
-        return Objects.equals(m_lineno, that.m_lineno) &&
-               Objects.equals(m_column, that.m_column) &&
-               Objects.equals(m_sourceFile, that.m_sourceFile);
+        final Location that = ( Location ) obj;
+        return Objects.equals( m_lineno, that.m_lineno ) &&
+               Objects.equals( m_column, that.m_column ) &&
+               Objects.equals( m_sourceFile, that.m_sourceFile );
     }
 
     @Override public int hashCode() {
-        return Objects.hash(m_lineno, m_column, m_sourceFile);
+        return Objects.hash( m_lineno, m_column, m_sourceFile );
     }
 
     @Override public String toString() {

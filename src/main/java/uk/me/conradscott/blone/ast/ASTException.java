@@ -8,15 +8,15 @@ public class ASTException extends BLOneException {
     public ASTException() {
     }
 
-    public ASTException(final String message) {
-        super(message);
+    public ASTException( final String message ) {
+        super( message );
     }
 
-    public ASTException(final Throwable cause) {
-        super(cause);
+    public ASTException( final Throwable cause ) {
+        super( cause );
     }
 
-    public ASTException(final String message, final Throwable cause) {
-        super(message, cause);
+    public ASTException( final String message, final Throwable cause ) {
+        super( message, cause );
     }
 }

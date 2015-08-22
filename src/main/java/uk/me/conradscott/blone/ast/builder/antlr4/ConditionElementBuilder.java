@@ -7,7 +7,7 @@ import uk.me.conradscott.blone.ast.ConditionElementIfc;
 public final class ConditionElementBuilder {
     private ConditionElementBuilder() {}
 
-    @NotNull static ConditionElementIfc build(@NotNull final BLOneParser.ConditionElementContext ctx) {
-        return ConditionElementVisitor.INSTANCE.visitConditionElement(ctx);
+    @NotNull static ConditionElementIfc build( @NotNull final BLOneParser.ConditionElementContext ctx ) {
+        return ConditionElementVisitor.INSTANCE.visitConditionElement( ctx );
     }
 }

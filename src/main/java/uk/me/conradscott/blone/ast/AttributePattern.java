@@ -6,7 +6,7 @@ public final class AttributePattern implements LocatedIfc {
     private final LocationIfc m_location;
     private final String m_name;
 
-    public AttributePattern(@NotNull final LocationIfc location, @NotNull final String name) {
+    public AttributePattern( @NotNull final LocationIfc location, @NotNull final String name ) {
         m_location = location;
         m_name = name;
     }

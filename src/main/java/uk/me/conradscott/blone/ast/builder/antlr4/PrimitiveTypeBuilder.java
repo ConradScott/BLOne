@@ -8,9 +8,9 @@ import uk.me.conradscott.blone.ast.PrimitiveType;
 final class PrimitiveTypeBuilder {
     private PrimitiveTypeBuilder() {}
 
-    @NotNull static PrimitiveType build(@NotNull final ParseTree ctx) {
-        return PrimitiveType.valueOf(BLOneLexer.VOCABULARY.getSymbolicName(ctx.accept(TerminalVisitor.INSTANCE)
-                                                                              .getSymbol()
-                                                                              .getType()));
+    @NotNull static PrimitiveType build( @NotNull final ParseTree ctx ) {
+        return PrimitiveType.valueOf( BLOneLexer.VOCABULARY.getSymbolicName( ctx.accept( TerminalVisitor.INSTANCE )
+                                                                                .getSymbol()
+                                                                                .getType() ) );
     }
 }

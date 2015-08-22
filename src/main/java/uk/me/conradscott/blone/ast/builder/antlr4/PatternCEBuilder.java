@@ -8,9 +8,9 @@ import uk.me.conradscott.blone.ast.PatternCE;
 final class PatternCEBuilder {
     private PatternCEBuilder() {}
 
-    @NotNull static PatternCE build(final BLOneParser.PatternCEContext ctx) {
+    @NotNull static PatternCE build( final BLOneParser.PatternCEContext ctx ) {
         final Token name = ctx.Identifier().getSymbol();
 
-        return new PatternCE(Locations.build( ctx.getStart() ), name.getText());
+        return new PatternCE( Locations.build( ctx.getStart() ), name.getText() );
     }
 }

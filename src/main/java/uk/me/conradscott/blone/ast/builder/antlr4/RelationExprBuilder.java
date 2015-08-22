@@ -8,9 +8,9 @@ import uk.me.conradscott.blone.ast.RelationExpr;
 final class RelationExprBuilder {
     private RelationExprBuilder() {}
 
-    @NotNull static RelationExpr build(final BLOneParser.RelationExprContext ctx) {
+    @NotNull static RelationExpr build( final BLOneParser.RelationExprContext ctx ) {
         final Token name = ctx.Identifier().getSymbol();
 
-        return new RelationExpr(Locations.build( ctx.getStart() ), name.getText());
+        return new RelationExpr( Locations.build( ctx.getStart() ), name.getText() );
     }
 }

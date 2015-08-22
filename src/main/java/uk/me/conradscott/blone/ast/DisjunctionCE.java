@@ -6,9 +6,9 @@ import java.util.List;
 
 public class DisjunctionCE implements ConditionElementIfc {
     @NotNull private final LocationIfc m_location;
-    @NotNull private final List<ConditionElementIfc> m_disjuncts;
+    @NotNull private final List< ConditionElementIfc > m_disjuncts;
 
-    public DisjunctionCE(@NotNull final LocationIfc location, @NotNull final List<ConditionElementIfc> disjuncts)
+    public DisjunctionCE( @NotNull final LocationIfc location, @NotNull final List< ConditionElementIfc > disjuncts )
     {
         m_location = location;
         m_disjuncts = disjuncts;
@@ -18,7 +18,7 @@ public class DisjunctionCE implements ConditionElementIfc {
         return m_location;
     }
 
-    @NotNull public List<ConditionElementIfc> getDisjuncts() {
+    @NotNull public List< ConditionElementIfc > getDisjuncts() {
         return m_disjuncts;
     }
 }

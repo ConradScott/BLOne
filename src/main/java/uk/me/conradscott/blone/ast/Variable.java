@@ -6,7 +6,7 @@ public class Variable implements LocatedIfc {
     @NotNull private final LocationIfc m_location;
     @NotNull private final String m_name;
 
-    public Variable(@NotNull final LocationIfc location, @NotNull final String name)
+    public Variable( @NotNull final LocationIfc location, @NotNull final String name )
     {
         m_location = location;
         m_name = name;

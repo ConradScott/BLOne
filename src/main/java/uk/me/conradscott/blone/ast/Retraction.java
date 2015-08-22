@@ -6,7 +6,7 @@ public class Retraction implements LocatedIfc {
     private final LocationIfc m_location;
     private final PatternCE m_patternCE;
 
-    public Retraction(@NotNull final LocationIfc location, @NotNull final PatternCE patternCE) {
+    public Retraction( @NotNull final LocationIfc location, @NotNull final PatternCE patternCE ) {
         m_location = location;
         m_patternCE = patternCE;
     }

@@ -7,9 +7,9 @@ public final class AttributeDecl implements LocatedIfc {
     private final String m_name;
     @NotNull private final PrimitiveType m_type;
 
-    public AttributeDecl(@NotNull final LocationIfc location,
-                         @NotNull final String name,
-                         @NotNull final PrimitiveType type)
+    public AttributeDecl( @NotNull final LocationIfc location,
+                          @NotNull final String name,
+                          @NotNull final PrimitiveType type )
     {
         m_location = location;
         m_name = name;

@@ -6,7 +6,7 @@ public class ExistentialCE implements ConditionElementIfc {
     @NotNull private final LocationIfc m_location;
     @NotNull private final ConditionElementIfc m_predicate;
 
-    public ExistentialCE(@NotNull final LocationIfc location, @NotNull final ConditionElementIfc predicate)
+    public ExistentialCE( @NotNull final LocationIfc location, @NotNull final ConditionElementIfc predicate )
     {
         m_location = location;
         m_predicate = predicate;

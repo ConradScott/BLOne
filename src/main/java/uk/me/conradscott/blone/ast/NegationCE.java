@@ -6,7 +6,7 @@ public class NegationCE implements ConditionElementIfc {
     @NotNull private final LocationIfc m_location;
     @NotNull private final ConditionElementIfc m_conditionElement;
 
-    public NegationCE(@NotNull final LocationIfc location, @NotNull final ConditionElementIfc conditionElement)
+    public NegationCE( @NotNull final LocationIfc location, @NotNull final ConditionElementIfc conditionElement )
     {
         m_location = location;
         m_conditionElement = conditionElement;

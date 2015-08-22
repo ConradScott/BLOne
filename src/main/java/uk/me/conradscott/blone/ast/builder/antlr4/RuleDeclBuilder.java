@@ -12,20 +12,20 @@ import java.util.List;
 public final class RuleDeclBuilder {
     private RuleDeclBuilder() {}
 
-    @NotNull static RuleDecl build(@NotNull final BLOneParser.RuleDeclContext ctx) {
-        final List<BLOneParser.ConditionElementContext> conditionElementContexts = ctx.conditionElement();
+    @NotNull static RuleDecl build( @NotNull final BLOneParser.RuleDeclContext ctx ) {
+        final List< BLOneParser.ConditionElementContext > conditionElementContexts = ctx.conditionElement();
 
-        final List<ConditionElementIfc> conjuncts = Lists.newArrayListWithCapacity(conditionElementContexts.size());
+        final List< ConditionElementIfc > conjuncts = Lists.newArrayListWithCapacity( conditionElementContexts.size() );
 
-        for (final BLOneParser.ConditionElementContext conditionElementContext : conditionElementContexts) {
-            conjuncts.add(ConditionElementBuilder.build(conditionElementContext));
+        for ( final BLOneParser.ConditionElementContext conditionElementContext : conditionElementContexts ) {
+            conjuncts.add( ConditionElementBuilder.build( conditionElementContext ) );
         }
 
-        final ConditionElementIfc conditionElement = new ConjunctionCE(Locations.build( ctx ), conjuncts);
+        final ConditionElementIfc conditionElement = new ConjunctionCE( Locations.build( ctx ), conjuncts );
 
-        return new RuleDecl(Locations.build( ctx ),
-                            ctx.Identifier().getSymbol().getText(),
-                            DocumentationStringBuilder.build(ctx.documentationString()),
-                            conditionElement);
+        return new RuleDecl( Locations.build( ctx ),
+                             ctx.Identifier().getSymbol().getText(),
+                             DocumentationStringBuilder.build( ctx.documentationString() ),
+                             conditionElement );
     }
 }

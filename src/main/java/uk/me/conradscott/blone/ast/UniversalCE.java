@@ -7,9 +7,9 @@ public class UniversalCE implements ConditionElementIfc {
     @NotNull private final ConditionElementIfc m_range;
     @NotNull private final ConditionElementIfc m_predicate;
 
-    public UniversalCE(@NotNull final LocationIfc location,
-                       @NotNull final ConditionElementIfc range,
-                       @NotNull final ConditionElementIfc predicate)
+    public UniversalCE( @NotNull final LocationIfc location,
+                        @NotNull final ConditionElementIfc range,
+                        @NotNull final ConditionElementIfc predicate )
     {
         m_location = location;
         m_range = range;

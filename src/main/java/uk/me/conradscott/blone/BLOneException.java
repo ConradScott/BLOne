@@ -6,15 +6,15 @@ public class BLOneException extends RuntimeException {
     public BLOneException() {
     }
 
-    public BLOneException(final String message) {
-        super(message);
+    public BLOneException( final String message ) {
+        super( message );
     }
 
-    public BLOneException(final Throwable cause) {
-        super(cause);
+    public BLOneException( final Throwable cause ) {
+        super( cause );
     }
 
-    public BLOneException(final String message, final Throwable cause) {
-        super(message, cause);
+    public BLOneException( final String message, final Throwable cause ) {
+        super( message, cause );
     }
 }
