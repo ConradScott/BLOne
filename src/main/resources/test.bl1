@@ -1,14 +1,23 @@
-(relation Position "A point in three-dimensional space.\n" "Really!\n" (x int) (y int) (z int))
+(relation Position "A point in two-dimensional space.\n" "Really!\n" (x int) (y int))
 (relation Entity (name string) (age int))
 (relation Message (mesg string))
 
-(assert (Position (x 1) (y 1) (z 1)))
+(assert (Position (x 1) (y 1)))
 (retract (Position (x ?x) (y ?x)))
 
 (rule collision
-  (Position (x ?x) (y ?y) (z ?z))
-  (Position (x ?x) (y ?y) (z ?z))
+  (Position (x ?x) (y ?y))
+  (Position (x ?x) (y ?y))
   (forall (Position (x ?x) (y ?y))
     (Position (x ?y) (y ?x)))
   =>
   (assert (Message (mesg "oops"))))
+
+(rule cornered
+  ?size = (Size (x ?xSize) (y ?ySize))
+  (Position (x 0) (y 0))
+  (Position (x ?xSize) (y 0))
+  (Position (x 0) (y ?ySize))
+  (Position (x ?xSize) (y ?ySize))
+  =>
+  (assert (Message (mesg "Cornered!"))))
