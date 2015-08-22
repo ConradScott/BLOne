@@ -160,7 +160,9 @@ primitiveLiteral
     :   Identifier
     |   BooleanLiteral
     |   IntegerLiteral
+    |   LongIntegerLiteral
     |   FloatingPointLiteral
+    |   DoubleFloatingPointLiteral
     |   CharacterLiteral
     |   StringLiteral
     ;

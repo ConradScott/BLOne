@@ -26,37 +26,21 @@ RELATION    : 'relation' ;
 RETRACT     : 'retract' ;
 RULE        : 'rule' ;
 
-// §3.10.1 Integer Literals
+// Integer ('int' and 'long') Literals
 
 IntegerLiteral
-    :   DecimalIntegerLiteral
-    |   HexIntegerLiteral
-    |   OctalIntegerLiteral
-    |   BinaryIntegerLiteral
+    :   DecimalNumeral
+    |   HexNumeral
+    |   OctalNumeral
+    |   BinaryNumeral
+    ;
+
+LongIntegerLiteral
+    :   IntegerLiteral LongIntegerSuffix
     ;
 
 fragment
-DecimalIntegerLiteral
-    :   DecimalNumeral IntegerTypeSuffix?
-    ;
-
-fragment
-HexIntegerLiteral
-    :   HexNumeral IntegerTypeSuffix?
-    ;
-
-fragment
-OctalIntegerLiteral
-    :   OctalNumeral IntegerTypeSuffix?
-    ;
-
-fragment
-BinaryIntegerLiteral
-    :   BinaryNumeral IntegerTypeSuffix?
-    ;
-
-fragment
-IntegerTypeSuffix
+LongIntegerSuffix
     :   [lL]
     ;
 
@@ -176,19 +160,42 @@ BinaryDigitOrUnderscore
     |   '_'
     ;
 
-// §3.10.2 Floating-Point Literals
+// Floating-Point ('float' and 'double') Literals
 
 FloatingPointLiteral
     :   DecimalFloatingPointLiteral
     |   HexadecimalFloatingPointLiteral
     ;
 
+DoubleFloatingPointLiteral
+    :   DecimalDoubleFloatingPointLiteral
+    |   HexadecimalDoubleFloatingPointLiteral
+    ;
+
+fragment
+FloatTypeSuffix
+    :   [fF]
+    ;
+
+fragment
+DoubleTypeSuffix
+    :   [dD]
+    ;
+
 fragment
 DecimalFloatingPointLiteral
-    :   Digits '.' Digits? ExponentPart? FloatTypeSuffix?
-    |   '.' Digits ExponentPart? FloatTypeSuffix?
-    |   Digits ExponentPart FloatTypeSuffix?
+    :   Digits '.' Digits? ExponentPart? FloatTypeSuffix
+    |   '.' Digits ExponentPart? FloatTypeSuffix
+    |   Digits ExponentPart FloatTypeSuffix
     |   Digits FloatTypeSuffix
+    ;
+
+fragment
+DecimalDoubleFloatingPointLiteral
+    :   Digits '.' Digits? ExponentPart? DoubleTypeSuffix?
+    |   '.' Digits ExponentPart? DoubleTypeSuffix?
+    |   Digits ExponentPart DoubleTypeSuffix?
+    |   Digits DoubleTypeSuffix
     ;
 
 fragment
@@ -212,13 +219,13 @@ Sign
     ;
 
 fragment
-FloatTypeSuffix
-    :   [fFdD]
+HexadecimalFloatingPointLiteral
+    :   HexSignificand BinaryExponent FloatTypeSuffix
     ;
 
 fragment
-HexadecimalFloatingPointLiteral
-    :   HexSignificand BinaryExponent FloatTypeSuffix?
+HexadecimalDoubleFloatingPointLiteral
+    :   HexSignificand BinaryExponent DoubleTypeSuffix?
     ;
 
 fragment
