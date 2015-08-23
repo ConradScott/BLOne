@@ -1,0 +1,5 @@
+<FindBugsFilter>
+    <Match>
+        <Package name="~uk.me.conradscott.blone.antlr4"/>
+    </Match>
+</FindBugsFilter>

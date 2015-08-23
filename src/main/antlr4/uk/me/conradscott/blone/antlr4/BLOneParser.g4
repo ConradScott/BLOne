@@ -8,161 +8,157 @@ options {
 // Program
 
 program
-    :   statement*
+    : statement*
     ;
 
 // Statements
 
 statement
-    :   relationDecl
-    |   ruleDecl
-    |   action
+    : relationDecl
+    | ruleDecl
+    | action
     ;
 
 // TODO: Allow multiple relations?
 
 relationDecl
-    :   '(' 'relation' Identifier documentationString? attributeDecl* ')'
+    : '(' 'relation' Identifier documentationString? attributeDecl* ')'
     ;
 
 ruleDecl
-    :   '(' 'rule' Identifier documentationString?  conditionElement+ '=>' action+ ')'
+    : '(' 'rule' Identifier documentationString?  conditionElement+ '=>' action+ ')'
     ;
 
 action
-    :   assertion
-    |   retraction
+    : assertion
+    | retraction
     ;
 
 // TODO: Allow multiple relations?
 
 assertion
-    :   '(' 'assert' relationExpr ')'
+    : '(' 'assert' relationExpr ')'
     ;
 
 // TODO: Allow multiple patterns?
 
 retraction
-    :   '(' 'retract' patternCE ')'
+    : '(' 'retract' patternCE ')'
     ;
 
 // Documentation strings
 
 documentationString
-    :   StringLiteral+
+    : StringLiteral+
     ;
 
 // Attribute declarations
 
 attributeDecl
-    :   '(' Identifier type ')'
+    : '(' Identifier type ')'
     ;
 
 // Expressions
 
 relationExpr
-    :   '(' Identifier attributeExpr* ')'
+    : '(' Identifier attributeExpr* ')'
     ;
 
 attributeExpr
-    :   '(' Identifier expression ')'
+    : '(' Identifier expression ')'
     ;
 
 expression
-    :   literal
-    |   Variable
+    : literal
+    | Variable
     ;
 
 // Conditional elements
 
 conditionElement
-    :   patternCE
-    |   assignedPatternCE
-    |   notCE
-    |   andCE
-    |   orCE
-    |   existsCE
-    |   forallCE
+    : patternCE
+    | capturedCE
+    | notCE
+    | andCE
+    | orCE
+    | existsCE
+    | forallCE
     ;
 
 patternCE
-    :   '(' Identifier attributeConstraint* ')'
+    : '(' Identifier attributeConstraint* ')'
     ;
 
-assignedPatternCE
-    :   Variable '=' conditionElement
+capturedCE
+    : Variable '=' conditionElement
     ;
 
 notCE
-    :   '(' 'not' conditionElement ')'
+    : '(' 'not' conditionElement ')'
     ;
 
 andCE
-    :   '(' 'and' conditionElement+ ')'
+    : '(' 'and' conditionElement+ ')'
     ;
 
 orCE
-    :   '(' 'or' conditionElement+ ')'
+    : '(' 'or' conditionElement+ ')'
     ;
 
 existsCE
-    :   '(' 'exists' conditionElement+ ')'
+    : '(' 'exists' conditionElement+ ')'
     ;
 
 forallCE
-    :   '(' 'forall' rangeCE = conditionElement predicateCEs += conditionElement+ ')'
+    : '(' 'forall' rangeCE = conditionElement predicateCEs += conditionElement+ ')'
     ;
 
 // Constraints
 
 attributeConstraint
-    :   '(' Identifier ( Variable '=' )? constraint ')'
+    : '(' Identifier constraint ')'
     ;
 
 constraint
-    : '?'
-    | literal
-    | Variable
-    | compoundConstraint
-    ;
-
-compoundConstraint
-    : '(' 'not' constraint ')'
-    | '(' 'and' constraint+ ')'
-    | '(' 'or' constraint+ ')'
+    : literal                   # literalConstraint
+    | Variable                  # variableConstraint
+    | Variable '=' constraint   # capturedConstraint
+    | '(' 'not' constraint ')'  # notConstraint
+    | '(' 'and' constraint+ ')' # andConstraint
+    | '(' 'or' constraint+ ')'  # orConstraint
     ;
 
 // Types
 
 type
-    :   primitiveType
+    : primitiveType
     ;
 
 primitiveType
-    :   'boolean'
-    |   'byte'
-    |   'short'
-    |   'int'
-    |   'long'
-    |   'float'
-    |   'double'
-    |   'char'
-    |   'string'
+    : 'boolean'
+    | 'byte'
+    | 'short'
+    | 'int'
+    | 'long'
+    | 'float'
+    | 'double'
+    | 'char'
+    | 'string'
     ;
 
 // Literals
 
 literal
-    :   primitiveLiteral
+    : booleanLiteral                # Boolean
+    | IntegerLiteral                # Integer
+    | LongIntegerLiteral            # LongInteger
+    | FloatingPointLiteral          # FloatingPoint
+    | DoubleFloatingPointLiteral    # DoubleFloatingPoint
+    | CharacterLiteral              # Character
+    | StringLiteral                 # String
     ;
 
-primitiveLiteral
-    :   Identifier
-    |   BooleanLiteral
-    |   IntegerLiteral
-    |   LongIntegerLiteral
-    |   FloatingPointLiteral
-    |   DoubleFloatingPointLiteral
-    |   CharacterLiteral
-    |   StringLiteral
+booleanLiteral returns [boolean value]
+    : 'true'    { $value = true; }
+    | 'false'   { $value = false; }
     ;

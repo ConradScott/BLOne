@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast;
 
-import uk.me.conradscott.blone.BLOneException;
+import uk.me.conradscott.blone.compiler.BLOneException;
 
 public class ASTException extends BLOneException {
     private static final long serialVersionUID = -7485412181067210753L;
