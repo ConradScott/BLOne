@@ -9,9 +9,9 @@ import uk.me.conradscott.blone.ast.scope.RelationScope;
 import uk.me.conradscott.blone.ast.scope.RuleScope;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 import uk.me.conradscott.blone.ast.statement.Assertion;
-import uk.me.conradscott.blone.ast.statement.RelationDecl;
 import uk.me.conradscott.blone.ast.statement.Retraction;
 import uk.me.conradscott.blone.ast.statement.RuleDecl;
+import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 public final class ProgramBuilder {
     @NotNull private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );

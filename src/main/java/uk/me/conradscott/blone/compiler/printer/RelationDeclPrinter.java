@@ -1,7 +1,7 @@
 package uk.me.conradscott.blone.compiler.printer;
 
 import org.jetbrains.annotations.NotNull;
-import uk.me.conradscott.blone.ast.statement.RelationDecl;
+import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 import java.io.PrintStream;
 

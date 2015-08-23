@@ -1,9 +1,8 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.type;
 
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
-import uk.me.conradscott.blone.ast.type.PrimitiveType;
 
 public final class AttributeDecl implements LocatedIfc {
     @NotNull private final LocationIfc m_location;

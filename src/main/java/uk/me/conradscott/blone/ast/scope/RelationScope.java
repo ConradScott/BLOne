@@ -3,7 +3,7 @@ package uk.me.conradscott.blone.ast.scope;
 import com.google.common.collect.Maps;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.ASTException;
-import uk.me.conradscott.blone.ast.statement.RelationDecl;
+import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 import java.util.Iterator;
 import java.util.Map;

@@ -3,8 +3,8 @@ package uk.me.conradscott.blone.compiler.builder;
 import org.antlr.v4.runtime.Token;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
-import uk.me.conradscott.blone.ast.statement.AttributeDecl;
-import uk.me.conradscott.blone.ast.statement.RelationDecl;
+import uk.me.conradscott.blone.ast.type.AttributeDecl;
+import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 final class RelationDeclBuilder {
     private RelationDeclBuilder() {}

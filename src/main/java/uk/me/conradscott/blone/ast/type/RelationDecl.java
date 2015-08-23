@@ -1,13 +1,13 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.type;
 
 import com.google.common.collect.Maps;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
-import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 
-public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, LocatedIfc {
+public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, LocatedIfc, TypeIfc {
     @NotNull private final LocationIfc m_location;
     @NotNull private final String m_name;
     @Nullable private final StringLiteral m_documentationString;
@@ -34,7 +34,7 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         return m_location;
     }
 
-    @NotNull public String getName() {
+    @NotNull @Override public String getName() {
         return m_name;
     }
 
