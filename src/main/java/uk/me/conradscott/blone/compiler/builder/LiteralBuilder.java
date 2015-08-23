@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
@@ -15,11 +16,11 @@ final class LiteralBuilder {
     private LiteralBuilder() {}
 
     @NotNull static PrimitiveLiteralIfc< ? > build( final BLOneParser.LiteralContext ctx ) {
-        return ctx.accept( LiteralVisitor.INSTANCE );
+        return LiteralVisitor.s_instance.visit( ctx );
     }
 
     private static final class LiteralVisitor extends BLOneParserBaseVisitor< PrimitiveLiteralIfc< ? > > {
-        static final LiteralVisitor INSTANCE = new LiteralVisitor();
+        private static final ParseTreeVisitor< PrimitiveLiteralIfc< ? > > s_instance = new LiteralVisitor();
 
         @Override public PrimitiveLiteralIfc< ? > visitBoolean( final BLOneParser.BooleanContext ctx ) {
             return new BooleanLiteral( LocationBuilder.build( ctx ), ctx.booleanLiteral().value );

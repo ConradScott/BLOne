@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
-import uk.me.conradscott.blone.ast.statement.Assertion;
-import uk.me.conradscott.blone.ast.statement.RelationDecl;
 import uk.me.conradscott.blone.ast.scope.RelationScope;
-import uk.me.conradscott.blone.ast.statement.Retraction;
-import uk.me.conradscott.blone.ast.statement.RuleDecl;
 import uk.me.conradscott.blone.ast.scope.RuleScope;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
+import uk.me.conradscott.blone.ast.statement.Assertion;
+import uk.me.conradscott.blone.ast.statement.RelationDecl;
+import uk.me.conradscott.blone.ast.statement.Retraction;
+import uk.me.conradscott.blone.ast.statement.RuleDecl;
 
 public final class ProgramBuilder {
     @NotNull private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );
@@ -20,7 +20,7 @@ public final class ProgramBuilder {
     @NotNull private final ScopeIfc< String, RuleDecl > m_ruleScope = new RuleScope();
 
     public void build( @NotNull final BLOneParser.ProgramContext ctx ) {
-        ctx.accept( new ProgramVisitor() );
+        new ProgramVisitor().visit( ctx );
     }
 
     @NotNull public ScopeIfc< String, RelationDecl > getRelationScope() {

@@ -24,6 +24,6 @@ public final class ExistentialCE implements ConditionElementIfc {
 
     @Nullable @Override
     public < T, R > R accept( @NotNull final ConditionElementVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitExistentialCE( this, t );
+        return visitor.visit( this, t );
     }
 }

@@ -76,6 +76,6 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
 
     @Nullable @Override
     public < T, R > R accept( @NotNull final ConditionElementVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitPatternCE( this, t );
+        return visitor.visit( this, t );
     }
 }

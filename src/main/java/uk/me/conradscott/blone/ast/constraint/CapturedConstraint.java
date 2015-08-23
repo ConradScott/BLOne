@@ -1,8 +1,9 @@
 package uk.me.conradscott.blone.ast.constraint;
 
 import org.jetbrains.annotations.NotNull;
-import uk.me.conradscott.blone.ast.location.LocationIfc;
+import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.expression.Variable;
+import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class CapturedConstraint implements ConstraintIfc {
     @NotNull private final LocationIfc m_location;
@@ -30,7 +31,8 @@ public final class CapturedConstraint implements ConstraintIfc {
         return m_constraint;
     }
 
-    @NotNull @Override public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitCapturedConstraint( this, t );
+    @Nullable @Override
+    public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
+        return visitor.visit( this, t );
     }
 }

@@ -32,6 +32,6 @@ public final class UniversalCE implements ConditionElementIfc {
 
     @Nullable @Override
     public < T, R > R accept( @NotNull final ConditionElementVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitUniversalCE( this, t );
+        return visitor.visit( this, t );
     }
 }

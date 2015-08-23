@@ -33,6 +33,6 @@ public final class CapturedCE implements ConditionElementIfc {
 
     @Nullable @Override
     public < T, R > R accept( @NotNull final ConditionElementVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitCapturedCE( this, t );
+        return visitor.visit( this, t );
     }
 }

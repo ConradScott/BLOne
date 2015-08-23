@@ -1,8 +1,9 @@
 package uk.me.conradscott.blone.ast.constraint;
 
 import org.jetbrains.annotations.NotNull;
-import uk.me.conradscott.blone.ast.location.LocationIfc;
+import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
+import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public class LiteralConstraint implements ConstraintIfc {
     @NotNull private final LocationIfc m_location;
@@ -22,7 +23,8 @@ public class LiteralConstraint implements ConstraintIfc {
         return m_literal;
     }
 
-    @NotNull @Override public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitLiteralConstraint( this, t );
+    @Nullable @Override
+    public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
+        return visitor.visit( this, t );
     }
 }

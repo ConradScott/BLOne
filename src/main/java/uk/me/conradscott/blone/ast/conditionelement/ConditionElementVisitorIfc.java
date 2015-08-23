@@ -19,17 +19,17 @@ public interface ConditionElementVisitorIfc< T, R > {
         return conditionElement.accept( this, t );
     }
 
-    @Nullable R visitCapturedCE( @NotNull CapturedCE capturedCE, @NotNull T t );
+    @Nullable R visit( @NotNull CapturedCE conditionElement, @NotNull T t );
 
-    @Nullable R visitConjunctiveCE( @NotNull ConjunctiveCE conjunctiveCE, @NotNull T t );
+    @Nullable R visit( @NotNull ConjunctiveCE conditionElement, @NotNull T t );
 
-    @Nullable R visitDisjunctiveCE( @NotNull DisjunctiveCE disjunctiveCE, @NotNull T t );
+    @Nullable R visit( @NotNull DisjunctiveCE conditionElement, @NotNull T t );
 
-    @Nullable R visitExistentialCE( @NotNull ExistentialCE existentialCE, @NotNull T t );
+    @Nullable R visit( @NotNull ExistentialCE conditionElement, @NotNull T t );
 
-    @Nullable R visitNegativeCE( @NotNull NegativeCE negativeCE, @NotNull T t );
+    @Nullable R visit( @NotNull NegativeCE conditionElement, @NotNull T t );
 
-    @Nullable R visitPatternCE( @NotNull PatternCE patternCE, @NotNull T t );
+    @Nullable R visit( @NotNull PatternCE conditionElement, @NotNull T t );
 
-    @Nullable R visitUniversalCE( @NotNull UniversalCE universalCE, @NotNull T t );
+    @Nullable R visit( @NotNull UniversalCE conditionElement, @NotNull T t );
 }

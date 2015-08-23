@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
@@ -18,11 +19,11 @@ final class ConstraintBuilder {
     private ConstraintBuilder() {}
 
     @NotNull static ConstraintIfc build( final BLOneParser.ConstraintContext ctx ) {
-        return ctx.accept( ConstraintVisitor.INSTANCE );
+        return ConstraintVisitor.s_instance.visit( ctx );
     }
 
     private static final class ConstraintVisitor extends BLOneParserBaseVisitor< ConstraintIfc > {
-        static final ConstraintVisitor INSTANCE = new ConstraintVisitor();
+        private static final ParseTreeVisitor< ConstraintIfc > s_instance = new ConstraintVisitor();
 
         @Override public ConstraintIfc visitLiteralConstraint( final BLOneParser.LiteralConstraintContext ctx ) {
             return new LiteralConstraint( LocationBuilder.build( ctx ), LiteralBuilder.build( ctx.literal() ) );

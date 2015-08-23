@@ -1,6 +1,7 @@
 package uk.me.conradscott.blone.ast.constraint;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 import java.util.List;
@@ -23,7 +24,8 @@ public final class DisjunctiveConstraint implements ConstraintIfc {
         return m_disjuncts;
     }
 
-    @NotNull @Override public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
-        return visitor.visitDisjunctiveConstraint( this, t );
+    @Nullable @Override
+    public < T, R > R accept( @NotNull final ConstraintVisitorIfc< T, R > visitor, @NotNull final T t ) {
+        return visitor.visit( this, t );
     }
 }

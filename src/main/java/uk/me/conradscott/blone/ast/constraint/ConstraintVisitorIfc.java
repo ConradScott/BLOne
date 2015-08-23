@@ -1,17 +1,32 @@
 package uk.me.conradscott.blone.ast.constraint;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public interface ConstraintVisitorIfc< T, R > {
-    @NotNull R visitCapturedConstraint( @NotNull CapturedConstraint capturedConstraint, @NotNull T t );
+    @NotNull
+    default List< R > visit( @NotNull final Collection< ? extends ConstraintIfc > constraints, @NotNull final T t )
+    {
+        return constraints.stream().map( constraint -> visit( constraint, t ) ).collect( Collectors.toList() );
+    }
 
-    @NotNull R visitConjunctiveConstraint( @NotNull ConjunctiveConstraint conjunctiveConstraint, @NotNull T t );
+    @Nullable default R visit( @NotNull final ConstraintIfc constraint, @NotNull final T t ) {
+        return constraint.accept( this, t );
+    }
 
-    @NotNull R visitDisjunctiveConstraint( @NotNull DisjunctiveConstraint disjunctiveConstraint, @NotNull T t );
+    @Nullable R visit( @NotNull CapturedConstraint constraint, @NotNull T t );
 
-    @NotNull R visitLiteralConstraint( @NotNull LiteralConstraint literalConstraint, @NotNull T t );
+    @Nullable R visit( @NotNull ConjunctiveConstraint constraint, @NotNull T t );
 
-    @NotNull R visitNegativeConstraint( @NotNull NegativeConstraint negativeConstraint, @NotNull T t );
+    @Nullable R visit( @NotNull DisjunctiveConstraint constraint, @NotNull T t );
 
-    @NotNull R visitVariableConstraint( @NotNull VariableConstraint variableConstraint, @NotNull T t );
+    @Nullable R visit( @NotNull LiteralConstraint constraint, @NotNull T t );
+
+    @Nullable R visit( @NotNull NegativeConstraint constraint, @NotNull T t );
+
+    @Nullable R visit( @NotNull VariableConstraint constraint, @NotNull T t );
 }

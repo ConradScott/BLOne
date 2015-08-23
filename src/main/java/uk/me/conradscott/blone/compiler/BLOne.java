@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler;
 
+import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.DiagnosticErrorListener;
@@ -10,10 +11,8 @@ import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneLexer;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.compiler.builder.ProgramBuilder;
-import uk.me.conradscott.blone.compiler.printer.Printer;
+import uk.me.conradscott.blone.compiler.printer.ProgramPrinter;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
@@ -34,11 +33,10 @@ public final class BLOne {
             return;
         }
 
-        final File file = new File( resource.getFile() );
+        try {
+            final ANTLRInputStream input = new ANTLRFileStream( resource.getFile() );
 
-        try ( final FileInputStream stream = new FileInputStream( file ) ) {
-
-            final BLOneLexer lexer = new BLOneLexer( new ANTLRInputStream( stream ) );
+            final BLOneLexer lexer = new BLOneLexer( input );
 
             final CommonTokenStream tokens = new CommonTokenStream( lexer );
 
@@ -57,7 +55,7 @@ public final class BLOne {
 
             visitor.build( ctx );
 
-            Printer.print( System.out, visitor );
+            ProgramPrinter.print( System.out, visitor );
         } catch ( final FileNotFoundException e ) {
             LOGGER.error( "Cannot open resource \"" + NAME + "\".", e );
         } catch ( final IOException e ) {

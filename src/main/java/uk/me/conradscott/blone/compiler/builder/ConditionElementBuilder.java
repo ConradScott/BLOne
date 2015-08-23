@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
@@ -18,11 +19,11 @@ final class ConditionElementBuilder {
     private ConditionElementBuilder() {}
 
     @NotNull static ConditionElementIfc build( @NotNull final BLOneParser.ConditionElementContext ctx ) {
-        return ctx.accept( ConditionElementVisitor.INSTANCE );
+        return ConditionElementVisitor.s_instance.visit( ctx );
     }
 
     private static final class ConditionElementVisitor extends BLOneParserBaseVisitor< ConditionElementIfc > {
-        static final ConditionElementVisitor INSTANCE = new ConditionElementVisitor();
+        private static final ParseTreeVisitor< ConditionElementIfc > s_instance = new ConditionElementVisitor();
 
         @Override public ConditionElementIfc visitPatternCE( final BLOneParser.PatternCEContext ctx ) {
             return PatternCEBuilder.build( ctx );
@@ -30,8 +31,8 @@ final class ConditionElementBuilder {
 
         @Override public ConditionElementIfc visitCapturedCE( final BLOneParser.CapturedCEContext ctx ) {
             return new CapturedCE( LocationBuilder.build( ctx ),
-                                          VariableBuilder.build( ctx.Variable() ),
-                                          build( ctx.conditionElement() ) );
+                                   VariableBuilder.build( ctx.Variable() ),
+                                   build( ctx.conditionElement() ) );
         }
 
         @Override public ConditionElementIfc visitNotCE( final BLOneParser.NotCEContext ctx ) {
