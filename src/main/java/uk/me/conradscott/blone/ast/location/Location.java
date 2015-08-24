@@ -16,7 +16,7 @@ public final class Location implements LocationIfc {
      */
     public Location( @NotNull final String sourceFile, final int lineno, final int column ) {
         assert lineno > 0;
-        assert column > 0;
+        assert column >= 0;
 
         m_sourceFile = sourceFile;
         m_lineno = lineno;

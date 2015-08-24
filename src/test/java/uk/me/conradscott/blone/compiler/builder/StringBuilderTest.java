@@ -1,0 +1,31 @@
+package uk.me.conradscott.blone.compiler.builder;
+
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.tree.TerminalNodeImpl;
+import org.jetbrains.annotations.NotNull;
+import org.junit.Test;
+import uk.me.conradscott.blone.antlr4.Lexer;
+import uk.me.conradscott.blone.ast.literal.StringLiteral;
+
+import static org.junit.Assert.assertEquals;
+
+public class StringBuilderTest {
+    @Test public void testLiteralsWithoutEscapes() {
+        final String expected = "abc";
+        final String actual = getString( "\"abc\"" );
+        assertEquals( "String literals with no escapes should be parsed without change.", expected, actual );
+    }
+
+    @Test public void testOctalEscapes() {
+        final String expected = "a\0b\1c\2d\3d\012e\12f\127f\1111";
+        final String actual = getString( "\"a\\0b\\1c\\2d\\3d\\012e\\12f\\127f\\1111\"" );
+        assertEquals( "Octal escapes should be replaced with the corresponding ASCII character.", expected, actual );
+    }
+
+    @NotNull private static String getString( final String s ) {
+        final Token token = Lexer.getSingleTokenFromString( s );
+        final StringLiteral literal = StringBuilder.build( new TerminalNodeImpl( token ) );
+
+        return literal.getValue();
+    }
+}
