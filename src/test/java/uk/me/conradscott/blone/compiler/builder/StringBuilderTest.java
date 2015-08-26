@@ -16,6 +16,12 @@ public class StringBuilderTest {
         assertEquals( "String literals with no escapes should be parsed without change.", expected, actual );
     }
 
+    @Test public void testEscapes() {
+        final String expected = "\b\t\n\f\r\"\'\\";
+        final String actual = getString( "\"\\b\\t\\n\\f\\r\\\"\\'\\\\\"" );
+        assertEquals( "Escapes should be replaced with the corresponding character.", expected, actual );
+    }
+
     @Test public void testOctalEscapes() {
         final String expected = "a\0b\1c\2d\3d\012e\12f\127f\1111";
         final String actual = getString( "\"a\\0b\\1c\\2d\\3d\\012e\\12f\\127f\\1111\"" );
