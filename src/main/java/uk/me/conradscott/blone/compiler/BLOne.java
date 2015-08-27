@@ -75,7 +75,7 @@ public final class BLOne {
         final BLOneLexer lexer = new BLOneLexer( input );
         lexer.removeErrorListeners();
 
-        lexer.addErrorListener( new SyntaxErrorCollector( errorCollector ) );
+        lexer.addErrorListener( new ANTLRErrorCollectorAdapter( errorCollector ) );
         return lexer;
     }
 
@@ -91,7 +91,7 @@ public final class BLOne {
         final BLOneParser parser = new BLOneParser( tokens );
         parser.removeErrorListeners();
 
-        parser.addErrorListener( new SyntaxErrorCollector( errorCollector ) );
+        parser.addErrorListener( new ANTLRErrorCollectorAdapter( errorCollector ) );
 
         // Test for ambiguity in the grammar.
         parser.addErrorListener( new DiagnosticErrorListener() );

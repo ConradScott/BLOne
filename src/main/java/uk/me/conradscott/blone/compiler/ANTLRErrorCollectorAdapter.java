@@ -1,19 +1,14 @@
 package uk.me.conradscott.blone.compiler;
 
 import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.antlr.v4.runtime.atn.ATNConfigSet;
-import org.antlr.v4.runtime.dfa.DFA;
 import uk.me.conradscott.blone.ast.location.Location;
 
-import java.util.BitSet;
-
-final class SyntaxErrorCollector extends BaseErrorListener {
+final class ANTLRErrorCollectorAdapter extends BaseErrorListener {
     private final ErrorCollectorIfc m_collector;
 
-    SyntaxErrorCollector( final ErrorCollectorIfc collector ) {
+    ANTLRErrorCollectorAdapter( final ErrorCollectorIfc collector ) {
         m_collector = collector;
     }
 
