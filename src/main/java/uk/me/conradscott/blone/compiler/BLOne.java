@@ -16,6 +16,7 @@ import uk.me.conradscott.blone.compiler.printer.ProgramPrinter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.stream.Collectors;
 
 public final class BLOne {
@@ -33,34 +34,49 @@ public final class BLOne {
             return;
         }
 
+        final ErrorCollector errorCollector = new ErrorCollector(LOGGER);
+
+        final ANTLRInputStream input;
+
         try {
-            final ANTLRInputStream input = new ANTLRFileStream( resource.getFile() );
-
-            final BLOneLexer lexer = new BLOneLexer( input );
-
-            final CommonTokenStream tokens = new CommonTokenStream( lexer );
-
-            // logTokenStream(tokens);
-
-            final BLOneParser parser = new BLOneParser( tokens );
-
-            // Test for ambiguity in the grammar.
-            parser.removeErrorListeners();
-            parser.addErrorListener( new DiagnosticErrorListener() );
-            parser.getInterpreter().setPredictionMode( PredictionMode.LL_EXACT_AMBIG_DETECTION );
-
-            final BLOneParser.ProgramContext ctx = parser.program();
-
-            final ProgramBuilder visitor = new ProgramBuilder();
-
-            visitor.build( ctx );
-
-            ProgramPrinter.print( System.out, visitor );
+            input = new ANTLRFileStream( resource.getFile() );
         } catch ( final FileNotFoundException e ) {
             LOGGER.error( "Cannot open resource \"" + NAME + "\".", e );
+            return;
         } catch ( final IOException e ) {
             LOGGER.error( "Failed to read from resource \"" + NAME + "\".", e );
+            return;
         }
+
+        final BLOneLexer lexer = buildLexer( errorCollector, input );
+
+        final CommonTokenStream tokens = new CommonTokenStream( lexer );
+
+        // logTokenStream(tokens);
+
+        final BLOneParser parser = buildParser( errorCollector, tokens );
+
+        final ProgramBuilder visitor = new ProgramBuilder( errorCollector );
+
+        final BLOneParser.ProgramContext ctx = parser.program();
+
+        if ( errorCollector.getErrors() != 0 ) {
+            final MessageFormat format = new MessageFormat( "{0} {0,choice,0#errors|1#error|1<errors}." );
+            LOGGER.error( format.format( new Object[] { errorCollector.getErrors() } ) );
+            return;
+        }
+
+        visitor.build( ctx );
+
+        ProgramPrinter.print( System.out, visitor );
+    }
+
+    @NotNull private static BLOneLexer buildLexer( final ErrorCollector errorCollector, final ANTLRInputStream input ) {
+        final BLOneLexer lexer = new BLOneLexer( input );
+        lexer.removeErrorListeners();
+
+        lexer.addErrorListener( new SyntaxErrorCollector( errorCollector ) );
+        return lexer;
     }
 
     private static void logTokenStream( final CommonTokenStream tokens ) {
@@ -69,5 +85,18 @@ public final class BLOne {
                            .stream()
                            .map( token -> token.getText() + '[' + token.getType() + ']' + String.format( "%n" ) )
                            .collect( Collectors.joining( " " ) ) );
+    }
+
+    @NotNull
+    private static BLOneParser buildParser( final ErrorCollector errorCollector, final CommonTokenStream tokens ) {
+        final BLOneParser parser = new BLOneParser( tokens );
+        parser.removeErrorListeners();
+
+        parser.addErrorListener( new SyntaxErrorCollector( errorCollector ) );
+
+        // Test for ambiguity in the grammar.
+        parser.addErrorListener( new DiagnosticErrorListener() );
+        parser.getInterpreter().setPredictionMode( PredictionMode.LL_EXACT_AMBIG_DETECTION );
+        return parser;
     }
 }

@@ -12,12 +12,18 @@ import uk.me.conradscott.blone.ast.statement.Assertion;
 import uk.me.conradscott.blone.ast.statement.Retraction;
 import uk.me.conradscott.blone.ast.statement.RuleDecl;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
+import uk.me.conradscott.blone.compiler.ErrorCollector;
 
 public final class ProgramBuilder {
     @NotNull private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );
 
     @NotNull private final ScopeIfc< String, RelationDecl > m_relationScope = new RelationScope();
     @NotNull private final ScopeIfc< String, RuleDecl > m_ruleScope = new RuleScope();
+    private final ErrorCollector m_errorCollector;  // TODO: Pass down
+
+    public ProgramBuilder( final ErrorCollector errorCollector ) {
+        m_errorCollector = errorCollector;
+    }
 
     public void build( @NotNull final BLOneParser.ProgramContext ctx ) {
         new ProgramVisitor().visit( ctx );
