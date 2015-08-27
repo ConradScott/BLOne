@@ -1,11 +1,10 @@
 package uk.me.conradscott.blone.ast.location;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Objects;
+import javax.annotation.Nullable;
 
 public final class Location implements LocationIfc {
-    @NotNull private final String m_sourceFile;
+    private final String m_sourceFile;
     private final int m_lineno;
     private final int m_column;
 
@@ -14,7 +13,7 @@ public final class Location implements LocationIfc {
      * @param lineno     Line numbers start from one.
      * @param column     Column numbers start from one.
      */
-    public Location( @NotNull final String sourceFile, final int lineno, final int column ) {
+    public Location( final String sourceFile, final int lineno, final int column ) {
         assert lineno > 0;
         assert column >= 0;
 
@@ -23,7 +22,7 @@ public final class Location implements LocationIfc {
         m_column = column;
     }
 
-    @NotNull @Override public String getSourceFile() {
+    @Override public String getSourceFile() {
         return m_sourceFile;
     }
 
@@ -35,7 +34,7 @@ public final class Location implements LocationIfc {
         return m_column;
     }
 
-    @Override public boolean equals( final Object obj ) {
+    @Override public boolean equals( @Nullable final Object obj ) {
         if ( this == obj ) {
             return true;
         }

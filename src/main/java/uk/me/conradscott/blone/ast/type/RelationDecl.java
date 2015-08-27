@@ -1,8 +1,6 @@
 package uk.me.conradscott.blone.ast.type;
 
 import com.google.common.collect.Maps;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
@@ -14,15 +12,16 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
 public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, LocatedIfc, TypeIfc {
-    @NotNull private final LocationIfc m_location;
-    @NotNull private final String m_name;
+    private final LocationIfc m_location;
+    private final String m_name;
     @Nullable private final StringLiteral m_documentationString;
-    @NotNull private final Map< String, AttributeDecl > m_attributes = Maps.newLinkedHashMap();
+    private final Map< String, AttributeDecl > m_attributes = Maps.newLinkedHashMap();
 
-    public RelationDecl( @NotNull final LocationIfc location,
-                         @NotNull final String name,
+    public RelationDecl( final LocationIfc location,
+                         final String name,
                          @Nullable final StringLiteral documentationString )
     {
         m_location = location;
@@ -30,22 +29,22 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         m_documentationString = documentationString;
     }
 
-    @NotNull @Override public LocationIfc getLocation() {
+    @Override public LocationIfc getLocation() {
         return m_location;
     }
 
-    @NotNull @Override public String getName() {
+    @Override public String getName() {
         return m_name;
     }
 
-    @NotNull public Optional< StringLiteral > getDocumentationString() {
+    public Optional< StringLiteral > getDocumentationString() {
         return Optional.ofNullable( m_documentationString );
     }
 
-    @NotNull @Override public AttributeDecl put( @NotNull final AttributeDecl value ) {
+    @Override public AttributeDecl put( final AttributeDecl value ) {
         final String key = value.getName();
 
-        final AttributeDecl previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeDecl previous = m_attributes.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -61,8 +60,8 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         return value;
     }
 
-    @NotNull @Override public AttributeDecl get( @NotNull final String key ) {
-        final AttributeDecl value = m_attributes.get( key );
+    @Override public AttributeDecl get( final String key ) {
+        @Nullable final AttributeDecl value = m_attributes.get( key );
 
         if ( value == null ) {
             throw new ASTException( "No attribute with name '" + key + "' has been defined" );

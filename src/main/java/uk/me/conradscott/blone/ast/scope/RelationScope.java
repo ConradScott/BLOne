@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.ast.scope;
 
 import com.google.common.collect.Maps;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 
@@ -9,14 +8,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
 public final class RelationScope implements ScopeIfc< String, RelationDecl > {
-    @NotNull private final Map< String, RelationDecl > m_relationDecls = Maps.newLinkedHashMap();
+    private final Map< String, RelationDecl > m_relationDecls = Maps.newLinkedHashMap();
 
-    @NotNull @Override public RelationDecl put( @NotNull final RelationDecl value ) {
+    @Override public RelationDecl put( final RelationDecl value ) {
         final String key = value.getName();
 
-        final RelationDecl previous = m_relationDecls.putIfAbsent( key, value );
+        @Nullable final RelationDecl previous = m_relationDecls.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -31,8 +31,8 @@ public final class RelationScope implements ScopeIfc< String, RelationDecl > {
         return value;
     }
 
-    @NotNull @Override public RelationDecl get( @NotNull final String key ) {
-        final RelationDecl value = m_relationDecls.get( key );
+    @Override public RelationDecl get( final String key ) {
+        @Nullable final RelationDecl value = m_relationDecls.get( key );
 
         if ( value == null ) {
             throw new ASTException( "No relation with name  '" + key + "' has been defined" );

@@ -1,14 +1,12 @@
 package uk.me.conradscott.blone.antlr4;
 
 import org.antlr.v4.runtime.Token;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings( "HardcodedFileSeparator" ) public class StringLiteralTest {
-    @NotNull private static final String[] VALID_STRINGS = { "\"\"", "\"abc\"", "\"\\\\\"", "\"\\\"\"", "\"\\\\\"",
-                                                             "\"\\t\"" };
+    private static final String[] VALID_STRINGS = { "\"\"", "\"abc\"", "\"\\\\\"", "\"\\\"\"", "\"\\\\\"", "\"\\t\"" };
 
     @Test public void testValidStrings() {
         for ( final String expected : VALID_STRINGS ) {
@@ -21,14 +19,14 @@ import static org.junit.Assert.assertEquals;
         }
     }
 
-    @NotNull private static final String[] INVALID_STRINGS = { /* Unterminated string escape */
-                                                               "\"\\\"",
+    private static final String[] INVALID_STRINGS = { /* Unterminated string escape */
+                                                      "\"\\\"",
                                                                  /* Unknown string escape string */
-                                                               "\"\\x",
+                                                      "\"\\x",
                                                                  /* Unterminated string */
-                                                               "\"",
+                                                      "\"",
                                                                  /* Unterminated string */
-                                                               "\"\\t" };
+                                                      "\"\\t" };
 
     @Test public void testInvalidStrings() {
         for ( final String s : INVALID_STRINGS ) {

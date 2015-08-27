@@ -1,11 +1,9 @@
 package uk.me.conradscott.blone.ast.expression;
 
-import org.jetbrains.annotations.NotNull;
-
 public interface BinExpressionIfc extends ExpressionIfc {
-    @NotNull BinOp op();
+    BinOp op();
 
-    @NotNull ExpressionIfc left();
+    ExpressionIfc left();
 
-    @NotNull ExpressionIfc right();
+    ExpressionIfc right();
 }

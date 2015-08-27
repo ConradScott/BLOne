@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.constraint.CapturedConstraint;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 final class ConstraintBuilder {
     private ConstraintBuilder() {}
 
-    @NotNull static ConstraintIfc build( final BLOneParser.ConstraintContext ctx ) {
+    static ConstraintIfc build( final BLOneParser.ConstraintContext ctx ) {
         return ConstraintVisitor.s_instance.visit( ctx );
     }
 

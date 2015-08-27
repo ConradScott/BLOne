@@ -2,7 +2,6 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings( { "HardcodedLineSeparator", "HardcodedFileSeparator" } ) final class StringBuilder {
-    @SuppressWarnings( "MagicNumber" ) @NotNull private static final char[] s_literalEscapedCharValue = new char[ 256 ];
+    @SuppressWarnings( "MagicNumber" ) private static final char[] s_literalEscapedCharValue = new char[ 256 ];
 
     static {
         s_literalEscapedCharValue[ 'n' ] = '\n';
@@ -26,20 +25,17 @@ import java.util.stream.Collectors;
 
     private StringBuilder() {}
 
-    @NotNull static StringLiteral build( @NotNull final TerminalNode terminalNode ) {
+    static StringLiteral build( final TerminalNode terminalNode ) {
         return new StringLiteral( LocationBuilder.build( terminalNode ), parseLiteral( terminalNode.getText() ) );
     }
 
-    @NotNull
-    static StringLiteral build( @NotNull final LocationIfc location,
-                                @NotNull final Collection< ? extends TerminalNode > terminalNodes )
-    {
+    static StringLiteral build( final LocationIfc location, final Collection< ? extends TerminalNode > terminalNodes ) {
         final List< String > strings = terminalNodes.stream().map( ParseTree::getText ).collect( Collectors.toList() );
 
         return new StringLiteral( location, parseLiteral( strings ) );
     }
 
-    @NotNull private static String parseLiteral( @NotNull final String s ) {
+    private static String parseLiteral( final String s ) {
         assert s.length() >= 2 : "String literal is too short";
 
         // Skip final double quote.
@@ -53,7 +49,7 @@ import java.util.stream.Collectors;
                                                                s ).toString();
     }
 
-    @NotNull private static String parseLiteral( @NotNull final List< String > strings ) {
+    private static String parseLiteral( final List< String > strings ) {
         switch ( strings.size() ) {
         case 0:
             return "";
@@ -72,10 +68,7 @@ import java.util.stream.Collectors;
         }
     }
 
-    @NotNull
-    private static CharSequence parseLiteralInto( @NotNull final java.lang.StringBuilder builder,
-                                                  @NotNull final String s )
-    {
+    private static CharSequence parseLiteralInto( final java.lang.StringBuilder builder, final String s ) {
         assert s.length() >= 2 : "String literal is too short";
 
         // Skip final double quote.

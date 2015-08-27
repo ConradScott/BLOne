@@ -1,7 +1,5 @@
 package uk.me.conradscott.blone.ast.expression;
 
-import org.jetbrains.annotations.NotNull;
-
 public enum BinOp {
     GT( ">" ),
     LT( "<" ),
@@ -20,13 +18,13 @@ public enum BinOp {
     XOR( "^" ),
     MOD( "%" );
 
-    @NotNull private final String m_name;
+    private final String m_name;
 
-    BinOp( @NotNull final String name ) {
+    BinOp( final String name ) {
         m_name = name;
     }
 
-    @NotNull String getName() {
+    String getName() {
         return m_name;
     }
 }

@@ -2,7 +2,6 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.scope.RelationScope;
@@ -15,25 +14,25 @@ import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollector;
 
 public final class ProgramBuilder {
-    @NotNull private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );
+    private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );
 
-    @NotNull private final ScopeIfc< String, RelationDecl > m_relationScope = new RelationScope();
-    @NotNull private final ScopeIfc< String, RuleDecl > m_ruleScope = new RuleScope();
+    private final ScopeIfc< String, RelationDecl > m_relationScope = new RelationScope();
+    private final ScopeIfc< String, RuleDecl > m_ruleScope = new RuleScope();
     private final ErrorCollector m_errorCollector;  // TODO: Pass down
 
     public ProgramBuilder( final ErrorCollector errorCollector ) {
         m_errorCollector = errorCollector;
     }
 
-    public void build( @NotNull final BLOneParser.ProgramContext ctx ) {
+    public void build( final BLOneParser.ProgramContext ctx ) {
         new ProgramVisitor().visit( ctx );
     }
 
-    @NotNull public ScopeIfc< String, RelationDecl > getRelationScope() {
+    public ScopeIfc< String, RelationDecl > getRelationScope() {
         return m_relationScope;
     }
 
-    @NotNull public ScopeIfc< String, RuleDecl > getRuleScope() {
+    public ScopeIfc< String, RuleDecl > getRuleScope() {
         return m_ruleScope;
     }
 

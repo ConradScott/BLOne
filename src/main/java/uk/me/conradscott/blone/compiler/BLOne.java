@@ -7,7 +7,6 @@ import org.antlr.v4.runtime.DiagnosticErrorListener;
 import org.antlr.v4.runtime.atn.PredictionMode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneLexer;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.compiler.builder.ProgramBuilder;
@@ -18,23 +17,24 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.MessageFormat;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 
 public final class BLOne {
-    @NotNull private static final Logger LOGGER = LogManager.getLogger( BLOne.class );
+    private static final Logger LOGGER = LogManager.getLogger( BLOne.class );
 
-    @NotNull private static final String NAME = "test.bl1";
+    private static final String NAME = "test.bl1";
 
     private BLOne() {}
 
     public static void main( final String... args ) {
-        final URL resource = BLOne.class.getClassLoader().getResource( NAME );
+        @Nullable final URL resource = BLOne.class.getResource( NAME );
 
         if ( resource == null ) {
             LOGGER.error( "Cannot find resource \"" + NAME + "\"." );
             return;
         }
 
-        final ErrorCollector errorCollector = new ErrorCollector(LOGGER);
+        final ErrorCollector errorCollector = new ErrorCollector( LOGGER );
 
         final ANTLRInputStream input;
 
@@ -71,7 +71,7 @@ public final class BLOne {
         ProgramPrinter.print( System.out, visitor );
     }
 
-    @NotNull private static BLOneLexer buildLexer( final ErrorCollector errorCollector, final ANTLRInputStream input ) {
+    private static BLOneLexer buildLexer( final ErrorCollector errorCollector, final ANTLRInputStream input ) {
         final BLOneLexer lexer = new BLOneLexer( input );
         lexer.removeErrorListeners();
 
@@ -87,7 +87,6 @@ public final class BLOne {
                            .collect( Collectors.joining( " " ) ) );
     }
 
-    @NotNull
     private static BLOneParser buildParser( final ErrorCollector errorCollector, final CommonTokenStream tokens ) {
         final BLOneParser parser = new BLOneParser( tokens );
         parser.removeErrorListeners();

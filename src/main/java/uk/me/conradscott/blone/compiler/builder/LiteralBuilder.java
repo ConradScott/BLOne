@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.literal.BooleanLiteral;
@@ -12,10 +11,12 @@ import uk.me.conradscott.blone.ast.literal.IntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.LongIntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
 
+import javax.annotation.Nullable;
+
 final class LiteralBuilder {
     private LiteralBuilder() {}
 
-    @NotNull static PrimitiveLiteralIfc< ? > build( final BLOneParser.LiteralContext ctx ) {
+    static PrimitiveLiteralIfc< ? > build( final BLOneParser.LiteralContext ctx ) {
         return LiteralVisitor.s_instance.visit( ctx );
     }
 
@@ -52,7 +53,7 @@ final class LiteralBuilder {
         }
 
         @Override
-        protected PrimitiveLiteralIfc< ? > aggregateResult( final PrimitiveLiteralIfc< ? > aggregate,
+        protected PrimitiveLiteralIfc< ? > aggregateResult( @Nullable final PrimitiveLiteralIfc< ? > aggregate,
                                                             final PrimitiveLiteralIfc< ? > nextResult )
         {
             assert aggregate == null;

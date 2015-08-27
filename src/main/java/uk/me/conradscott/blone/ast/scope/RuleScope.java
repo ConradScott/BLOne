@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.ast.scope;
 
 import com.google.common.collect.Maps;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.statement.RuleDecl;
 
@@ -9,14 +8,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
 public final class RuleScope implements ScopeIfc< String, RuleDecl > {
-    @NotNull private final Map< String, RuleDecl > m_ruleDecls = Maps.newLinkedHashMap();
+    private final Map< String, RuleDecl > m_ruleDecls = Maps.newLinkedHashMap();
 
-    @NotNull @Override public RuleDecl put( @NotNull final RuleDecl value ) {
+    @Override public RuleDecl put( final RuleDecl value ) {
         final String key = value.getName();
 
-        final RuleDecl previous = m_ruleDecls.putIfAbsent( key, value );
+        @Nullable final RuleDecl previous = m_ruleDecls.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -31,8 +31,8 @@ public final class RuleScope implements ScopeIfc< String, RuleDecl > {
         return value;
     }
 
-    @NotNull @Override public RuleDecl get( @NotNull final String key ) {
-        final RuleDecl value = m_ruleDecls.get( key );
+    @Override public RuleDecl get( final String key ) {
+        @Nullable final RuleDecl value = m_ruleDecls.get( key );
 
         if ( value == null ) {
             throw new ASTException( "No rule with name  '" + key + "' has been defined" );

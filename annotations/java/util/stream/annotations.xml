@@ -1,0 +1,5 @@
+<root>
+  <item name='java.util.stream.Stream java.util.stream.Stream&lt;R&gt; map(java.util.function.Function&lt;? super T,? extends R&gt;)'>
+    <annotation name='javax.annotation.Nonnull'/>
+  </item>
+</root>

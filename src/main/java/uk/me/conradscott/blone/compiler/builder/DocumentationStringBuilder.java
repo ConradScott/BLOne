@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import org.jetbrains.annotations.Nullable;
+import javax.annotation.Nullable;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 

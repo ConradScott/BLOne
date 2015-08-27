@@ -1,8 +1,6 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
 import com.google.common.collect.Maps;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
@@ -12,25 +10,26 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
 public final class PatternCE implements ScopeIfc< String, AttributeConstraint >, ConditionElementIfc {
-    @NotNull private final LocationIfc m_location;
-    @NotNull private final String m_name;
-    @NotNull private final Map< String, AttributeConstraint > m_attributes = Maps.newLinkedHashMap();
+    private final LocationIfc m_location;
+    private final String m_name;
+    private final Map< String, AttributeConstraint > m_attributes = Maps.newLinkedHashMap();
 
-    public PatternCE( @NotNull final LocationIfc location, @NotNull final String name ) {
+    public PatternCE( final LocationIfc location, final String name ) {
         m_location = location;
         m_name = name;
     }
 
-    @NotNull public String getName() {
+    public String getName() {
         return m_name;
     }
 
-    @NotNull @Override public AttributeConstraint put( @NotNull final AttributeConstraint value ) {
+    @Override public AttributeConstraint put( final AttributeConstraint value ) {
         final String key = value.getName();
 
-        final AttributeConstraint previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeConstraint previous = m_attributes.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -46,8 +45,8 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return value;
     }
 
-    @NotNull @Override public AttributeConstraint get( @NotNull final String key ) {
-        final AttributeConstraint value = m_attributes.get( key );
+    @Override public AttributeConstraint get( final String key ) {
+        @Nullable final AttributeConstraint value = m_attributes.get( key );
 
         if ( value == null ) {
             throw new ASTException( "No attribute with name '" + key + "' has been defined" );
@@ -58,7 +57,7 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return value;
     }
 
-    @NotNull @Override public LocationIfc getLocation() {
+    @Override public LocationIfc getLocation() {
         return m_location;
     }
 
@@ -74,8 +73,7 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return m_attributes.values().spliterator();
     }
 
-    @Nullable @Override
-    public < T, R > R accept( @NotNull final ConditionElementVisitorIfc< T, R > visitor, @NotNull final T t ) {
+    @Override public < T, R > R accept( final ConditionElementVisitorIfc< T, R > visitor, final T t ) {
         return visitor.visit( this, t );
     }
 }

@@ -1,1 +1,3 @@
-package uk.me.conradscott.blone.ast.type;
+@NonNullByDefault package uk.me.conradscott.blone.ast.type;
+
+import uk.me.conradscott.NonNullByDefault;

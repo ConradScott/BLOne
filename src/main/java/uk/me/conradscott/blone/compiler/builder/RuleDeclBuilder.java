@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.Token;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConjunctiveCE;
@@ -13,7 +12,7 @@ import java.util.stream.Collectors;
 final class RuleDeclBuilder {
     private RuleDeclBuilder() {}
 
-    @NotNull static RuleDecl build( @NotNull final BLOneParser.RuleDeclContext ctx ) {
+    static RuleDecl build( final BLOneParser.RuleDeclContext ctx ) {
         final Token name = ctx.Identifier().getSymbol();
 
         final List< ConditionElementIfc > conjuncts = ctx.conditionElement()

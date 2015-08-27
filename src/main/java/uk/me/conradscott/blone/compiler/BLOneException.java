@@ -3,8 +3,7 @@ package uk.me.conradscott.blone.compiler;
 public class BLOneException extends RuntimeException {
     private static final long serialVersionUID = 6709875246757423001L;
 
-    public BLOneException() {
-    }
+    public BLOneException() { }
 
     public BLOneException( final String message ) {
         super( message );

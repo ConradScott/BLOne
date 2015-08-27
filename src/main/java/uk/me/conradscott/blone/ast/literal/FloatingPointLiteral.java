@@ -1,33 +1,30 @@
 package uk.me.conradscott.blone.ast.literal;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.type.PrimitiveType;
 
 public final class FloatingPointLiteral implements PrimitiveLiteralIfc< Float > {
-    @NotNull private final LocationIfc m_location;
+    private final LocationIfc m_location;
     private final float m_value;
 
-    public FloatingPointLiteral( @NotNull final LocationIfc location, final float value ) {
+    public FloatingPointLiteral( final LocationIfc location, final float value ) {
         m_location = location;
         m_value = value;
     }
 
-    @NotNull @Override public PrimitiveType getType() {
+    @Override public PrimitiveType getType() {
         return PrimitiveType.FLOAT;
     }
 
-    @NotNull @Override public LocationIfc getLocation() {
+    @Override public LocationIfc getLocation() {
         return m_location;
     }
 
-    @NotNull @Override public Float getValue() {
+    @Override public Float getValue() {
         return m_value;
     }
 
-    @Nullable @Override
-    public < A, R > R accept( @NotNull final LiteralVisitorIfc< A, R > visitor, @NotNull final A a ) {
+    @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }
 }

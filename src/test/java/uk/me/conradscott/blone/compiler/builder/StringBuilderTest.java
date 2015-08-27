@@ -2,7 +2,6 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
-import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 import uk.me.conradscott.blone.antlr4.Lexer;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
@@ -28,7 +27,7 @@ public class StringBuilderTest {
         assertEquals( "Octal escapes should be replaced with the corresponding ASCII character.", expected, actual );
     }
 
-    @NotNull private static String getString( final String s ) {
+    private static String getString( final String s ) {
         final Token token = Lexer.getSingleTokenFromString( s );
         final StringLiteral literal = StringBuilder.build( new TerminalNodeImpl( token ) );
 

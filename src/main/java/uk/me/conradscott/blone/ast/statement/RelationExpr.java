@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.ast.statement;
 
 import com.google.common.collect.Maps;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
@@ -11,29 +10,30 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import javax.annotation.Nullable;
 
 public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, LocatedIfc {
-    @NotNull private final LocationIfc m_location;
-    @NotNull private final String m_name;
-    @NotNull private final Map< String, AttributeExpr > m_attributes = Maps.newLinkedHashMap();
+    private final LocationIfc m_location;
+    private final String m_name;
+    private final Map< String, AttributeExpr > m_attributes = Maps.newLinkedHashMap();
 
-    public RelationExpr( @NotNull final LocationIfc location, @NotNull final String name ) {
+    public RelationExpr( final LocationIfc location, final String name ) {
         m_location = location;
         m_name = name;
     }
 
-    @NotNull @Override public LocationIfc getLocation() {
+    @Override public LocationIfc getLocation() {
         return m_location;
     }
 
-    @NotNull public String getName() {
+    public String getName() {
         return m_name;
     }
 
-    @NotNull @Override public AttributeExpr put( @NotNull final AttributeExpr value ) {
+    @Override public AttributeExpr put( final AttributeExpr value ) {
         final String key = value.getName();
 
-        final AttributeExpr previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeExpr previous = m_attributes.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -49,8 +49,8 @@ public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, Lo
         return value;
     }
 
-    @NotNull @Override public AttributeExpr get( @NotNull final String key ) {
-        final AttributeExpr value = m_attributes.get( key );
+    @Override public AttributeExpr get( final String key ) {
+        @Nullable final AttributeExpr value = m_attributes.get( key );
 
         if ( value == null ) {
             throw new ASTException( "No attribute with name '" + key + "' has been defined" );

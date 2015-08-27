@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.conditionelement.CapturedCE;
@@ -14,11 +13,12 @@ import uk.me.conradscott.blone.ast.conditionelement.UniversalCE;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.Nullable;
 
 final class ConditionElementBuilder {
     private ConditionElementBuilder() {}
 
-    @NotNull static ConditionElementIfc build( @NotNull final BLOneParser.ConditionElementContext ctx ) {
+    static ConditionElementIfc build( final BLOneParser.ConditionElementContext ctx ) {
         return ConditionElementVisitor.s_instance.visit( ctx );
     }
 
@@ -82,7 +82,7 @@ final class ConditionElementBuilder {
         }
 
         @Override
-        protected ConditionElementIfc aggregateResult( final ConditionElementIfc aggregate,
+        protected ConditionElementIfc aggregateResult( @Nullable final ConditionElementIfc aggregate,
                                                        final ConditionElementIfc nextResult )
         {
             assert aggregate == null;

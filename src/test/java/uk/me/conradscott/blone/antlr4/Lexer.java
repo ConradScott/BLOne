@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.BufferedTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
-import org.jetbrains.annotations.NotNull;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -15,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 public final class Lexer {
     private Lexer() {}
 
-    @NotNull public static Token getSingleTokenFromString( final String s ) {
+    public static Token getSingleTokenFromString( final String s ) {
         final BLOneLexer lexer = new BLOneLexer( new ANTLRInputStream( s ) );
         final BufferedTokenStream tokens = new BufferedTokenStream( lexer );
 
@@ -50,7 +49,7 @@ public final class Lexer {
         }
     }
 
-    @NotNull static String getSingleInvalidTokenFromString( final String s ) {
+    static String getSingleInvalidTokenFromString( final String s ) {
         final BLOneLexer lexer = new BLOneLexer( new ANTLRInputStream( s ) );
         lexer.removeErrorListeners();
 

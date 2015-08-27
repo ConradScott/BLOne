@@ -1,0 +1,8 @@
+<root>
+  <item name='java.util.Map V get(java.lang.Object)'>
+    <annotation name='javax.annotation.Nullable'/>
+  </item>
+  <item name='java.util.Map V putIfAbsent(K, V)'>
+    <annotation name='javax.annotation.Nullable'/>
+  </item>
+</root>

@@ -3,13 +3,14 @@ package uk.me.conradscott.blone.compiler.builder;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.jetbrains.annotations.NotNull;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
+
+import javax.annotation.Nullable;
 
 final class TerminalBuilder {
     private TerminalBuilder() {}
 
-    @NotNull static TerminalNode build( @NotNull final ParseTree ctx ) {
+    static TerminalNode build( final ParseTree ctx ) {
         return TerminalVisitor.s_instance.visit( ctx );
     }
 
@@ -21,7 +22,9 @@ final class TerminalBuilder {
         }
 
         @Override
-        protected TerminalNode aggregateResult( final TerminalNode aggregate, final TerminalNode nextResult ) {
+        protected TerminalNode aggregateResult( @Nullable final TerminalNode aggregate,
+                                                final TerminalNode nextResult )
+        {
             assert aggregate == null;
             return nextResult;
         }
