@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 public final class BLOne {
     private static final Logger LOGGER = LogManager.getLogger( BLOne.class );
 
-    private static final String NAME = "test.bl1";
+    private static final String NAME = "/test.bl1";
 
     private BLOne() {}
 
