@@ -1,23 +1,23 @@
 package uk.me.conradscott.blone.ast.constraint;
 
-import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
+import uk.me.conradscott.blone.ast.expression.ExpressionIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
-public class LiteralConstraint implements ConstraintIfc {
+public class ExpressionConstraint implements ConstraintIfc {
     private final LocationIfc m_location;
-    private final PrimitiveLiteralIfc< ? > m_literal;
+    private final ExpressionIfc m_expression;
 
-    public LiteralConstraint( final LocationIfc location, final PrimitiveLiteralIfc< ? > literal ) {
+    public ExpressionConstraint( final LocationIfc location, final ExpressionIfc expression ) {
         m_location = location;
-        m_literal = literal;
+        m_expression = expression;
     }
 
     @Override public LocationIfc getLocation() {
         return m_location;
     }
 
-    public PrimitiveLiteralIfc< ? > getLiteral() {
-        return m_literal;
+    public ExpressionIfc getExpression() {
+        return m_expression;
     }
 
     @Override public < T, R > R accept( final ConstraintVisitorIfc< T, R > visitor, final T t ) {

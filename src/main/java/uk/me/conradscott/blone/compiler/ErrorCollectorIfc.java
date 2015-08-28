@@ -1,8 +1,8 @@
 package uk.me.conradscott.blone.compiler;
 
-import uk.me.conradscott.blone.ast.location.Location;
+import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public interface ErrorCollectorIfc {
-    void warning( Location location, String msg );
-    void error( Location location, String msg );
+    void warning( LocationIfc location, String msg );
+    void error( LocationIfc location, String msg );
 }

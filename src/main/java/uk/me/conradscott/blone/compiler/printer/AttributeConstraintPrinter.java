@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import uk.me.conradscott.blone.ast.statement.AttributeConstraint;
+import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 
 import java.io.PrintStream;
 

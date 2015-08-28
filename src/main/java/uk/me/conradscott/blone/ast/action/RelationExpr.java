@@ -1,4 +1,4 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.action;
 
 import com.google.common.collect.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
@@ -38,10 +38,9 @@ public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, Lo
         if ( previous != null ) {
             assert previous.getName().equals( key );
 
-            throw new ASTException( value.getLocation()
-                                    + ": an attribute with name '"
+            throw new ASTException( "A value for the attribute '"
                                     + key
-                                    + "' is already defined in relation '"
+                                    + "' has already been given in the expression for '"
                                     + m_name
                                     + '\'' );
         }
@@ -53,7 +52,8 @@ public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, Lo
         @Nullable final AttributeExpr value = m_attributes.get( key );
 
         if ( value == null ) {
-            throw new ASTException( "No attribute with name '" + key + "' has been defined" );
+            throw new ASTException( "No value for the attribute '" + key + "' has been given in the expression for '"
+                                    + m_name + '\'' );
         }
 
         assert value.getName().equals( key );

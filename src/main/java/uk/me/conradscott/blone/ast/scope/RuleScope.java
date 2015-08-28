@@ -2,7 +2,7 @@ package uk.me.conradscott.blone.ast.scope;
 
 import com.google.common.collect.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
-import uk.me.conradscott.blone.ast.statement.RuleDecl;
+import uk.me.conradscott.blone.ast.rule.RuleDecl;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -21,11 +21,7 @@ public final class RuleScope implements ScopeIfc< String, RuleDecl > {
         if ( previous != null ) {
             assert previous.getName().equals( key );
 
-            throw new ASTException( value.getLocation()
-                                    + ": a rule with name '"
-                                    + key
-                                    + "' is already defined at "
-                                    + previous.getLocation() );
+            throw new ASTException( "A rule with name '" + key + "' is already defined at " + previous.getLocation() );
         }
 
         return value;

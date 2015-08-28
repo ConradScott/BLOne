@@ -1,4 +1,4 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.action;
 
 import uk.me.conradscott.blone.ast.expression.ExpressionIfc;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;

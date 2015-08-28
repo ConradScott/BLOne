@@ -21,8 +21,7 @@ public final class RelationScope implements ScopeIfc< String, RelationDecl > {
         if ( previous != null ) {
             assert previous.getName().equals( key );
 
-            throw new ASTException( value.getLocation()
-                                    + ": a relation with name '"
+            throw new ASTException( "A relation with name '"
                                     + key
                                     + "' is already defined at "
                                     + previous.getLocation() );

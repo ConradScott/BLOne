@@ -1,10 +1,9 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.action;
 
 import uk.me.conradscott.blone.ast.conditionelement.PatternCE;
-import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
-public final class Retraction implements LocatedIfc {
+public final class Retraction implements ActionIfc {
     private final LocationIfc m_location;
     private final PatternCE m_patternCE;
 
@@ -19,5 +18,9 @@ public final class Retraction implements LocatedIfc {
 
     public PatternCE getPatternCE() {
         return m_patternCE;
+    }
+
+    @Override public < T, R > R accept( final ActionVisitorIfc< T, R > visitor, final T t ) {
+        return visitor.visit( this, t );
     }
 }

@@ -11,13 +11,11 @@ import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import java.io.PrintStream;
-import javax.annotation.Nullable;
 
 final class LiteralPrinter {
     private LiteralPrinter() {}
 
-    static void print( final PrintStream out, final PrimitiveLiteralIfc< ? > literal, final int depth )
-    {
+    static void print( final PrintStream out, final PrimitiveLiteralIfc< ? > literal, final int depth ) {
         new Visitor( out ).visit( literal, depth );
     }
 

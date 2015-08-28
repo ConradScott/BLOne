@@ -10,5 +10,6 @@ public final class ProgramPrinter {
     public static void print( final PrintStream out, final ProgramBuilder program ) {
         RelationDeclPrinter.print( out, program.getRelationScope(), 0 );
         RuleDeclPrinter.print( out, program.getRuleScope(), 0 );
+        ActionPrinter.print( out, program.getActionScope(), 0 );
     }
 }

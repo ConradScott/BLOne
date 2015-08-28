@@ -5,9 +5,8 @@ import uk.me.conradscott.blone.ast.constraint.ConjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.constraint.ConstraintVisitorIfc;
 import uk.me.conradscott.blone.ast.constraint.DisjunctiveConstraint;
-import uk.me.conradscott.blone.ast.constraint.LiteralConstraint;
+import uk.me.conradscott.blone.ast.constraint.ExpressionConstraint;
 import uk.me.conradscott.blone.ast.constraint.NegativeConstraint;
-import uk.me.conradscott.blone.ast.constraint.VariableConstraint;
 
 import java.io.PrintStream;
 
@@ -49,9 +48,9 @@ final class ConstraintPrinter {
             return this;
         }
 
-        @Override public Visitor visit( final LiteralConstraint constraint, final Integer depth ) {
+        @Override public Visitor visit( final ExpressionConstraint constraint, final Integer depth ) {
             Formatter.begin( m_out, constraint, depth );
-            LiteralPrinter.print( m_out, constraint.getLiteral(), depth + 1 );
+            ExpressionPrinter.print( m_out, constraint.getExpression(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }
@@ -59,13 +58,6 @@ final class ConstraintPrinter {
         @Override public Visitor visit( final NegativeConstraint constraint, final Integer depth ) {
             Formatter.begin( m_out, constraint, depth );
             visit( constraint.getConstraint(), depth + 1 );
-            Formatter.end( m_out );
-            return this;
-        }
-
-        @Override public Visitor visit( final VariableConstraint constraint, final Integer depth ) {
-            Formatter.begin( m_out, constraint, depth );
-            Formatter.format( m_out, "variable", constraint.getVariable().getName(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }

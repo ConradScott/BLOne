@@ -19,9 +19,7 @@ public interface ConstraintVisitorIfc< T, R > {
 
     R visit( DisjunctiveConstraint constraint, T t );
 
-    R visit( LiteralConstraint constraint, T t );
+    R visit( ExpressionConstraint constraint, T t );
 
     R visit( NegativeConstraint constraint, T t );
-
-    R visit( VariableConstraint constraint, T t );
 }

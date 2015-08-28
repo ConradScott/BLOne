@@ -4,7 +4,7 @@ import com.google.common.collect.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
-import uk.me.conradscott.blone.ast.statement.AttributeConstraint;
+import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -34,10 +34,9 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         if ( previous != null ) {
             assert previous.getName().equals( key );
 
-            throw new ASTException( value.getLocation()
-                                    + ": an attribute with name '"
+            throw new ASTException( "A constraint for the attribute '"
                                     + key
-                                    + "' is already defined in relation '"
+                                    + "' has already been given in the pattern for '"
                                     + m_name
                                     + '\'' );
         }
@@ -49,7 +48,11 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         @Nullable final AttributeConstraint value = m_attributes.get( key );
 
         if ( value == null ) {
-            throw new ASTException( "No attribute with name '" + key + "' has been defined" );
+            throw new ASTException( "No constraint for the attribute '"
+                                    + key
+                                    + "' has been given in the pattern for '"
+                                    + m_name
+                                    + '\'' );
         }
 
         assert value.getName().equals( key );

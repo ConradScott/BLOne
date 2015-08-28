@@ -2,7 +2,7 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.Token;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
-import uk.me.conradscott.blone.ast.statement.AttributeConstraint;
+import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 
 final class AttributeConstraintBuilder {
     private AttributeConstraintBuilder() {}

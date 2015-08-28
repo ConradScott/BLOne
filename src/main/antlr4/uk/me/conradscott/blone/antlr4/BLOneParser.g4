@@ -69,8 +69,8 @@ attributeExpr
     ;
 
 expression
-    : literal
-    | Variable
+    : literal   # LiteralExpression
+    | Variable  # VariableExpression
     ;
 
 // Conditional elements
@@ -120,8 +120,7 @@ attributeConstraint
     ;
 
 constraint
-    : literal                   # literalConstraint
-    | Variable                  # variableConstraint
+    : expression                # expressionConstraint
     | Variable '=' constraint   # capturedConstraint
     | '(' 'not' constraint ')'  # notConstraint
     | '(' 'and' constraint+ ')' # andConstraint

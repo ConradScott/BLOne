@@ -14,39 +14,54 @@ import uk.me.conradscott.blone.compiler.printer.ProgramPrinter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
-import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 
 public final class BLOne {
     private static final Logger LOGGER = LogManager.getLogger( BLOne.class );
 
-    private static final String NAME = "/test.bl1";
+    private enum StatusCode {
+        SUCCESS( 0 ), ERROR( 1 );
+
+        private final int m_status;
+
+        StatusCode( final int status ) {
+            m_status = status;
+        }
+
+        private int getStatus() {
+            return m_status;
+        }
+
+        private static StatusCode reduce( final StatusCode lhs, final StatusCode rhs ) {
+            return ( lhs.m_status > rhs.m_status ) ? lhs : rhs;
+        }
+    }
 
     private BLOne() {}
 
     public static void main( final String... args ) {
-        @Nullable final URL resource = BLOne.class.getResource( NAME );
+        final StatusCode status = Arrays.stream( args )
+                                        .map( BLOne::compile )
+                                        .reduce( StatusCode.SUCCESS, StatusCode::reduce );
 
-        if ( resource == null ) {
-            LOGGER.error( "Cannot find resource \"" + NAME + "\"." );
-            return;
+        System.exit( status.getStatus() );
+    }
+
+    private static StatusCode compile( final String pathname ) {
+        final ANTLRFileStream input;
+
+        try {
+            input = new ANTLRFileStream( pathname );
+        } catch ( final FileNotFoundException e ) {
+            LOGGER.error( "Cannot open file \"" + pathname + "\": " + e.getMessage() );
+            return StatusCode.ERROR;
+        } catch ( final IOException e ) {
+            LOGGER.error( "Failed to read from file \"" + pathname + "\": " + e.getMessage() );
+            return StatusCode.ERROR;
         }
 
         final ErrorCollector errorCollector = new ErrorCollector( LOGGER );
-
-        final ANTLRInputStream input;
-
-        try {
-            input = new ANTLRFileStream( resource.getFile() );
-        } catch ( final FileNotFoundException e ) {
-            LOGGER.error( "Cannot open resource \"" + NAME + "\".", e );
-            return;
-        } catch ( final IOException e ) {
-            LOGGER.error( "Failed to read from resource \"" + NAME + "\".", e );
-            return;
-        }
 
         final BLOneLexer lexer = buildLexer( errorCollector, input );
 
@@ -61,14 +76,20 @@ public final class BLOne {
         final BLOneParser.ProgramContext ctx = parser.program();
 
         if ( errorCollector.getErrors() != 0 ) {
-            final MessageFormat format = new MessageFormat( "{0} {0,choice,0#errors|1#error|1<errors}." );
-            LOGGER.error( format.format( new Object[] { errorCollector.getErrors() } ) );
-            return;
+            errorCollector.reportErrors( LOGGER );
+            return StatusCode.ERROR;
         }
 
         visitor.build( ctx );
 
+        if ( errorCollector.getErrors() != 0 ) {
+            errorCollector.reportErrors( LOGGER );
+            return StatusCode.ERROR;
+        }
+
         ProgramPrinter.print( System.out, visitor );
+
+        return StatusCode.SUCCESS;
     }
 
     private static BLOneLexer buildLexer( final ErrorCollector errorCollector, final ANTLRInputStream input ) {

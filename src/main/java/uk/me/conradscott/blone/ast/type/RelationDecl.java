@@ -49,8 +49,7 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         if ( previous != null ) {
             assert previous.getName().equals( key );
 
-            throw new ASTException( value.getLocation()
-                                    + ": an attribute with name '"
+            throw new ASTException( "An attribute with name '"
                                     + key
                                     + "' is already defined in relation '"
                                     + m_name
@@ -64,7 +63,11 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         @Nullable final AttributeDecl value = m_attributes.get( key );
 
         if ( value == null ) {
-            throw new ASTException( "No attribute with name '" + key + "' has been defined" );
+            throw new ASTException( "No attribute with name '"
+                                    + key
+                                    + "' has been defined in relation '"
+                                    + m_name
+                                    + '\'' );
         }
 
         assert value.getName().equals( key );

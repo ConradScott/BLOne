@@ -1,6 +1,5 @@
-package uk.me.conradscott.blone.ast.statement;
+package uk.me.conradscott.blone.ast.constraint;
 
-import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 

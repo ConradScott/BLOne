@@ -7,9 +7,8 @@ import uk.me.conradscott.blone.ast.constraint.CapturedConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.constraint.DisjunctiveConstraint;
-import uk.me.conradscott.blone.ast.constraint.LiteralConstraint;
+import uk.me.conradscott.blone.ast.constraint.ExpressionConstraint;
 import uk.me.conradscott.blone.ast.constraint.NegativeConstraint;
-import uk.me.conradscott.blone.ast.constraint.VariableConstraint;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,12 +23,8 @@ final class ConstraintBuilder {
     private static final class ConstraintVisitor extends BLOneParserBaseVisitor< ConstraintIfc > {
         private static final ParseTreeVisitor< ConstraintIfc > s_instance = new ConstraintVisitor();
 
-        @Override public ConstraintIfc visitLiteralConstraint( final BLOneParser.LiteralConstraintContext ctx ) {
-            return new LiteralConstraint( LocationBuilder.build( ctx ), LiteralBuilder.build( ctx.literal() ) );
-        }
-
-        @Override public ConstraintIfc visitVariableConstraint( final BLOneParser.VariableConstraintContext ctx ) {
-            return new VariableConstraint( LocationBuilder.build( ctx ), VariableBuilder.build( ctx.Variable() ) );
+        @Override public ConstraintIfc visitExpressionConstraint( final BLOneParser.ExpressionConstraintContext ctx ) {
+            return new ExpressionConstraint( LocationBuilder.build( ctx ), ExpressionBuilder.build( ctx.expression() ) );
         }
 
         @Override public ConstraintIfc visitCapturedConstraint( final BLOneParser.CapturedConstraintContext ctx ) {

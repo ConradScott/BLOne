@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import uk.me.conradscott.blone.ast.statement.RuleDecl;
+import uk.me.conradscott.blone.ast.rule.RuleDecl;
 
 import java.io.PrintStream;
 
@@ -18,6 +18,7 @@ final class RuleDeclPrinter {
         ruleDecl.getDocumentationString()
                 .ifPresent( s -> Formatter.format( out, "documentationString", s.getValue(), depth + 1 ) );
         ConditionElementPrinter.print( out, ruleDecl.getConditionElement(), depth + 1 );
+        ActionPrinter.print( out, ruleDecl.getActions(), depth + 1 );
 
         Formatter.end( out );
     }
