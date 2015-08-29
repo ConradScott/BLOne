@@ -9,19 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@SuppressWarnings( { "HardcodedLineSeparator", "HardcodedFileSeparator" } ) final class StringBuilder {
-    @SuppressWarnings( "MagicNumber" ) private static final char[] s_literalEscapedCharValue = new char[ 256 ];
-
-    static {
-        s_literalEscapedCharValue[ 'n' ] = '\n';
-        s_literalEscapedCharValue[ 'r' ] = '\r';
-        s_literalEscapedCharValue[ 't' ] = '\t';
-        s_literalEscapedCharValue[ 'b' ] = '\b';
-        s_literalEscapedCharValue[ 'f' ] = '\f';
-        s_literalEscapedCharValue[ '\\' ] = '\\';
-        s_literalEscapedCharValue[ '\'' ] = '\'';
-        s_literalEscapedCharValue[ '"' ] = '"';
-    }
+final class StringBuilder {
 
     private StringBuilder() {}
 
@@ -38,12 +26,12 @@ import java.util.stream.Collectors;
     private static String parseLiteral( final String s ) {
         assert s.length() >= 2 : "String literal is too short";
 
-        // Skip final double quote.
         final int end = s.length() - 1;
 
         assert s.charAt( 0 ) == '\"' : "String literal doesn't start with a double quote";
         assert s.charAt( end ) == '\"' : "String literal doesn't end with a double quote";
 
+        // Optimize conversion of strings with no escapes.
         return ( s.indexOf( '\\' ) == -1 ) ? s.substring( 1, end )
                                            : parseLiteralInto( new java.lang.StringBuilder( s.length() - 2 ),
                                                                s ).toString();
@@ -71,52 +59,15 @@ import java.util.stream.Collectors;
     private static CharSequence parseLiteralInto( final java.lang.StringBuilder builder, final String s ) {
         assert s.length() >= 2 : "String literal is too short";
 
-        // Skip final double quote.
         final int end = s.length() - 1;
 
         assert s.charAt( 0 ) == '\"' : "String literal doesn't start with a double quote";
         assert s.charAt( end ) == '\"' : "String literal doesn't end with a double quote";
 
-        // Skip initial double quote.
-        int i = 1;
-        char c = s.charAt( i );
+        final StringCursor cursor = new StringCursor( s, 1, end );
 
-        while ( i != end ) {
-            if ( c == '\\' ) {
-                i += 1;
-                assert i != end : "Escape character as last character of string literal";
-                c = s.charAt( i );
-
-                if ( ( c < s_literalEscapedCharValue.length ) && ( s_literalEscapedCharValue[ c ] != 0 ) ) {
-                    builder.append( s_literalEscapedCharValue[ c ] );
-
-                    i += 1;
-                    c = s.charAt( i );
-                } else if ( ( c >= '0' ) && ( c <= '7' ) ) {
-                    final int max = Math.min( i + ( ( c <= '3' ) ? 3 : 2 ), end );
-                    int result = Character.digit( c, 8 );
-
-                    i += 1;
-                    c = s.charAt( i );
-
-                    while ( ( i != max ) && ( c >= '0' ) && ( c <= '7' ) ) {
-                        result *= 8;
-                        result += Character.digit( c, 8 );
-
-                        i += 1;
-                        c = s.charAt( i );
-                    }
-
-                    builder.append( ( char ) result );
-                } else {
-                    assert false : "Unknown escape in string: \\" + c;
-                }
-            } else {
-                builder.append( c );
-
-                i += 1;
-                c = s.charAt( i );
-            }
+        while ( !cursor.atEnd() ) {
+            builder.append( CharacterEscapes.getOneCharacter( cursor ) );
         }
 
         return builder;

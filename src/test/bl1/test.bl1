@@ -5,6 +5,9 @@
 (assert (Position (x 1) (y 1)))
 (retract (Position (x ?x) (y ?x)))
 
+(assert (Wiggle (x 'x')))
+(assert (Wiggle (x "\0")))
+
 (rule collision
   (Position (x ?x) (y ?y))
   (Position (x ?x) (y ?y))

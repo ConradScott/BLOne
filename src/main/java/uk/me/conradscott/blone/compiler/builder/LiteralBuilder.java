@@ -45,7 +45,7 @@ final class LiteralBuilder {
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitCharacter( final BLOneParser.CharacterContext ctx ) {
-            return new CharacterLiteral( LocationBuilder.build( ctx ), '0' /* ctx.IntegerLiteral() */ );
+            return CharacterBuilder.build( ctx.CharacterLiteral() );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitString( final BLOneParser.StringContext ctx ) {

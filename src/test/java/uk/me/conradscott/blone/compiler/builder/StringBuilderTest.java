@@ -8,7 +8,7 @@ import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import static org.junit.Assert.assertEquals;
 
-public class StringBuilderTest {
+@SuppressWarnings( { "HardcodedLineSeparator", "HardcodedFileSeparator" } ) public class StringBuilderTest {
     @Test public void testLiteralsWithoutEscapes() {
         final String expected = "abc";
         final String actual = getString( "\"abc\"" );
@@ -22,8 +22,9 @@ public class StringBuilderTest {
     }
 
     @Test public void testOctalEscapes() {
-        final String expected = "a\0b\1c\2d\3d\012e\12f\127f\1111";
-        final String actual = getString( "\"a\\0b\\1c\\2d\\3d\\012e\\12f\\127f\\1111\"" );
+        @SuppressWarnings( "ConfusingOctalEscapeSequence" ) final String expected
+                = "a\0b\1c\2d\3d\012e\12f\127f\1111\111";
+        final String actual = getString( "\"a\\0b\\1c\\2d\\3d\\012e\\12f\\127f\\1111\\111\"" );
         assertEquals( "Octal escapes should be replaced with the corresponding ASCII character.", expected, actual );
     }
 
