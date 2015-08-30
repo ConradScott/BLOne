@@ -8,7 +8,7 @@ import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings( { "HardcodedLineSeparator", "HardcodedFileSeparator" } ) public class StringBuilderTest {
+@SuppressWarnings( { "HardcodedFileSeparator", "HardcodedLineSeparator" } ) public final class StringBuilderTest {
     @Test public void testLiteralsWithoutEscapes() {
         final String expected = "abc";
         final String actual = getString( "\"abc\"" );

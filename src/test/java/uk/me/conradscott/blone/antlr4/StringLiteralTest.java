@@ -5,11 +5,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings( "HardcodedFileSeparator" ) public class StringLiteralTest {
-    private static final String[] VALID_STRINGS = { "\"\"", "\"abc\"", "\"\\\\\"", "\"\\\"\"", "\"\\\\\"", "\"\\t\"" };
+@SuppressWarnings( "HardcodedFileSeparator" ) public final class StringLiteralTest {
+    private static final String[] VALID_STRING_LITERALS = { "\"\"", "\"abc\"", "\"\\\"\"", "\"\\\\\"", "\"\\t\"" };
 
     @Test public void testValidStrings() {
-        for ( final String expected : VALID_STRINGS ) {
+        for ( final String expected : VALID_STRING_LITERALS ) {
             final Token token = Lexer.getSingleTokenFromString( expected );
             final String actual = token.getText();
 
@@ -19,22 +19,19 @@ import static org.junit.Assert.assertEquals;
         }
     }
 
-    private static final String[] INVALID_STRINGS = { /* Unterminated string escape */
-                                                      "\"\\\"",
-                                                                 /* Unknown string escape string */
-                                                      "\"\\x",
-                                                                 /* Unterminated string */
-                                                      "\"",
-                                                                 /* Unterminated string */
-                                                      "\"\\t" };
+    private static final String[] INVALID_STRING_LITERALS = {
+        /* Unterminated string escape */ "\"\\\"",
+        /* Unknown string escape string */ "\"\\x",
+        /* Unterminated string */ "\"",
+        /* Unterminated string */ "\"\\t" };
 
     @Test public void testInvalidStrings() {
-        for ( final String s : INVALID_STRINGS ) {
+        for ( final String literal : INVALID_STRING_LITERALS ) {
 
-            final String actual = Lexer.getSingleInvalidTokenFromString( s );
-            final String expected = String.format( "token recognition error at: '%s'", s );
+            final String actual = Lexer.getSingleInvalidTokenFromString( literal );
+            final String expected = String.format( "token recognition error at: '%s'", literal );
 
-            assertEquals( "String literal " + s + " should have raised the syntax error \'" + s + "\'.",
+            assertEquals( "String literal " + literal + " should have raised the syntax error \'" + literal + "\'.",
                           expected,
                           actual );
         }
