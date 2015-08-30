@@ -32,10 +32,10 @@ FALSE       : 'false' ;
 // Integer ('int' and 'long') Literals
 
 IntegerLiteral
-    : DecimalNumeral
-    | HexNumeral
-    | OctalNumeral
-    | BinaryNumeral
+    : Sign? DecimalNumeral
+    | Sign? HexNumeral
+    | Sign? OctalNumeral
+    | Sign? BinaryNumeral
     ;
 
 LongIntegerLiteral
@@ -166,13 +166,13 @@ BinaryDigitOrUnderscore
 // Floating-Point ('float' and 'double') Literals
 
 FloatingPointLiteral
-    : DecimalFloatingPointLiteral
-    | HexadecimalFloatingPointLiteral
+    : Sign? DecimalFloatingPointLiteral
+    | Sign? HexadecimalFloatingPointLiteral
     ;
 
 DoubleFloatingPointLiteral
-    : DecimalDoubleFloatingPointLiteral
-    | HexadecimalDoubleFloatingPointLiteral
+    : Sign? DecimalDoubleFloatingPointLiteral
+    | Sign? HexadecimalDoubleFloatingPointLiteral
     ;
 
 fragment
