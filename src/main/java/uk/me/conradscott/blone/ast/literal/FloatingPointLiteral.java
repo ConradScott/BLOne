@@ -24,6 +24,10 @@ public final class FloatingPointLiteral implements PrimitiveLiteralIfc< Float > 
         return m_value;
     }
 
+    public float floatValue() {
+        return m_value;
+    }
+
     @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }

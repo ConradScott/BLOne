@@ -24,6 +24,10 @@ public class CharacterLiteral implements PrimitiveLiteralIfc< Character > {
         return m_value;
     }
 
+    public char charValue() {
+        return m_value;
+    }
+
     @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }

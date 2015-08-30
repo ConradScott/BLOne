@@ -24,6 +24,10 @@ public final class LongIntegerLiteral implements PrimitiveLiteralIfc< Long > {
         return m_value;
     }
 
+    public long longValue() {
+        return m_value;
+    }
+
     @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }

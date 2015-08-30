@@ -24,6 +24,10 @@ public final class IntegerLiteral implements PrimitiveLiteralIfc< Integer > {
         return m_value;
     }
 
+    public int intValue() {
+        return m_value;
+    }
+
     @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }

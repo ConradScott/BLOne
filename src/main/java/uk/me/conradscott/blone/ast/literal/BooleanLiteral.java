@@ -24,6 +24,10 @@ public final class BooleanLiteral implements PrimitiveLiteralIfc< Boolean > {
         return m_value;
     }
 
+    public boolean booleanValue() {
+        return m_value;
+    }
+
     @Override public < A, R > R accept( final LiteralVisitorIfc< A, R > visitor, final A a ) {
         return visitor.visit( this, a );
     }
