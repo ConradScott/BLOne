@@ -1,17 +1,10 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
-import uk.me.conradscott.blone.ast.literal.CharacterLiteral;
+final class CharacterParser {
 
-final class CharacterBuilder {
+    private CharacterParser() {}
 
-    private CharacterBuilder() {}
-
-    static CharacterLiteral build( final TerminalNode terminalNode ) {
-        return new CharacterLiteral( LocationBuilder.build( terminalNode ), parseLiteral( terminalNode.getText() ) );
-    }
-
-    private static char parseLiteral( final String s ) {
+    static char parseLiteral( final String s ) {
         assert s.length() >= 2 : "Character literal is too short";
 
         final int end = s.length() - 1;

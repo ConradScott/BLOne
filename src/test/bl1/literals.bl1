@@ -1,0 +1,13 @@
+(relation Int (i int))
+(assert (Int (i 1)))
+(assert (Int (i 0)))
+(assert (Int (i -0)))
+(assert (Int (i 00)))
+(assert (Int (i -00)))
+(assert (Int (i 0x)))
+
+(relation Float (f float))
+(assert (Float (f 0.0f)))
+(assert (Float (f -0.0f)))
+(assert (Float (f 0.0e2f)))
+(assert (Float (f -0.0e2f)))

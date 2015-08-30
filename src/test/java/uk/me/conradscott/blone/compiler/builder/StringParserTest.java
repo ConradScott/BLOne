@@ -1,14 +1,12 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.junit.Test;
 import uk.me.conradscott.blone.antlr4.Lexer;
-import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import static org.junit.Assert.assertEquals;
 
-@SuppressWarnings( { "HardcodedFileSeparator", "HardcodedLineSeparator" } ) public final class StringBuilderTest {
+@SuppressWarnings( { "HardcodedFileSeparator", "HardcodedLineSeparator" } ) public final class StringParserTest {
     @Test public void testLiteralsWithoutEscapes() {
         final String expected = "abc";
         final String actual = getString( "\"abc\"" );
@@ -30,8 +28,6 @@ import static org.junit.Assert.assertEquals;
 
     private static String getString( final String s ) {
         final Token token = Lexer.getSingleTokenFromString( s );
-        final StringLiteral literal = StringBuilder.build( new TerminalNodeImpl( token ) );
-
-        return literal.getValue();
+        return StringParser.parseLiteral( token.getText() );
     }
 }

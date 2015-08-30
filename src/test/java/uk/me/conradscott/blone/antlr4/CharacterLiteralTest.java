@@ -36,8 +36,11 @@ import static org.junit.Assert.assertEquals;
             final String actual = Lexer.getSingleInvalidTokenFromString( entry[ 0 ] );
             final String expected = String.format( "token recognition error at: '%s'", entry[ 1 ] );
 
-            assertEquals( "Character literal " + entry[ 0 ] + " should have raised the syntax error \'" + entry[ 1 ] +
-                          "\'.", expected, actual );
+            assertEquals( "Character literal "
+                          + entry[ 0 ]
+                          + " should have raised the syntax error \'"
+                          + expected
+                          + "\'.", expected, actual );
         }
     }
 }

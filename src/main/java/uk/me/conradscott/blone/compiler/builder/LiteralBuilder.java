@@ -10,6 +10,7 @@ import uk.me.conradscott.blone.ast.literal.FloatingPointLiteral;
 import uk.me.conradscott.blone.ast.literal.IntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.LongIntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
+import uk.me.conradscott.blone.ast.literal.StringLiteral;
 
 import javax.annotation.Nullable;
 
@@ -28,28 +29,36 @@ final class LiteralBuilder {
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitInteger( final BLOneParser.IntegerContext ctx ) {
-            return new IntegerLiteral( LocationBuilder.build( ctx ), 0 /* ctx.IntegerLiteral() */ );
+            return new IntegerLiteral( LocationBuilder.build( ctx ),
+                                       IntegerParser.parseIntLiteral( ctx.IntegerLiteral().getText() ) );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitLongInteger( final BLOneParser.LongIntegerContext ctx ) {
-            return new LongIntegerLiteral( LocationBuilder.build( ctx ), 0 /* ctx.IntegerLiteral() */ );
+            return new LongIntegerLiteral( LocationBuilder.build( ctx ),
+                                           IntegerParser.parseLongLiteral( ctx.LongIntegerLiteral().getText() ) );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitFloatingPoint( final BLOneParser.FloatingPointContext ctx ) {
-            return new FloatingPointLiteral( LocationBuilder.build( ctx ), 0 /* ctx.IntegerLiteral() */ );
+            return new FloatingPointLiteral( LocationBuilder.build( ctx ),
+                                             FloatingPointParser.parseFloatLiteral( ctx.FloatingPointLiteral()
+                                                                                       .getText() ) );
         }
 
         @Override
         public PrimitiveLiteralIfc< ? > visitDoubleFloatingPoint( final BLOneParser.DoubleFloatingPointContext ctx ) {
-            return new DoubleFloatingPointLiteral( LocationBuilder.build( ctx ), 0 /* ctx.IntegerLiteral() */ );
+            return new DoubleFloatingPointLiteral( LocationBuilder.build( ctx ),
+                                                   FloatingPointParser.parseDoubleLiteral( ctx.DoubleFloatingPointLiteral()
+                                                                                              .getText() ) );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitCharacter( final BLOneParser.CharacterContext ctx ) {
-            return CharacterBuilder.build( ctx.CharacterLiteral() );
+            return new CharacterLiteral( LocationBuilder.build( ctx ),
+                                         CharacterParser.parseLiteral( ctx.CharacterLiteral().getText() ) );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitString( final BLOneParser.StringContext ctx ) {
-            return StringBuilder.build( ctx.StringLiteral() );
+            return new StringLiteral( LocationBuilder.build( ctx ),
+                                      StringParser.parseLiteral( ctx.StringLiteral().getText() ) );
         }
 
         @Override
