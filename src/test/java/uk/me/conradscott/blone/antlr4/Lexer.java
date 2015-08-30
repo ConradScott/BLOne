@@ -64,8 +64,8 @@ public final class Lexer {
 
         assertNotNull( "The lexical analyser should return a second token.", eof );
         assertEquals( "The second token should be an EOF token.", Token.EOF, eof.getType() );
-        assertEquals( "The second token should not contain any text.", s.length(), eof.getStartIndex() );
-        assertEquals( "The second token should not contain any text.", s.length(), eof.getStopIndex() + 1 );
+        assertEquals( "The second token should start at the end of the input.", s.length(), eof.getStartIndex() );
+        assertEquals( "The second token should not contain any text.", eof.getStartIndex(), eof.getStopIndex() + 1 );
 
         return token;
     }
@@ -89,7 +89,8 @@ public final class Lexer {
 
         assertNotNull( "The lexical analyser should return a token.", token );
         assertEquals( "The token should be an EOF token.", Token.EOF, token.getType() );
-        assertEquals( "The entire input should be consumed by the token.", s.length(), token.getCharPositionInLine() );
+        assertEquals( "The token should start at the end of the input.", s.length(), token.getStartIndex() );
+        assertEquals( "The token should not contain any text.", token.getStartIndex(), token.getStopIndex() + 1 );
 
         @Nullable final String msg = listener.getMsg();
 
