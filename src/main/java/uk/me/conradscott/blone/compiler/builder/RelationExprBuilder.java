@@ -1,6 +1,5 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import org.antlr.v4.runtime.Token;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.action.AttributeExpr;
@@ -11,9 +10,8 @@ final class RelationExprBuilder {
     private RelationExprBuilder() {}
 
     static RelationExpr build( final BLOneParser.RelationExprContext ctx, final ErrorCollectorIfc errorCollector ) {
-        final Token name = ctx.Identifier().getSymbol();
-
-        final RelationExpr relationExpr = new RelationExpr( LocationBuilder.build( ctx ), name.getText() );
+        final RelationExpr relationExpr = new RelationExpr( LocationBuilder.build( ctx ),
+                                                            ctx.Identifier().getSymbol().getText() );
 
         for ( final BLOneParser.AttributeExprContext context : ctx.attributeExpr() ) {
             final AttributeExpr attributeExpr = AttributeExprBuilder.build( context );
