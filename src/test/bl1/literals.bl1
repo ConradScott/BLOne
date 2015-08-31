@@ -4,7 +4,6 @@
 (assert (Int (i -0)))
 (assert (Int (i 00)))
 (assert (Int (i -00)))
-(assert (Int (i 0x)))
 
 (relation Float (f float))
 (assert (Float (f 0.0f)))
