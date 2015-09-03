@@ -3,7 +3,7 @@ package uk.me.conradscott.blone.ast.literal;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.type.PrimitiveType;
 
-public class CharacterLiteral implements PrimitiveLiteralIfc< Character > {
+public final class CharacterLiteral implements PrimitiveLiteralIfc< Character > {
     private final LocationIfc m_location;
     private final char m_value;
 

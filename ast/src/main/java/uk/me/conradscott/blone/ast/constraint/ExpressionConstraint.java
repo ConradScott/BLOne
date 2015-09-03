@@ -3,7 +3,7 @@ package uk.me.conradscott.blone.ast.constraint;
 import uk.me.conradscott.blone.ast.expression.ExpressionIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
-public class ExpressionConstraint implements ConstraintIfc {
+public final class ExpressionConstraint implements ConstraintIfc {
     private final LocationIfc m_location;
     private final ExpressionIfc m_expression;
 
