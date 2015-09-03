@@ -17,7 +17,7 @@ public final class ProgramBuilder {
                                  final Program program,
                                  final BLOneParser.ProgramContext ctx )
     {
-        new Visitor( program, errorCollector ).visit( ctx );
+        new Visitor( errorCollector, program ).visit( ctx );
         return program;
     }
 
@@ -25,7 +25,7 @@ public final class ProgramBuilder {
         private final Program m_program;
         private final ErrorCollectorIfc m_errorCollector;
 
-        private Visitor( final Program program, final ErrorCollectorIfc errorCollector ) {
+        private Visitor( final ErrorCollectorIfc errorCollector, final Program program ) {
             m_program = program;
             m_errorCollector = errorCollector;
         }
