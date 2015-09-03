@@ -1,7 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 final class CharacterParser {
-
     private CharacterParser() {}
 
     static char parseLiteral( final String s ) {
