@@ -41,6 +41,22 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
         return Optional.ofNullable( m_documentationString );
     }
 
+    @Override public AttributeDecl get( final String key ) {
+        @Nullable final AttributeDecl value = m_attributes.get( key );
+
+        if ( value == null ) {
+            throw new ASTException( "No attribute with name '"
+                                    + key
+                                    + "' has been defined in relation '"
+                                    + m_name
+                                    + '\'' );
+        }
+
+        assert value.getName().equals( key );
+
+        return value;
+    }
+
     @Override public AttributeDecl put( final AttributeDecl value ) {
         final String key = value.getName();
 
@@ -55,22 +71,6 @@ public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, Lo
                                     + m_name
                                     + '\'' );
         }
-
-        return value;
-    }
-
-    @Override public AttributeDecl get( final String key ) {
-        @Nullable final AttributeDecl value = m_attributes.get( key );
-
-        if ( value == null ) {
-            throw new ASTException( "No attribute with name '"
-                                    + key
-                                    + "' has been defined in relation '"
-                                    + m_name
-                                    + '\'' );
-        }
-
-        assert value.getName().equals( key );
 
         return value;
     }

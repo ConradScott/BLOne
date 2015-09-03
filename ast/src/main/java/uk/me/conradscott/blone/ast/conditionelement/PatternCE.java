@@ -2,9 +2,9 @@ package uk.me.conradscott.blone.ast.conditionelement;
 
 import com.google.common.collect.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
-import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -22,26 +22,12 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         m_name = name;
     }
 
-    public String getName() {
-        return m_name;
+    @Override public LocationIfc getLocation() {
+        return m_location;
     }
 
-    @Override public AttributeConstraint put( final AttributeConstraint value ) {
-        final String key = value.getName();
-
-        @Nullable final AttributeConstraint previous = m_attributes.putIfAbsent( key, value );
-
-        if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "A constraint for the attribute '"
-                                    + key
-                                    + "' has already been given in the pattern for '"
-                                    + m_name
-                                    + '\'' );
-        }
-
-        return value;
+    public String getName() {
+        return m_name;
     }
 
     @Override public AttributeConstraint get( final String key ) {
@@ -60,8 +46,22 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return value;
     }
 
-    @Override public LocationIfc getLocation() {
-        return m_location;
+    @Override public AttributeConstraint put( final AttributeConstraint value ) {
+        final String key = value.getName();
+
+        @Nullable final AttributeConstraint previous = m_attributes.putIfAbsent( key, value );
+
+        if ( previous != null ) {
+            assert previous.getName().equals( key );
+
+            throw new ASTException( "A constraint for the attribute '"
+                                    + key
+                                    + "' has already been given in the pattern for '"
+                                    + m_name
+                                    + '\'' );
+        }
+
+        return value;
     }
 
     @Override public Iterator< AttributeConstraint > iterator() {

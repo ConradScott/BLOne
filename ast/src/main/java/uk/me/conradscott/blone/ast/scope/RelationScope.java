@@ -13,6 +13,18 @@ import javax.annotation.Nullable;
 public final class RelationScope implements ScopeIfc< String, RelationDecl > {
     private final Map< String, RelationDecl > m_relationDecls = Maps.newLinkedHashMap();
 
+    @Override public RelationDecl get( final String key ) {
+        @Nullable final RelationDecl value = m_relationDecls.get( key );
+
+        if ( value == null ) {
+            throw new ASTException( "No relation with name  '" + key + "' has been defined" );
+        }
+
+        assert value.getName().equals( key );
+
+        return value;
+    }
+
     @Override public RelationDecl put( final RelationDecl value ) {
         final String key = value.getName();
 
@@ -26,18 +38,6 @@ public final class RelationScope implements ScopeIfc< String, RelationDecl > {
                                     + "' is already defined at "
                                     + previous.getLocation() );
         }
-
-        return value;
-    }
-
-    @Override public RelationDecl get( final String key ) {
-        @Nullable final RelationDecl value = m_relationDecls.get( key );
-
-        if ( value == null ) {
-            throw new ASTException( "No relation with name  '" + key + "' has been defined" );
-        }
-
-        assert value.getName().equals( key );
 
         return value;
     }

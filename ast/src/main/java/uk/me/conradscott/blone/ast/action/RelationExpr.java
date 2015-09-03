@@ -30,6 +30,19 @@ public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, Lo
         return m_name;
     }
 
+    @Override public AttributeExpr get( final String key ) {
+        @Nullable final AttributeExpr value = m_attributes.get( key );
+
+        if ( value == null ) {
+            throw new ASTException( "No value for the attribute '" + key + "' has been given in the expression for '"
+                                    + m_name + '\'' );
+        }
+
+        assert value.getName().equals( key );
+
+        return value;
+    }
+
     @Override public AttributeExpr put( final AttributeExpr value ) {
         final String key = value.getName();
 
@@ -44,19 +57,6 @@ public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, Lo
                                     + m_name
                                     + '\'' );
         }
-
-        return value;
-    }
-
-    @Override public AttributeExpr get( final String key ) {
-        @Nullable final AttributeExpr value = m_attributes.get( key );
-
-        if ( value == null ) {
-            throw new ASTException( "No value for the attribute '" + key + "' has been given in the expression for '"
-                                    + m_name + '\'' );
-        }
-
-        assert value.getName().equals( key );
 
         return value;
     }
