@@ -1,7 +1,5 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.ASTException;
@@ -13,22 +11,25 @@ import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
 public final class ProgramBuilder {
-    private static final Logger s_log = LogManager.getLogger( ProgramBuilder.class );
+    private ProgramBuilder() {}
 
-    private final Program m_program = new Program();
-
-    private final ErrorCollectorIfc m_errorCollector;
-
-    public ProgramBuilder( final ErrorCollectorIfc errorCollector ) {
-        m_errorCollector = errorCollector;
+    public static Program build( final ErrorCollectorIfc errorCollector,
+                                 final Program program,
+                                 final BLOneParser.ProgramContext ctx )
+    {
+        new Visitor( program, errorCollector ).visit( ctx );
+        return program;
     }
 
-    public Program build( final BLOneParser.ProgramContext ctx ) {
-        new Visitor().visit( ctx );
-        return m_program;
-    }
+    private static final class Visitor extends BLOneParserBaseVisitor< Void > {
+        private final Program m_program;
+        private final ErrorCollectorIfc m_errorCollector;
 
-    private final class Visitor extends BLOneParserBaseVisitor< Void > {
+        private Visitor( final Program program, final ErrorCollectorIfc errorCollector ) {
+            m_program = program;
+            m_errorCollector = errorCollector;
+        }
+
         @Override public Void visitRelationDecl( final BLOneParser.RelationDeclContext ctx ) {
             final RelationDecl decl = RelationDeclBuilder.build( ctx, m_errorCollector );
 
