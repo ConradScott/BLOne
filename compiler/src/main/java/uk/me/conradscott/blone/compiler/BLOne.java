@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.me.conradscott.blone.antlr4.BLOneLexer;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
+import uk.me.conradscott.blone.ast.scope.Program;
 import uk.me.conradscott.blone.compiler.builder.ProgramBuilder;
 import uk.me.conradscott.blone.compiler.printer.ProgramPrinter;
 
@@ -71,8 +72,6 @@ public final class BLOne {
 
         final BLOneParser parser = buildParser( errorCollector, tokens );
 
-        final ProgramBuilder visitor = new ProgramBuilder( errorCollector );
-
         final BLOneParser.ProgramContext ctx = parser.program();
 
         if ( errorCollector.getErrors() != 0 ) {
@@ -80,14 +79,14 @@ public final class BLOne {
             return StatusCode.ERROR;
         }
 
-        visitor.build( ctx );
+        final Program program = new ProgramBuilder( errorCollector ).build( ctx );
 
         if ( errorCollector.getErrors() != 0 ) {
             errorCollector.reportErrors( LOGGER );
             return StatusCode.ERROR;
         }
 
-        ProgramPrinter.print( System.out, visitor );
+        ProgramPrinter.print( System.out, program );
 
         return StatusCode.SUCCESS;
     }
