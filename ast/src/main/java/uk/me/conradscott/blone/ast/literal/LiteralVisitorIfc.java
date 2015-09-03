@@ -14,16 +14,10 @@ public interface LiteralVisitorIfc< A, R > {
     }
 
     R visit( BooleanLiteral literal, A a );
-
     R visit( CharacterLiteral literal, A a );
-
     R visit( DoubleFloatingPointLiteral literal, A a );
-
     R visit( FloatingPointLiteral literal, A a );
-
     R visit( IntegerLiteral literal, A a );
-
     R visit( LongIntegerLiteral literal, A a );
-
     R visit( StringLiteral literal, A a );
 }

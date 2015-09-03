@@ -14,6 +14,5 @@ public interface ActionVisitorIfc< T, R > {
     }
 
     R visit( Assertion assertion, T t );
-
     R visit( Retraction retraction, T t );
 }
