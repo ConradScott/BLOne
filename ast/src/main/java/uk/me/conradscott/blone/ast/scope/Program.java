@@ -1,35 +1,39 @@
 package uk.me.conradscott.blone.ast.scope;
 
+import com.google.common.collect.Lists;
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 
-public final class Program {
-    private final ActionTable m_actions = new ActionTable();
-    private final ScopeIfc< String, RelationDecl > m_relations = new RelationScope();
-    private final ScopeIfc< String, RuleDecl > m_rules = new RuleScope();
+import java.util.Collections;
+import java.util.List;
 
-    public void add( final ActionIfc action ) {
+public final class Program {
+    private final List< ActionIfc > m_actions = Lists.newLinkedList();
+    private final RelationScope m_relations = new RelationScope();
+    private final RuleScope m_rules = new RuleScope();
+
+    public List< ActionIfc > getActions() {
+        return Collections.unmodifiableList( m_actions );
+    }
+
+    public void addAction( final ActionIfc action ) {
         m_actions.add( action );
     }
 
-    public void put( final RelationDecl decl ) {
+    public ScopeIfc< String, RelationDecl > getRelationDecls() {
+        return UnmodifiableScope.instance( m_relations );
+    }
+
+    public void putRelationDecl( final RelationDecl decl ) {
         m_relations.put( decl );
     }
 
-    public void put( final RuleDecl decl ) {
+    public ScopeIfc< String, RuleDecl > getRuleDecls() {
+        return UnmodifiableScope.instance( m_rules );
+    }
+
+    public void putRuleDecl( final RuleDecl decl ) {
         m_rules.put( decl );
-    }
-
-    public Iterable< ActionIfc > getActions() {
-        return m_actions;
-    }
-
-    public Iterable< RelationDecl > getRelations() {
-        return m_relations;
-    }
-
-    public Iterable< RuleDecl > getRules() {
-        return m_rules;
     }
 }

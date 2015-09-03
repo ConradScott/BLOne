@@ -38,11 +38,11 @@ final class ConditionElementBuilder {
         @Override public ConditionElementIfc visitCapturedCE( final BLOneParser.CapturedCEContext ctx ) {
             return new CapturedCE( LocationBuilder.build( ctx ),
                                    VariableBuilder.build( ctx.Variable() ),
-                                   build( ctx.conditionElement(), m_errorCollector ) );
+                                   PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) );
         }
 
         @Override public ConditionElementIfc visitNotCE( final BLOneParser.NotCEContext ctx ) {
-            return new NegativeCE( LocationBuilder.build( ctx ), build( ctx.conditionElement(), m_errorCollector ) );
+            return new NegativeCE( LocationBuilder.build( ctx ), visit( ctx.conditionElement() ) );
         }
 
         @Override public ConditionElementIfc visitAndCE( final BLOneParser.AndCEContext ctx ) {
@@ -75,7 +75,7 @@ final class ConditionElementBuilder {
         }
 
         @Override public ConditionElementIfc visitForallCE( final BLOneParser.ForallCEContext ctx ) {
-            final ConditionElementIfc range = build( ctx.rangeCE, m_errorCollector );
+            final ConditionElementIfc range = visit( ctx.rangeCE );
 
             final List< ConditionElementIfc > conjuncts = ctx.conditionElement()
                                                              .stream()

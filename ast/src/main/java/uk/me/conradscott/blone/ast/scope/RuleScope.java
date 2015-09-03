@@ -10,17 +10,13 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-public final class RuleScope implements ScopeIfc< String, RuleDecl > {
+final class RuleScope implements ScopeIfc< String, RuleDecl > {
     private final Map< String, RuleDecl > m_ruleDecls = Maps.newLinkedHashMap();
 
-    @Override public RuleDecl get( final String key ) {
+    @Nullable @Override public RuleDecl get( final String key ) {
         @Nullable final RuleDecl value = m_ruleDecls.get( key );
 
-        if ( value == null ) {
-            throw new ASTException( "No rule with name  '" + key + "' has been defined" );
-        }
-
-        assert value.getName().equals( key );
+        assert ( value == null ) || value.getName().equals( key );
 
         return value;
     }

@@ -1,6 +1,7 @@
 (relation Position "A point in two-dimensional space. " "Really!" (x int) (y int))
 (relation Entity (name string) (age int))
 (relation Message (mesg string))
+(relation Size (x int) (y int))
 
 (assert (Position (x 1) (y 1)))
 (retract (Position (x ?x) (y ?x)))
@@ -24,3 +25,8 @@
   (Position (x ?xSize) (y ?ySize))
   =>
   (assert (Message (mesg "Cornered!"))))
+
+(rule empty
+  (Size (x 0) (y 0))
+  =>
+  (assert (Message (mesg "There's just no space."))))

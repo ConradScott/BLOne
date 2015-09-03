@@ -30,18 +30,10 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return m_name;
     }
 
-    @Override public AttributeConstraint get( final String key ) {
+    @Nullable @Override public AttributeConstraint get( final String key ) {
         @Nullable final AttributeConstraint value = m_attributes.get( key );
 
-        if ( value == null ) {
-            throw new ASTException( "No constraint for the attribute '"
-                                    + key
-                                    + "' has been given in the pattern for '"
-                                    + m_name
-                                    + '\'' );
-        }
-
-        assert value.getName().equals( key );
+        assert ( value == null ) || value.getName().equals( key );
 
         return value;
     }

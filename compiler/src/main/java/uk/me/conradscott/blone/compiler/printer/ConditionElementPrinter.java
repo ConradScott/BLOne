@@ -29,7 +29,7 @@ final class ConditionElementPrinter {
         @Override public Visitor visit( final CapturedCE conditionElement, final Integer depth ) {
             Formatter.begin( m_out, conditionElement, depth );
             Formatter.format( m_out, "variable", conditionElement.getVariable().getName(), depth + 1 );
-            visit( conditionElement.getConditionElement(), depth + 1 );
+            visit( conditionElement.getPatternCE(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }

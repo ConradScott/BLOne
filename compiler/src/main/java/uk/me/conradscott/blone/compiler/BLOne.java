@@ -12,6 +12,7 @@ import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.scope.Program;
 import uk.me.conradscott.blone.compiler.builder.ProgramBuilder;
 import uk.me.conradscott.blone.compiler.printer.ProgramPrinter;
+import uk.me.conradscott.blone.compiler.typechecker.ProgramTypeChecker;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -82,6 +83,13 @@ public final class BLOne {
         final Program program = new Program();
 
         ProgramBuilder.build( errorCollector, program, ctx );
+
+        if ( errorCollector.getErrors() != 0 ) {
+            errorCollector.reportErrors( LOGGER );
+            return StatusCode.ERROR;
+        }
+
+        ProgramTypeChecker.typecheck( errorCollector, program );
 
         if ( errorCollector.getErrors() != 0 ) {
             errorCollector.reportErrors( LOGGER );

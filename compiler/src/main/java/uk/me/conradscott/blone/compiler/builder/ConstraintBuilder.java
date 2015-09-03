@@ -24,23 +24,24 @@ final class ConstraintBuilder {
         private static final ParseTreeVisitor< ConstraintIfc > s_instance = new ConstraintVisitor();
 
         @Override public ConstraintIfc visitExpressionConstraint( final BLOneParser.ExpressionConstraintContext ctx ) {
-            return new ExpressionConstraint( LocationBuilder.build( ctx ), ExpressionBuilder.build( ctx.expression() ) );
+            return new ExpressionConstraint( LocationBuilder.build( ctx ),
+                                             ExpressionBuilder.build( ctx.expression() ) );
         }
 
         @Override public ConstraintIfc visitCapturedConstraint( final BLOneParser.CapturedConstraintContext ctx ) {
             return new CapturedConstraint( LocationBuilder.build( ctx ),
                                            VariableBuilder.build( ctx.Variable() ),
-                                           build( ctx.constraint() ) );
+                                           visit( ctx.constraint() ) );
         }
 
         @Override public ConstraintIfc visitNotConstraint( final BLOneParser.NotConstraintContext ctx ) {
-            return new NegativeConstraint( LocationBuilder.build( ctx ), build( ctx.constraint() ) );
+            return new NegativeConstraint( LocationBuilder.build( ctx ), visit( ctx.constraint() ) );
         }
 
         @Override public ConstraintIfc visitAndConstraint( final BLOneParser.AndConstraintContext ctx ) {
             final List< ConstraintIfc > conjuncts = ctx.constraint()
                                                        .stream()
-                                                       .map( ConstraintBuilder::build )
+                                                       .map( this::visit )
                                                        .collect( Collectors.toList() );
 
             return new ConjunctiveConstraint( LocationBuilder.build( ctx ), conjuncts );
@@ -49,7 +50,7 @@ final class ConstraintBuilder {
         @Override public ConstraintIfc visitOrConstraint( final BLOneParser.OrConstraintContext ctx ) {
             final List< ConstraintIfc > disjuncts = ctx.constraint()
                                                        .stream()
-                                                       .map( ConstraintBuilder::build )
+                                                       .map( this::visit )
                                                        .collect( Collectors.toList() );
 
             return new DisjunctiveConstraint( LocationBuilder.build( ctx ), disjuncts );

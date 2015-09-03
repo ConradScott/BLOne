@@ -90,7 +90,7 @@ patternCE
     ;
 
 capturedCE
-    : Variable '=' conditionElement
+    : Variable '=' patternCE
     ;
 
 notCE

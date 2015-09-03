@@ -34,7 +34,7 @@ public final class ProgramBuilder {
             final RelationDecl decl = RelationDeclBuilder.build( ctx, m_errorCollector );
 
             try {
-                m_program.put( decl );
+                m_program.putRelationDecl( decl );
             } catch ( final ASTException e ) {
                 m_errorCollector.error( decl.getLocation(), e.getMessage() );
             }
@@ -46,7 +46,7 @@ public final class ProgramBuilder {
             final RuleDecl decl = RuleDeclBuilder.build( ctx, m_errorCollector );
 
             try {
-                m_program.put( decl );
+                m_program.putRuleDecl( decl );
             } catch ( final ASTException e ) {
                 m_errorCollector.error( decl.getLocation(), e.getMessage() );
             }
@@ -55,15 +55,15 @@ public final class ProgramBuilder {
         }
 
         @Override public Void visitAssertion( final BLOneParser.AssertionContext ctx ) {
-            m_program.add( new Assertion( LocationBuilder.build( ctx ),
-                                          RelationExprBuilder.build( ctx.relationExpr(), m_errorCollector ) ) );
+            m_program.addAction( new Assertion( LocationBuilder.build( ctx ),
+                                                RelationExprBuilder.build( ctx.relationExpr(), m_errorCollector ) ) );
 
             return defaultResult();
         }
 
         @Override public Void visitRetraction( final BLOneParser.RetractionContext ctx ) {
-            m_program.add( new Retraction( LocationBuilder.build( ctx ),
-                                           PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) ) );
+            m_program.addAction( new Retraction( LocationBuilder.build( ctx ),
+                                                 PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) ) );
 
             return defaultResult();
         }
