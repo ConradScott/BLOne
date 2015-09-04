@@ -41,6 +41,7 @@ assertion
     ;
 
 // TODO: Allow multiple patterns?
+// TODO: And do multiple patterns form a conjunction, so it only retracts those joins that match?
 
 retraction
     : '(' 'retract' patternCE ')'
@@ -76,41 +77,31 @@ expression
 // Conditional elements
 
 conditionElement
-    : patternCE
-    | capturedCE
-    | notCE
-    | andCE
-    | orCE
-    | existsCE
-    | forallCE
-    ;
-
-patternCE
-    : '(' Identifier attributeConstraint* ')'
+    : capturedCE
+    | simpleCE
     ;
 
 capturedCE
     : Variable '=' patternCE
     ;
 
-notCE
-    : '(' 'not' conditionElement ')'
+simpleCE
+    : patternCE
+    | compoundCE
     ;
 
-andCE
-    : '(' 'and' conditionElement+ ')'
+patternCE
+    : '(' Identifier attributeConstraint* ')'
     ;
 
-orCE
-    : '(' 'or' conditionElement+ ')'
-    ;
+compoundCE
+    : '(' 'not' conditionElement ')'        # notCE
+    | '(' 'and' conditionElement+ ')'       # andCE
+    | '(' 'or' conditionElement+ ')'        # orCE
+    | '(' 'exists' conditionElement+ ')'    # existsCE
 
-existsCE
-    : '(' 'exists' conditionElement+ ')'
-    ;
-
-forallCE
-    : '(' 'forall' rangeCE = conditionElement predicateCEs += conditionElement+ ')'
+    | '(' 'forall' rangeCE = conditionElement predicateCEs += conditionElement+ ')'
+                                            # forallCE
     ;
 
 // Constraints
@@ -120,11 +111,19 @@ attributeConstraint
     ;
 
 constraint
-    : expression                # expressionConstraint
-    | Variable '=' constraint   # capturedConstraint
-    | '(' 'not' constraint ')'  # notConstraint
-    | '(' 'and' constraint+ ')' # andConstraint
-    | '(' 'or' constraint+ ')'  # orConstraint
+    : capturedConstraint
+    | simpleConstraint
+    ;
+
+capturedConstraint
+    : Variable '=' simpleConstraint
+    ;
+
+simpleConstraint
+    : expression                        # expressionConstraint
+    | '(' 'not' simpleConstraint ')'    # notConstraint
+    | '(' 'and' simpleConstraint+ ')'   # andConstraint
+    | '(' 'or' simpleConstraint+ ')'    # orConstraint
     ;
 
 // Types

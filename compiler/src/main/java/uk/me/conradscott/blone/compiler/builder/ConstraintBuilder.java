@@ -31,15 +31,15 @@ final class ConstraintBuilder {
         @Override public ConstraintIfc visitCapturedConstraint( final BLOneParser.CapturedConstraintContext ctx ) {
             return new CapturedConstraint( LocationBuilder.build( ctx ),
                                            VariableBuilder.build( ctx.Variable() ),
-                                           visit( ctx.constraint() ) );
+                                           visit( ctx.simpleConstraint() ) );
         }
 
         @Override public ConstraintIfc visitNotConstraint( final BLOneParser.NotConstraintContext ctx ) {
-            return new NegativeConstraint( LocationBuilder.build( ctx ), visit( ctx.constraint() ) );
+            return new NegativeConstraint( LocationBuilder.build( ctx ), visit( ctx.simpleConstraint() ) );
         }
 
         @Override public ConstraintIfc visitAndConstraint( final BLOneParser.AndConstraintContext ctx ) {
-            final List< ConstraintIfc > conjuncts = ctx.constraint()
+            final List< ConstraintIfc > conjuncts = ctx.simpleConstraint()
                                                        .stream()
                                                        .map( this::visit )
                                                        .collect( Collectors.toList() );
@@ -48,7 +48,7 @@ final class ConstraintBuilder {
         }
 
         @Override public ConstraintIfc visitOrConstraint( final BLOneParser.OrConstraintContext ctx ) {
-            final List< ConstraintIfc > disjuncts = ctx.constraint()
+            final List< ConstraintIfc > disjuncts = ctx.simpleConstraint()
                                                        .stream()
                                                        .map( this::visit )
                                                        .collect( Collectors.toList() );
