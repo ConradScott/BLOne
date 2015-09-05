@@ -15,9 +15,17 @@ final class ErrorCollector implements ErrorCollectorIfc {
         m_logger = logger;
     }
 
+    @Override public int getWarnings() {
+        return m_warnings;
+    }
+
     @Override public void warning( final LocationIfc location, final String msg ) {
         output( location, msg, Level.WARN );
         m_warnings += 1;
+    }
+
+    @Override public int getErrors() {
+        return m_errors;
     }
 
     @Override public void error( final LocationIfc location, final String msg ) {
@@ -25,20 +33,12 @@ final class ErrorCollector implements ErrorCollectorIfc {
         m_errors += 1;
     }
 
-    int getWarnings() {
-        return m_warnings;
-    }
-
-    int getErrors() {
-        return m_errors;
+    void reportErrors( final Logger logger ) {
+        final MessageFormat format = new MessageFormat( "{0} {0,choice,0#errors|1#error|1<errors}." );
+        logger.error( format.format( new Object[] { m_errors } ) );
     }
 
     private void output( final LocationIfc location, final String msg, final Level level ) {
         m_logger.log( level, location + ": " + msg );
-    }
-
-    void reportErrors( final Logger logger ) {
-        final MessageFormat format = new MessageFormat( "{0} {0,choice,0#errors|1#error|1<errors}." );
-        logger.error( format.format( new Object[] { m_errors } ) );
     }
 }
