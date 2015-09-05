@@ -10,7 +10,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-final class RuleScope implements ScopeIfc< String, RuleDecl > {
+final class RuleScope implements ScopeIfc< RuleDecl > {
     private final Map< String, RuleDecl > m_ruleDecls = Maps.newLinkedHashMap();
 
     @Nullable @Override public RuleDecl get( final String key ) {

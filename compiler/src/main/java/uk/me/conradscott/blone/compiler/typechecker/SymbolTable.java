@@ -11,11 +11,11 @@ import java.util.Iterator;
 import java.util.Map;
 import javax.annotation.Nullable;
 
-final class SymbolTable implements ScopeIfc< String, Variable > {
+final class SymbolTable implements ScopeIfc< Variable > {
     /**
      * An immutable empty symbol table to use as the ultimate parent of all symbol table stacks.
      */
-    private static final class Root implements ScopeIfc< String, Variable > {
+    private static final class Root implements ScopeIfc< Variable > {
         @Nullable @Override public Variable get( final String key ) {
             return null;
         }
@@ -31,7 +31,7 @@ final class SymbolTable implements ScopeIfc< String, Variable > {
 
     private static final Root ROOT = new Root();
 
-    private final ScopeIfc< String, Variable > m_parent;
+    private final ScopeIfc< Variable > m_parent;
     private final Map< String, Variable > m_map = Maps.newLinkedHashMap();
 
     SymbolTable() {

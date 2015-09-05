@@ -10,7 +10,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-final class RelationScope implements ScopeIfc< String, RelationDecl > {
+final class RelationScope implements ScopeIfc< RelationDecl > {
     private final Map< String, RelationDecl > m_relationDecls = Maps.newLinkedHashMap();
 
     @Override public RelationDecl get( final String key ) {

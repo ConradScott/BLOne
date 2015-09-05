@@ -21,7 +21,7 @@ public final class Program {
         m_actions.add( action );
     }
 
-    public ScopeIfc< String, RelationDecl > getRelationDecls() {
+    public ScopeIfc< RelationDecl > getRelationDecls() {
         return UnmodifiableScope.instance( m_relations );
     }
 
@@ -29,7 +29,7 @@ public final class Program {
         m_relations.put( decl );
     }
 
-    public ScopeIfc< String, RuleDecl > getRuleDecls() {
+    public ScopeIfc< RuleDecl > getRuleDecls() {
         return UnmodifiableScope.instance( m_rules );
     }
 

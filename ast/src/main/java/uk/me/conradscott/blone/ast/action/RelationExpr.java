@@ -12,7 +12,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-public final class RelationExpr implements ScopeIfc< String, AttributeExpr >, LocatedIfc {
+public final class RelationExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
     private final LocationIfc m_location;
     private final String m_name;
     private final Map< String, AttributeExpr > m_attributes = Maps.newLinkedHashMap();

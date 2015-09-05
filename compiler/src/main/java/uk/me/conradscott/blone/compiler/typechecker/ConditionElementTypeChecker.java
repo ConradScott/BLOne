@@ -21,17 +21,16 @@ final class ConditionElementTypeChecker {
     static SymbolTable typecheck( final ErrorCollectorIfc errorCollector,
                                   final ConditionElementIfc conditionElementIfc,
                                   final SymbolTable symbolTable,
-                                  final ScopeIfc< String, RelationDecl > relationDecls )
+                                  final ScopeIfc< RelationDecl > relationDecls )
     {
         return new Visitor( errorCollector, relationDecls ).visit( conditionElementIfc, symbolTable );
     }
 
     private static final class Visitor implements ConditionElementVisitorIfc< SymbolTable, SymbolTable > {
         private final ErrorCollectorIfc m_errorCollector;
-        private final ScopeIfc< String, RelationDecl > m_relationDecls;
+        private final ScopeIfc< RelationDecl > m_relationDecls;
 
-        private Visitor( final ErrorCollectorIfc errorCollector, final ScopeIfc< String, RelationDecl > relationDecls )
-        {
+        private Visitor( final ErrorCollectorIfc errorCollector, final ScopeIfc< RelationDecl > relationDecls ) {
             m_errorCollector = errorCollector;
             m_relationDecls = relationDecls;
         }

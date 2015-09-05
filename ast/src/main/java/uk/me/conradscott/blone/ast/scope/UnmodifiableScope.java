@@ -5,18 +5,18 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-final class UnmodifiableScope< K, V > implements ScopeIfc< K, V > {
-    private final ScopeIfc< K, V > m_scope;
+final class UnmodifiableScope< V > implements ScopeIfc< V > {
+    private final ScopeIfc< V > m_scope;
 
-    static < K, V > ScopeIfc< K, V > instance( final ScopeIfc< K, V > scope ) {
-        return new UnmodifiableScope< K, V >( scope );
+    static < V > ScopeIfc< V > instance( final ScopeIfc< V > scope ) {
+        return new UnmodifiableScope<>( scope );
     }
 
-    private UnmodifiableScope( final ScopeIfc< K, V > scope ) {
+    private UnmodifiableScope( final ScopeIfc< V > scope ) {
         m_scope = scope;
     }
 
-    @Nullable @Override public V get( final K key ) {
+    @Nullable @Override public V get( final String key ) {
         return m_scope.get( key );
     }
 

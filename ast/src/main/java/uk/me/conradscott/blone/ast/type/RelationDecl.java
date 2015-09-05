@@ -14,7 +14,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-public final class RelationDecl implements ScopeIfc< String, AttributeDecl >, LocatedIfc, TypeIfc {
+public final class RelationDecl implements ScopeIfc< AttributeDecl >, LocatedIfc, TypeIfc {
     private final LocationIfc m_location;
     private final String m_name;
     @Nullable private final StringLiteral m_documentationString;

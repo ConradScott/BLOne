@@ -10,14 +10,14 @@ final class RuleDeclTypeChecker {
 
     static void typecheck( final ErrorCollectorIfc errorCollector,
                            final Iterable< RuleDecl > ruleDecls,
-                           final ScopeIfc< String, RelationDecl > relationDecls )
+                           final ScopeIfc< RelationDecl > relationDecls )
     {
         ruleDecls.forEach( ruleDecl -> typecheck( errorCollector, ruleDecl, relationDecls ) );
     }
 
     static void typecheck( final ErrorCollectorIfc errorCollector,
                            final RuleDecl ruleDecl,
-                           final ScopeIfc< String, RelationDecl > relationDecls )
+                           final ScopeIfc< RelationDecl > relationDecls )
     {
         ConditionElementTypeChecker.typecheck( errorCollector,
                                                ruleDecl.getConditionElement(),

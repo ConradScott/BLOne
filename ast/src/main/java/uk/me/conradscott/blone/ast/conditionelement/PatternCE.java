@@ -12,7 +12,7 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-public final class PatternCE implements ScopeIfc< String, AttributeConstraintIfc >, ConditionElementIfc {
+public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, ConditionElementIfc {
     private final LocationIfc m_location;
     private final String m_name;
     private final Map< String, AttributeConstraintIfc > m_attributes = Maps.newLinkedHashMap();
