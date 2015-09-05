@@ -2,7 +2,7 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import java.util.List;
 
-public final class StringParser {
+final class StringParser {
     private StringParser() {}
 
     static String parseLiteral( final String literal ) {
