@@ -20,12 +20,12 @@ final class AttributeConstraintBuilder {
 
         @Override
         public AttributeConstraintIfc visitCapturedAttributeConstraint( final BLOneParser.CapturedAttributeConstraintContext ctx ) {
-            final Variable variable = VariableBuilder.build( ctx.Variable() );
+            final Variable captureVariable = VariableBuilder.build( ctx.Variable() );
 
             final SimpleAttributeConstraint simpleAttributeConstraint
                     = SimpleAttributeConstraintBuilder.build( ctx.simpleAttributeConstraint() );
 
-            return new CapturedAttributeConstraint( LocationBuilder.build( ctx ), variable, simpleAttributeConstraint );
+            return new CapturedAttributeConstraint( LocationBuilder.build( ctx ), captureVariable, simpleAttributeConstraint );
         }
 
         @Override

@@ -5,15 +5,15 @@ import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class CapturedAttributeConstraint implements AttributeConstraintIfc {
     private final LocationIfc m_location;
-    private final Variable m_variable;
+    private final Variable m_captureVariable;
     private final SimpleAttributeConstraint m_attributeConstraint;
 
     public CapturedAttributeConstraint( final LocationIfc location,
-                                        final Variable variable,
+                                        final Variable captureVariable,
                                         final SimpleAttributeConstraint attributeConstraint )
     {
         m_location = location;
-        m_variable = variable;
+        m_captureVariable = captureVariable;
         m_attributeConstraint = attributeConstraint;
     }
 
@@ -25,8 +25,8 @@ public final class CapturedAttributeConstraint implements AttributeConstraintIfc
         return m_attributeConstraint.getName();
     }
 
-    public Variable getVariable() {
-        return m_variable;
+    public Variable getCaptureVariable() {
+        return m_captureVariable;
     }
 
     public SimpleAttributeConstraint getAttributeConstraint() {

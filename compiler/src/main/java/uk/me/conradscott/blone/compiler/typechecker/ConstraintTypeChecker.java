@@ -1,6 +1,5 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
-import uk.me.conradscott.blone.ast.constraint.CapturedConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.constraint.ConstraintVisitorIfc;
@@ -26,7 +25,11 @@ final class ConstraintTypeChecker {
             m_errorCollector = errorCollector;
         }
 
-        @Override public SymbolTable visit( final CapturedConstraint constraint, final SymbolTable symbolTable ) {
+        @Override public SymbolTable visit( final ExpressionConstraint constraint, final SymbolTable symbolTable ) {
+            return null;
+        }
+
+        @Override public SymbolTable visit( final NegativeConstraint constraint, final SymbolTable symbolTable ) {
             return null;
         }
 
@@ -35,14 +38,6 @@ final class ConstraintTypeChecker {
         }
 
         @Override public SymbolTable visit( final DisjunctiveConstraint constraint, final SymbolTable symbolTable ) {
-            return null;
-        }
-
-        @Override public SymbolTable visit( final ExpressionConstraint constraint, final SymbolTable symbolTable ) {
-            return null;
-        }
-
-        @Override public SymbolTable visit( final NegativeConstraint constraint, final SymbolTable symbolTable ) {
             return null;
         }
     }

@@ -39,7 +39,7 @@ final class AttributeConstraintPrinter {
         @Override public Visitor visit( final CapturedAttributeConstraint attributeConstraint, final Integer depth )
         {
             Formatter.begin( m_out, attributeConstraint, depth );
-            Formatter.format( m_out, "variable", attributeConstraint.getVariable().getName(), depth + 1 );
+            Formatter.format( m_out, "variable", attributeConstraint.getCaptureVariable().getName(), depth + 1 );
             visit( attributeConstraint.getAttributeConstraint(), depth + 1 );
             Formatter.end( m_out );
             return this;

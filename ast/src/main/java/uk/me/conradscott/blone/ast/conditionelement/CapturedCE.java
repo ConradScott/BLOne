@@ -5,13 +5,13 @@ import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class CapturedCE implements ConditionElementIfc {
     private final LocationIfc m_location;
-    private final Variable m_variable;
+    private final Variable m_captureVariable;
     private final PatternCE m_patternCE;
 
-    public CapturedCE( final LocationIfc location, final Variable variable, final PatternCE patternCE )
+    public CapturedCE( final LocationIfc location, final Variable captureVariable, final PatternCE patternCE )
     {
         m_location = location;
-        m_variable = variable;
+        m_captureVariable = captureVariable;
         m_patternCE = patternCE;
     }
 
@@ -19,8 +19,8 @@ public final class CapturedCE implements ConditionElementIfc {
         return m_location;
     }
 
-    public Variable getVariable() {
-        return m_variable;
+    public Variable getCaptureVariable() {
+        return m_captureVariable;
     }
 
     public PatternCE getPatternCE() {

@@ -13,9 +13,8 @@ public interface ConstraintVisitorIfc< T, R > {
         return constraint.accept( this, t );
     }
 
-    R visit( CapturedConstraint constraint, T t );
-    R visit( ConjunctiveConstraint constraint, T t );
-    R visit( DisjunctiveConstraint constraint, T t );
     R visit( ExpressionConstraint constraint, T t );
     R visit( NegativeConstraint constraint, T t );
+    R visit( ConjunctiveConstraint constraint, T t );
+    R visit( DisjunctiveConstraint constraint, T t );
 }

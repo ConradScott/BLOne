@@ -1,6 +1,5 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import uk.me.conradscott.blone.ast.constraint.CapturedConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.constraint.ConstraintVisitorIfc;
@@ -24,12 +23,16 @@ final class ConstraintPrinter {
             m_out = out;
         }
 
-        @Override public Visitor visit( final CapturedConstraint constraint, final Integer depth ) {
+        @Override public Visitor visit( final ExpressionConstraint constraint, final Integer depth ) {
             Formatter.begin( m_out, constraint, depth );
+            ExpressionPrinter.print( m_out, constraint.getExpression(), depth + 1 );
+            Formatter.end( m_out );
+            return this;
+        }
 
-            Formatter.format( m_out, "variable", constraint.getVariable().getName(), depth + 1 );
+        @Override public Visitor visit( final NegativeConstraint constraint, final Integer depth ) {
+            Formatter.begin( m_out, constraint, depth );
             visit( constraint.getConstraint(), depth + 1 );
-
             Formatter.end( m_out );
             return this;
         }
@@ -44,20 +47,6 @@ final class ConstraintPrinter {
         @Override public Visitor visit( final DisjunctiveConstraint constraint, final Integer depth ) {
             Formatter.begin( m_out, constraint, depth );
             visit( constraint.getDisjuncts(), depth + 1 );
-            Formatter.end( m_out );
-            return this;
-        }
-
-        @Override public Visitor visit( final ExpressionConstraint constraint, final Integer depth ) {
-            Formatter.begin( m_out, constraint, depth );
-            ExpressionPrinter.print( m_out, constraint.getExpression(), depth + 1 );
-            Formatter.end( m_out );
-            return this;
-        }
-
-        @Override public Visitor visit( final NegativeConstraint constraint, final Integer depth ) {
-            Formatter.begin( m_out, constraint, depth );
-            visit( constraint.getConstraint(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }
