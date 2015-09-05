@@ -20,7 +20,7 @@
 (rule cornered
   ?size = (Size (x ?xSize) (y ?ySize))
   (Position (x 0) (y 0))
-  (Position (x ?xSize) (y 0))
+  (Position ?xCapture = (x ?xSize) (y 0))
   (Position (x 0) (y ?ySize))
   (Position (x ?xSize) (y ?ySize))
   =>

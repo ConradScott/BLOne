@@ -2,8 +2,8 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.conditionelement.PatternCE;
-import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
 final class PatternCEBuilder {
@@ -14,7 +14,7 @@ final class PatternCEBuilder {
                                                    ctx.Identifier().getSymbol().getText() );
 
         for ( final BLOneParser.AttributeConstraintContext context : ctx.attributeConstraint() ) {
-            final AttributeConstraint attributeConstraint = AttributeConstraintBuilder.build( context );
+            final AttributeConstraintIfc attributeConstraint = AttributeConstraintBuilder.build( context );
 
             try {
                 patternCE.put( attributeConstraint );

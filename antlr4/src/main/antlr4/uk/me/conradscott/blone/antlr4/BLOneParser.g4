@@ -107,23 +107,23 @@ compoundCE
 // Constraints
 
 attributeConstraint
+    : capturedAttributeConstraint
+    | simpleAttributeConstraint
+    ;
+
+capturedAttributeConstraint
+    : Variable '=' simpleAttributeConstraint
+    ;
+
+simpleAttributeConstraint
     : '(' Identifier constraint ')'
     ;
 
 constraint
-    : capturedConstraint
-    | simpleConstraint
-    ;
-
-capturedConstraint
-    : Variable '=' simpleConstraint
-    ;
-
-simpleConstraint
-    : expression                        # expressionConstraint
-    | '(' 'not' simpleConstraint ')'    # notConstraint
-    | '(' 'and' simpleConstraint+ ')'   # andConstraint
-    | '(' 'or' simpleConstraint+ ')'    # orConstraint
+    : expression                # expressionConstraint
+    | '(' 'not' constraint ')'  # notConstraint
+    | '(' 'and' constraint+ ')' # andConstraint
+    | '(' 'or' constraint+ ')'  # orConstraint
     ;
 
 // Types

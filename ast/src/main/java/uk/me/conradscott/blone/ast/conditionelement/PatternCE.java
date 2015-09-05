@@ -2,7 +2,7 @@ package uk.me.conradscott.blone.ast.conditionelement;
 
 import com.google.common.collect.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
-import uk.me.conradscott.blone.ast.constraint.AttributeConstraint;
+import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
@@ -12,10 +12,10 @@ import java.util.Spliterator;
 import java.util.function.Consumer;
 import javax.annotation.Nullable;
 
-public final class PatternCE implements ScopeIfc< String, AttributeConstraint >, ConditionElementIfc {
+public final class PatternCE implements ScopeIfc< String, AttributeConstraintIfc >, ConditionElementIfc {
     private final LocationIfc m_location;
     private final String m_name;
-    private final Map< String, AttributeConstraint > m_attributes = Maps.newLinkedHashMap();
+    private final Map< String, AttributeConstraintIfc > m_attributes = Maps.newLinkedHashMap();
 
     public PatternCE( final LocationIfc location, final String name ) {
         m_location = location;
@@ -30,18 +30,18 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return m_name;
     }
 
-    @Nullable @Override public AttributeConstraint get( final String key ) {
-        @Nullable final AttributeConstraint value = m_attributes.get( key );
+    @Nullable @Override public AttributeConstraintIfc get( final String key ) {
+        @Nullable final AttributeConstraintIfc value = m_attributes.get( key );
 
         assert ( value == null ) || value.getName().equals( key );
 
         return value;
     }
 
-    @Override public AttributeConstraint put( final AttributeConstraint value ) {
+    @Override public AttributeConstraintIfc put( final AttributeConstraintIfc value ) {
         final String key = value.getName();
 
-        @Nullable final AttributeConstraint previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeConstraintIfc previous = m_attributes.putIfAbsent( key, value );
 
         if ( previous != null ) {
             assert previous.getName().equals( key );
@@ -56,15 +56,15 @@ public final class PatternCE implements ScopeIfc< String, AttributeConstraint >,
         return value;
     }
 
-    @Override public Iterator< AttributeConstraint > iterator() {
+    @Override public Iterator< AttributeConstraintIfc > iterator() {
         return m_attributes.values().iterator();
     }
 
-    @Override public void forEach( final Consumer< ? super AttributeConstraint > action ) {
+    @Override public void forEach( final Consumer< ? super AttributeConstraintIfc > action ) {
         m_attributes.values().forEach( action );
     }
 
-    @Override public Spliterator< AttributeConstraint > spliterator() {
+    @Override public Spliterator< AttributeConstraintIfc > spliterator() {
         return m_attributes.values().spliterator();
     }
 

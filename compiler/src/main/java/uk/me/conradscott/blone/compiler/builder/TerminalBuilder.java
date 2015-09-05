@@ -11,19 +11,18 @@ final class TerminalBuilder {
     private TerminalBuilder() {}
 
     static TerminalNode build( final ParseTree ctx ) {
-        return TerminalVisitor.s_instance.visit( ctx );
+        return Visitor.s_instance.visit( ctx );
     }
 
-    private static final class TerminalVisitor extends BLOneParserBaseVisitor< TerminalNode > {
-        private static final ParseTreeVisitor< TerminalNode > s_instance = new TerminalVisitor();
+    private static final class Visitor extends BLOneParserBaseVisitor< TerminalNode > {
+        private static final ParseTreeVisitor< TerminalNode > s_instance = new Visitor();
 
         @Override public TerminalNode visitTerminal( final TerminalNode node ) {
             return node;
         }
 
         @Override
-        protected TerminalNode aggregateResult( @Nullable final TerminalNode aggregate,
-                                                final TerminalNode nextResult )
+        protected TerminalNode aggregateResult( @Nullable final TerminalNode aggregate, final TerminalNode nextResult )
         {
             assert aggregate == null;
             return nextResult;

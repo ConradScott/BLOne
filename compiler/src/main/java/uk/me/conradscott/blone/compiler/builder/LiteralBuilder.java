@@ -18,11 +18,11 @@ final class LiteralBuilder {
     private LiteralBuilder() {}
 
     static PrimitiveLiteralIfc< ? > build( final BLOneParser.LiteralContext ctx ) {
-        return LiteralVisitor.s_instance.visit( ctx );
+        return Visitor.s_instance.visit( ctx );
     }
 
-    private static final class LiteralVisitor extends BLOneParserBaseVisitor< PrimitiveLiteralIfc< ? > > {
-        private static final ParseTreeVisitor< PrimitiveLiteralIfc< ? > > s_instance = new LiteralVisitor();
+    private static final class Visitor extends BLOneParserBaseVisitor< PrimitiveLiteralIfc< ? > > {
+        private static final ParseTreeVisitor< PrimitiveLiteralIfc< ? > > s_instance = new Visitor();
 
         @Override public PrimitiveLiteralIfc< ? > visitBoolean( final BLOneParser.BooleanContext ctx ) {
             return new BooleanLiteral( LocationBuilder.build( ctx ), ctx.booleanLiteral().value );

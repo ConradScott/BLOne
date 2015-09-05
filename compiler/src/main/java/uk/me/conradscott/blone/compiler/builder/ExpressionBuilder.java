@@ -9,11 +9,11 @@ final class ExpressionBuilder {
     private ExpressionBuilder() {}
 
     static ExpressionIfc build( final BLOneParser.ExpressionContext ctx ) {
-        return ExpressionVisitor.s_instance.visit( ctx );
+        return Visitor.s_instance.visit( ctx );
     }
 
-    private static final class ExpressionVisitor extends BLOneParserBaseVisitor< ExpressionIfc > {
-        private static final ParseTreeVisitor< ExpressionIfc > s_instance = new ExpressionVisitor();
+    private static final class Visitor extends BLOneParserBaseVisitor< ExpressionIfc > {
+        private static final ParseTreeVisitor< ExpressionIfc > s_instance = new Visitor();
 
         @Override public ExpressionIfc visitLiteralExpression( final BLOneParser.LiteralExpressionContext ctx ) {
             return LiteralBuilder.build( ctx.literal() );
