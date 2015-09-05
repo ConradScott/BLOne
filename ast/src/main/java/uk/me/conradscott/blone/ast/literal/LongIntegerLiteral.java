@@ -12,12 +12,12 @@ public final class LongIntegerLiteral implements PrimitiveLiteralIfc< Long > {
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.LONG;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.LONG;
     }
 
     @Override public Long getValue() {

@@ -12,12 +12,12 @@ public final class BooleanLiteral implements PrimitiveLiteralIfc< Boolean > {
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.BOOLEAN;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.BOOLEAN;
     }
 
     @Override public Boolean getValue() {

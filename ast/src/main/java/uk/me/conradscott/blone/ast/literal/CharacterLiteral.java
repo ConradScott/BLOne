@@ -12,12 +12,12 @@ public final class CharacterLiteral implements PrimitiveLiteralIfc< Character > 
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.BOOLEAN;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.CHAR;
     }
 
     @Override public Character getValue() {

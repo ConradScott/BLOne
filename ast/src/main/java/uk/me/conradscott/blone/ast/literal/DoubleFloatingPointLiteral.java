@@ -12,12 +12,12 @@ public final class DoubleFloatingPointLiteral implements PrimitiveLiteralIfc< Do
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.DOUBLE;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.DOUBLE;
     }
 
     @Override public Double getValue() {

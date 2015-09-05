@@ -12,12 +12,12 @@ public final class IntegerLiteral implements PrimitiveLiteralIfc< Integer > {
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.INT;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.INT;
     }
 
     @Override public Integer getValue() {

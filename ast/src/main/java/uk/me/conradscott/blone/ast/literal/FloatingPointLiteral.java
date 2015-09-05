@@ -12,12 +12,12 @@ public final class FloatingPointLiteral implements PrimitiveLiteralIfc< Float > 
         m_value = value;
     }
 
-    @Override public PrimitiveType getType() {
-        return PrimitiveType.FLOAT;
-    }
-
     @Override public LocationIfc getLocation() {
         return m_location;
+    }
+
+    @Override public PrimitiveType getType() {
+        return PrimitiveType.FLOAT;
     }
 
     @Override public Float getValue() {
