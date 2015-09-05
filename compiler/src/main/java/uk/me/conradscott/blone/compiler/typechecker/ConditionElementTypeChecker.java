@@ -18,10 +18,10 @@ import javax.annotation.Nullable;
 final class ConditionElementTypeChecker {
     private ConditionElementTypeChecker() {}
 
-    static SymbolTable typecheck( final ErrorCollectorIfc errorCollector,
-                                  final ConditionElementIfc conditionElementIfc,
-                                  final SymbolTable symbolTable,
-                                  final ScopeIfc< RelationDecl > relationDecls )
+    static SymbolTable check( final ErrorCollectorIfc errorCollector,
+                              final ConditionElementIfc conditionElementIfc,
+                              final SymbolTable symbolTable,
+                              final ScopeIfc< RelationDecl > relationDecls )
     {
         return new Visitor( errorCollector, relationDecls ).visit( conditionElementIfc, symbolTable );
     }
@@ -68,10 +68,10 @@ final class ConditionElementTypeChecker {
                 return symbolTable;
             }
 
-            return AttributeConstraintTypeChecker.typecheck( m_errorCollector,
-                                                             conditionElement,
-                                                             symbolTable,
-                                                             relationDecl );
+            return AttributeConstraintTypeChecker.check( m_errorCollector,
+                                                         conditionElement,
+                                                         symbolTable,
+                                                         relationDecl );
         }
 
         @Override public SymbolTable visit( final UniversalCE conditionElement, final SymbolTable symbolTable ) {

@@ -89,7 +89,7 @@ public final class BLOne {
             return StatusCode.ERROR;
         }
 
-        ProgramTypeChecker.typecheck( errorCollector, program );
+        ProgramTypeChecker.check( errorCollector, program );
 
         if ( errorCollector.getErrors() != 0 ) {
             errorCollector.reportErrors( LOGGER );

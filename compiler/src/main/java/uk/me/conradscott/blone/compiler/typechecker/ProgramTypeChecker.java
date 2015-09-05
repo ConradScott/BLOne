@@ -6,7 +6,7 @@ import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 public final class ProgramTypeChecker {
     private ProgramTypeChecker() {}
 
-    public static void typecheck( final ErrorCollectorIfc errorCollector, final Program program ) {
-        RuleDeclTypeChecker.typecheck( errorCollector, program.getRuleDecls(), program.getRelationDecls() );
+    public static void check( final ErrorCollectorIfc errorCollector, final Program program ) {
+        RuleDeclTypeChecker.check( errorCollector, program.getRuleDecls(), program.getRelationDecls() );
     }
 }

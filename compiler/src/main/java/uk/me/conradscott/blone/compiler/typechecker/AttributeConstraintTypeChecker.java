@@ -12,24 +12,24 @@ import java.util.stream.StreamSupport;
 final class AttributeConstraintTypeChecker {
     private AttributeConstraintTypeChecker() {}
 
-    static SymbolTable typecheck( final ErrorCollectorIfc errorCollector,
-                                  final Iterable< AttributeConstraintIfc > attributeConstraints,
-                                  final SymbolTable symbolTable,
-                                  final RelationDecl relationDecl )
+    static SymbolTable check( final ErrorCollectorIfc errorCollector,
+                              final Iterable< AttributeConstraintIfc > attributeConstraints,
+                              final SymbolTable symbolTable,
+                              final RelationDecl relationDecl )
     {
         return StreamSupport.stream( attributeConstraints.spliterator(), false )
                             .reduce( symbolTable,
-                                     ( SymbolTable previous, AttributeConstraintIfc ac ) -> typecheck( errorCollector,
-                                                                                                       ac,
-                                                                                                       previous,
-                                                                                                       relationDecl ),
+                                     ( SymbolTable previous, AttributeConstraintIfc ac ) -> check( errorCollector,
+                                                                                                   ac,
+                                                                                                   previous,
+                                                                                                   relationDecl ),
                                      ( SymbolTable previous, SymbolTable current ) -> current );
     }
 
-    static SymbolTable typecheck( final ErrorCollectorIfc errorCollector,
-                                  final AttributeConstraintIfc attributeConstraint,
-                                  final SymbolTable symbolTable,
-                                  final RelationDecl relationDecl )
+    static SymbolTable check( final ErrorCollectorIfc errorCollector,
+                              final AttributeConstraintIfc attributeConstraint,
+                              final SymbolTable symbolTable,
+                              final RelationDecl relationDecl )
     {
         return new Visitor( errorCollector, relationDecl ).visit( attributeConstraint, symbolTable );
     }
@@ -46,9 +46,7 @@ final class AttributeConstraintTypeChecker {
 
         @Override
         public SymbolTable visit( final SimpleAttributeConstraint attributeConstraint, final SymbolTable symbolTable ) {
-            return ConstraintTypeChecker.typecheck( m_errorCollector,
-                                                    attributeConstraint.getConstraint(),
-                                                    symbolTable );
+            return ConstraintTypeChecker.check( m_errorCollector, attributeConstraint.getConstraint(), symbolTable );
         }
 
         @Override

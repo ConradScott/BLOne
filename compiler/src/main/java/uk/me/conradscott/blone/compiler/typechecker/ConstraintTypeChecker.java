@@ -11,9 +11,9 @@ import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 final class ConstraintTypeChecker {
     private ConstraintTypeChecker() {}
 
-    static SymbolTable typecheck( final ErrorCollectorIfc errorCollector,
-                                  final ConstraintIfc ce,
-                                  final SymbolTable symbolTable )
+    static SymbolTable check( final ErrorCollectorIfc errorCollector,
+                              final ConstraintIfc ce,
+                              final SymbolTable symbolTable )
     {
         return new Visitor( errorCollector ).visit( ce, symbolTable );
     }

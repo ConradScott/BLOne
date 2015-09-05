@@ -8,20 +8,20 @@ import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 final class RuleDeclTypeChecker {
     private RuleDeclTypeChecker() {}
 
-    static void typecheck( final ErrorCollectorIfc errorCollector,
-                           final Iterable< RuleDecl > ruleDecls,
-                           final ScopeIfc< RelationDecl > relationDecls )
+    static void check( final ErrorCollectorIfc errorCollector,
+                       final Iterable< RuleDecl > ruleDecls,
+                       final ScopeIfc< RelationDecl > relationDecls )
     {
-        ruleDecls.forEach( ruleDecl -> typecheck( errorCollector, ruleDecl, relationDecls ) );
+        ruleDecls.forEach( ruleDecl -> check( errorCollector, ruleDecl, relationDecls ) );
     }
 
-    static void typecheck( final ErrorCollectorIfc errorCollector,
-                           final RuleDecl ruleDecl,
-                           final ScopeIfc< RelationDecl > relationDecls )
+    static void check( final ErrorCollectorIfc errorCollector,
+                       final RuleDecl ruleDecl,
+                       final ScopeIfc< RelationDecl > relationDecls )
     {
-        ConditionElementTypeChecker.typecheck( errorCollector,
-                                               ruleDecl.getConditionElement(),
-                                               new SymbolTable(),
-                                               relationDecls );
+        ConditionElementTypeChecker.check( errorCollector,
+                                           ruleDecl.getConditionElement(),
+                                           new SymbolTable(),
+                                           relationDecls );
     }
 }
