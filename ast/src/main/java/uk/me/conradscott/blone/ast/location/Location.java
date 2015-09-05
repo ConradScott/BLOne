@@ -34,7 +34,10 @@ public final class Location implements LocationIfc {
         return m_column;
     }
 
-    @Override public boolean equals( @Nullable final Object obj ) {
+    @edu.umd.cs.findbugs.annotations.SuppressWarnings(
+            value = "NP_METHOD_PARAMETER_TIGHTENS_ANNOTATION",
+            justification = "Default annotation is not correct for equals" ) @Override
+    public boolean equals( @Nullable final Object obj ) {
         if ( this == obj ) {
             return true;
         }
