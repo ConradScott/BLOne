@@ -20,8 +20,7 @@ final class ANTLRErrorCollectorAdapter extends BaseErrorListener {
                              final String msg,
                              final RecognitionException e )
     {
-        final Location location = location( recognizer, line, charPositionInLine );
-        m_collector.error( location, msg );
+        m_collector.error( location( recognizer, line, charPositionInLine ), msg );
     }
 
     private static Location location( final Recognizer< ?, ? > recognizer,
