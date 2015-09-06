@@ -14,10 +14,10 @@ public interface ConditionElementVisitorIfc< T, R > {
     }
 
     R visit( CapturedCE conditionElement, T t );
+    R visit( PatternCE conditionElement, T t );
+    R visit( NegativeCE conditionElement, T t );
     R visit( ConjunctiveCE conditionElement, T t );
     R visit( DisjunctiveCE conditionElement, T t );
     R visit( ExistentialCE conditionElement, T t );
-    R visit( NegativeCE conditionElement, T t );
-    R visit( PatternCE conditionElement, T t );
     R visit( UniversalCE conditionElement, T t );
 }

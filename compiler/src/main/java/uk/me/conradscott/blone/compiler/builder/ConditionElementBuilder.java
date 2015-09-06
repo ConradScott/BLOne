@@ -31,14 +31,14 @@ final class ConditionElementBuilder {
             m_errorCollector = errorCollector;
         }
 
-        @Override public ConditionElementIfc visitPatternCE( final BLOneParser.PatternCEContext ctx ) {
-            return PatternCEBuilder.build( ctx, m_errorCollector );
-        }
-
         @Override public ConditionElementIfc visitCapturedCE( final BLOneParser.CapturedCEContext ctx ) {
             return new CapturedCE( LocationBuilder.build( ctx ),
                                    VariableBuilder.build( ctx.Variable() ),
                                    PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) );
+        }
+
+        @Override public ConditionElementIfc visitPatternCE( final BLOneParser.PatternCEContext ctx ) {
+            return PatternCEBuilder.build( ctx, m_errorCollector );
         }
 
         @Override public ConditionElementIfc visitNotCE( final BLOneParser.NotCEContext ctx ) {
