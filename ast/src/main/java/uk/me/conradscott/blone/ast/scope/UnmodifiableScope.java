@@ -3,6 +3,7 @@ package uk.me.conradscott.blone.ast.scope;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 final class UnmodifiableScope< V > implements ScopeIfc< V > {
@@ -22,6 +23,10 @@ final class UnmodifiableScope< V > implements ScopeIfc< V > {
 
     @Override public V put( final V value ) {
         throw new UnsupportedOperationException( "Insertion is not supported on an immutable scope." );
+    }
+
+    @Override public Stream< V > stream() {
+        return m_scope.stream();
     }
 
     @Override public Iterator< V > iterator() {

@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import uk.me.conradscott.blone.ast.type.AttributeDecl;
+import uk.me.conradscott.blone.ast.declaration.AttributeDecl;
 
 import java.io.PrintStream;
 

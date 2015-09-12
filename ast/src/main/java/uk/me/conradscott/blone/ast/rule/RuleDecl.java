@@ -7,7 +7,6 @@ import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 import java.util.List;
-import java.util.Optional;
 import javax.annotation.Nullable;
 
 public final class RuleDecl implements LocatedIfc {
@@ -38,8 +37,8 @@ public final class RuleDecl implements LocatedIfc {
         return m_name;
     }
 
-    public Optional< StringLiteral > getDocumentationString() {
-        return Optional.ofNullable( m_documentationString );
+    @Nullable public StringLiteral getDocumentationString() {
+        return m_documentationString;
     }
 
     public ConditionElementIfc getConditionElement() {

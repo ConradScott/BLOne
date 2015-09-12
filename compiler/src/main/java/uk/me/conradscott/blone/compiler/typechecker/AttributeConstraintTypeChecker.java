@@ -4,6 +4,7 @@ import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintVisitorIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.CapturedAttributeConstraint;
 import uk.me.conradscott.blone.ast.attributeconstraint.SimpleAttributeConstraint;
+import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
@@ -19,11 +20,8 @@ final class AttributeConstraintTypeChecker {
     {
         return StreamSupport.stream( attributeConstraints.spliterator(), false )
                             .reduce( symbolTable,
-                                     ( SymbolTable previous, AttributeConstraintIfc ac ) -> check( errorCollector,
-                                                                                                   ac,
-                                                                                                   previous,
-                                                                                                   relationDecl ),
-                                     ( SymbolTable previous, SymbolTable current ) -> current );
+                                     ( previous, ac ) -> check( errorCollector, ac, previous, relationDecl ),
+                                     ( previous, current ) -> current );
     }
 
     static SymbolTable check( final ErrorCollectorIfc errorCollector,
@@ -36,23 +34,30 @@ final class AttributeConstraintTypeChecker {
 
     private static final class Visitor implements AttributeConstraintVisitorIfc< SymbolTable, SymbolTable > {
         private final ErrorCollectorIfc m_errorCollector;
-        private final RelationDecl m_relationDecls;
+        private final RelationDecl m_relationDecl;
 
-        private Visitor( final ErrorCollectorIfc errorCollector, final RelationDecl relationDecl )
-        {
+        private Visitor( final ErrorCollectorIfc errorCollector, final RelationDecl relationDecl ) {
             m_errorCollector = errorCollector;
-            m_relationDecls = relationDecl;
+            m_relationDecl = relationDecl;
         }
 
         @Override
-        public SymbolTable visit( final SimpleAttributeConstraint attributeConstraint, final SymbolTable symbolTable ) {
-            return ConstraintTypeChecker.check( m_errorCollector, attributeConstraint.getConstraint(), symbolTable );
+        public SymbolTable visit( final SimpleAttributeConstraint attributeConstraint, final SymbolTable symbolTable )
+        {
+            return SimpleAttributeConstraintTypeChecker.check( m_errorCollector,
+                                                               attributeConstraint,
+                                                               symbolTable,
+                                                               m_relationDecl );
         }
 
         @Override
         public SymbolTable visit( final CapturedAttributeConstraint attributeConstraint, final SymbolTable symbolTable )
         {
-            return visit( attributeConstraint.getAttributeConstraint(), symbolTable );
+            return SimpleAttributeConstraintTypeChecker.check( m_errorCollector,
+                                                               attributeConstraint.getCaptureVariable(),
+                                                               attributeConstraint.getAttributeConstraint(),
+                                                               symbolTable,
+                                                               m_relationDecl );
         }
     }
 }

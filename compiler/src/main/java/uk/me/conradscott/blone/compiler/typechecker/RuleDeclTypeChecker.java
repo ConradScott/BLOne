@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
+import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 import uk.me.conradscott.blone.ast.type.RelationDecl;

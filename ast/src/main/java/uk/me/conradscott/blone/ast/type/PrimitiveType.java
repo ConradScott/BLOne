@@ -26,4 +26,12 @@ public enum PrimitiveType implements TypeIfc {
     public Class< ? > getJavaClass() {
         return m_javaClass;
     }
+
+    @Override public String toString() {
+        return m_name;
+    }
+
+    @Override public < T, R > R accept( final TypeVisitorIfc< T, R > visitor, final T t ) {
+        return visitor.visit( this, t );
+    }
 }

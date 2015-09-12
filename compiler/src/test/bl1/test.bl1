@@ -2,6 +2,7 @@
 (relation Entity (name string) (age int))
 (relation Message (mesg string))
 (relation Size (x int) (y int))
+(relation FloatingSize (x float) (y float))
 
 (assert (Position (x 1) (y 1)))
 (retract (Position (x ?x) (y ?x)))
@@ -30,3 +31,44 @@
   (Size (x 0) (y 0))
   =>
   (assert (Message (mesg "There's just no space."))))
+
+(rule ununit
+  (Size (x (not 1)) (y (not 1)))
+  =>
+  (assert (Message (mesg "Not a unit, not at all."))))
+
+(rule onTheUnitSquare
+  (Size (x (or 0 1)) (y (or 0 1)))
+  =>
+  (assert (Message (mesg "Such a square."))))
+
+(rule disjunctive
+  (or
+    (Size (x ?x) (y ?x))
+    (FloatingSize (x ?x) (y ?x))
+    (Position (x ?x) (y ?x)))
+  =>
+  (assert (Message (mesg "Very diagonal."))))
+
+(rule disjunctive2
+  (Size (x ?x) (y ?y))
+  (or
+    (Size (x ?x) (y ?x))
+    (Position (x ?x) (y ?x)))
+  =>
+  (assert (Message (mesg "Still very diagonal."))))
+
+(rule disjunctive3
+  (or
+    (Size (x ?x) (y ?x))
+    (FloatingSize (x ?x) (y ?x)))
+  =>
+  (assert (Message (mesg "Still very diagonal."))))
+
+(rule disjunctive4
+  (or
+    (Size (x ?x) (y ?x))
+    (Position (x ?x) (y ?x)))
+  (Position (x ?x) (y 0))
+  =>
+  (assert (Message (mesg "Still very diagonal."))))

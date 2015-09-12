@@ -9,10 +9,21 @@ import uk.me.conradscott.blone.ast.conditionelement.ExistentialCE;
 import uk.me.conradscott.blone.ast.conditionelement.NegativeCE;
 import uk.me.conradscott.blone.ast.conditionelement.PatternCE;
 import uk.me.conradscott.blone.ast.conditionelement.UniversalCE;
+import uk.me.conradscott.blone.ast.declaration.DeclarationIfc;
+import uk.me.conradscott.blone.ast.declaration.Identifier;
+import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
+import uk.me.conradscott.blone.ast.declaration.SymbolTable;
+import uk.me.conradscott.blone.ast.declaration.VariableDecl;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
+import uk.me.conradscott.blone.ast.type.InconsistentType;
+import uk.me.conradscott.blone.ast.type.PartialType;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
+import uk.me.conradscott.blone.ast.type.TypeIfc;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 final class ConditionElementTypeChecker {
@@ -36,6 +47,22 @@ final class ConditionElementTypeChecker {
         }
 
         @Override public SymbolTable visit( final CapturedCE conditionElement, final SymbolTable symbolTable ) {
+            return PatternConditionElementTypeChecker.check( m_errorCollector,
+                                                             conditionElement.getCaptureVariable(),
+                                                             conditionElement.getPatternCE(),
+                                                             symbolTable,
+                                                             m_relationDecls );
+        }
+
+        @Override public SymbolTable visit( final PatternCE conditionElement, final SymbolTable symbolTable ) {
+            return PatternConditionElementTypeChecker.check( m_errorCollector,
+                                                             conditionElement,
+                                                             symbolTable,
+                                                             m_relationDecls );
+        }
+
+        @Override public SymbolTable visit( final NegativeCE conditionElement, final SymbolTable symbolTable ) {
+            visit( conditionElement.getConditionElement(), new SymbolTable( symbolTable ) );
             return symbolTable;
         }
 
@@ -43,38 +70,85 @@ final class ConditionElementTypeChecker {
             return conditionElement.getConjuncts()
                                    .stream()
                                    .reduce( symbolTable,
-                                            ( previous, ce ) -> visit( ce, previous ),
+                                            ( previous, conjunct ) -> visit( conjunct, previous ),
                                             ( previous, current ) -> current );
         }
 
         @Override public SymbolTable visit( final DisjunctiveCE conditionElement, final SymbolTable symbolTable ) {
-            return symbolTable;
+            final Collection< ConditionElementIfc > disjuncts = conditionElement.getDisjuncts();
+
+            assert !disjuncts.isEmpty() : "There must be at least one disjunct.";
+
+            final Collection< SymbolTable > orphans = disjuncts.stream()
+                                                               .map( disjunct -> visit( disjunct,
+                                                                                        new SymbolTable( symbolTable ) )
+                                                                       .orphan() )
+                                                               .collect( Collectors.toList() );
+
+            final Iterable< String > allSymbols = orphans.stream()
+                                                         .flatMap( orphan -> orphan.stream()
+                                                                                   .map( VariableDecl::getName ) )
+                                                         .collect( Collectors.toSet() );
+
+            final SymbolTable result = new SymbolTable( symbolTable );
+
+            for ( final String symbol : allSymbols ) {
+                final Identifier identifier = new Identifier( conditionElement.getLocation(), symbol );
+                final TypeIfc type = mostSpecificType( orphans, identifier );
+                result.put( new VariableDecl( identifier, type ) );
+            }
+
+            return result;
+        }
+
+        private static TypeIfc mostSpecificType( final Collection< SymbolTable > symbolTables,
+                                                 final IdentifierIfc identifier )
+        {
+            final String symbol = identifier.getName();
+
+            if ( symbolTables.stream().anyMatch( symbolTable -> symbolTable.get( symbol ) == null ) ) {
+                return new PartialType( identifier );
+            }
+
+            final Iterator< SymbolTable > iterator = symbolTables.iterator();
+
+            assert iterator.hasNext() : "There must be at least one disjunct.";
+
+            final TypeIfc type;
+
+            {
+                final ScopeIfc< VariableDecl > first = iterator.next();
+
+                @Nullable final DeclarationIfc variableDecl = first.get( symbol );
+
+                assert variableDecl != null : "This symbol is defined everywhere.";
+
+                type = variableDecl.getType();
+            }
+
+            while ( iterator.hasNext() ) {
+                final ScopeIfc< VariableDecl > symbolTable = iterator.next();
+
+                @Nullable final DeclarationIfc variableDecl = symbolTable.get( symbol );
+
+                assert variableDecl != null : "This symbol is defined everywhere.";
+
+                if ( !TypeCompatibilityChecker.compatible( type, variableDecl.getType() ) ) {
+                    return new InconsistentType( identifier );
+                }
+            }
+
+            return type;
         }
 
         @Override public SymbolTable visit( final ExistentialCE conditionElement, final SymbolTable symbolTable ) {
+            visit( conditionElement.getPredicate(), new SymbolTable( symbolTable ) );
             return symbolTable;
-        }
-
-        @Override public SymbolTable visit( final NegativeCE conditionElement, final SymbolTable symbolTable ) {
-            return symbolTable;
-        }
-
-        @Override public SymbolTable visit( final PatternCE conditionElement, final SymbolTable symbolTable ) {
-            final String name = conditionElement.getName();
-            @Nullable final RelationDecl relationDecl = m_relationDecls.get( name );
-
-            if ( relationDecl == null ) {
-                m_errorCollector.error( conditionElement.getLocation(), "Unknown relation '" + name + "' in pattern" );
-                return symbolTable;
-            }
-
-            return AttributeConstraintTypeChecker.check( m_errorCollector,
-                                                         conditionElement,
-                                                         symbolTable,
-                                                         relationDecl );
         }
 
         @Override public SymbolTable visit( final UniversalCE conditionElement, final SymbolTable symbolTable ) {
+            visit( conditionElement.getRange(), new SymbolTable( symbolTable ) );
+            visit( conditionElement.getPredicate(), new SymbolTable( symbolTable ) );
             return symbolTable;
         }
     }

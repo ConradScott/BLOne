@@ -1,10 +1,15 @@
 package uk.me.conradscott.blone.ast.expression;
 
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.declaration.DeclarationIfc;
+import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
+import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
-import uk.me.conradscott.blone.ast.type.PrimitiveType;
+import uk.me.conradscott.blone.ast.type.TypeIfc;
 
-public final class Variable implements ExpressionIfc {
+import javax.annotation.Nullable;
+
+public final class Variable implements IdentifierIfc, ExpressionIfc {
     private final LocationIfc m_location;
     private final String m_name;
 
@@ -17,12 +22,18 @@ public final class Variable implements ExpressionIfc {
         return m_location;
     }
 
-    public String getName() {
+    @Override public String getName() {
         return m_name;
     }
 
-    @Override public PrimitiveType getType() {
-        throw new ASTException( "No type assigned yet" );
+    @Override public TypeIfc getType( final SymbolTable symbolTable ) {
+        @Nullable final DeclarationIfc declaration = symbolTable.get( m_name );
+
+        if ( declaration == null ) {
+            throw new ASTException( "Variable '" + m_name + "' has not been assigned a type" );
+        }
+
+        return declaration.getType();
     }
 
     @Override public < T, R > R accept( final ExpressionVisitorIfc< T, R > visitor, final T t ) {

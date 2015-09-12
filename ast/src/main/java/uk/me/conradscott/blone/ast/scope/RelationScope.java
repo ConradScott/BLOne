@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 final class RelationScope implements ScopeIfc< RelationDecl > {
@@ -36,6 +37,10 @@ final class RelationScope implements ScopeIfc< RelationDecl > {
         }
 
         return value;
+    }
+
+    @Override public Stream< RelationDecl > stream() {
+        return m_relationDecls.values().stream();
     }
 
     @Override public Iterator< RelationDecl > iterator() {

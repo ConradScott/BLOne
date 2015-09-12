@@ -15,9 +15,13 @@ final class RuleDeclPrinter {
         Formatter.begin( out, ruleDecl, depth );
 
         Formatter.format( out, "name", ruleDecl.getName(), depth + 1 );
-        ruleDecl.getDocumentationString()
-                .ifPresent( s -> Formatter.format( out, "documentationString", s.getValue(), depth + 1 ) );
+
+        if ( ruleDecl.getDocumentationString() != null ) {
+            Formatter.format( out, "documentationString", ruleDecl.getDocumentationString().getValue(), depth + 1 );
+        }
+
         ConditionElementPrinter.print( out, ruleDecl.getConditionElement(), depth + 1 );
+
         ActionPrinter.print( out, ruleDecl.getActions(), depth + 1 );
 
         Formatter.end( out );

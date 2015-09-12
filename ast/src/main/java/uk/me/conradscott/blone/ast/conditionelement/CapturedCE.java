@@ -1,14 +1,14 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import uk.me.conradscott.blone.ast.expression.Variable;
+import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class CapturedCE implements ConditionElementIfc {
     private final LocationIfc m_location;
-    private final Variable m_captureVariable;
+    private final IdentifierIfc m_captureVariable;
     private final PatternCE m_patternCE;
 
-    public CapturedCE( final LocationIfc location, final Variable captureVariable, final PatternCE patternCE )
+    public CapturedCE( final LocationIfc location, final IdentifierIfc captureVariable, final PatternCE patternCE )
     {
         m_location = location;
         m_captureVariable = captureVariable;
@@ -19,7 +19,7 @@ public final class CapturedCE implements ConditionElementIfc {
         return m_location;
     }
 
-    public Variable getCaptureVariable() {
+    public IdentifierIfc getCaptureVariable() {
         return m_captureVariable;
     }
 

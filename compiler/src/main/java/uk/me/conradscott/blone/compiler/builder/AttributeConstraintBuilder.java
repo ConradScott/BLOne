@@ -6,7 +6,7 @@ import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.CapturedAttributeConstraint;
 import uk.me.conradscott.blone.ast.attributeconstraint.SimpleAttributeConstraint;
-import uk.me.conradscott.blone.ast.expression.Variable;
+import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
 
 final class AttributeConstraintBuilder {
     private AttributeConstraintBuilder() {}
@@ -20,12 +20,14 @@ final class AttributeConstraintBuilder {
 
         @Override
         public AttributeConstraintIfc visitCapturedAttributeConstraint( final BLOneParser.CapturedAttributeConstraintContext ctx ) {
-            final Variable captureVariable = VariableBuilder.build( ctx.Variable() );
+            final IdentifierIfc captureVariable = VariableBuilder.build( ctx.Variable() );
 
             final SimpleAttributeConstraint simpleAttributeConstraint
                     = SimpleAttributeConstraintBuilder.build( ctx.simpleAttributeConstraint() );
 
-            return new CapturedAttributeConstraint( LocationBuilder.build( ctx ), captureVariable, simpleAttributeConstraint );
+            return new CapturedAttributeConstraint( LocationBuilder.build( ctx ),
+                                                    captureVariable,
+                                                    simpleAttributeConstraint );
         }
 
         @Override

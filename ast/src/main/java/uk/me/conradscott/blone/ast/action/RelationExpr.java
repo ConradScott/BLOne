@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 public final class RelationExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
@@ -54,6 +55,10 @@ public final class RelationExpr implements ScopeIfc< AttributeExpr >, LocatedIfc
         }
 
         return value;
+    }
+
+    @Override public Stream< AttributeExpr > stream() {
+        return m_attributes.values().stream();
     }
 
     @Override public Iterator< AttributeExpr > iterator() {

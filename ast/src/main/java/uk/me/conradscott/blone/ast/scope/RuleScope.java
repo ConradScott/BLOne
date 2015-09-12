@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 final class RuleScope implements ScopeIfc< RuleDecl > {
@@ -33,6 +34,10 @@ final class RuleScope implements ScopeIfc< RuleDecl > {
         }
 
         return value;
+    }
+
+    @Override public Stream< RuleDecl > stream() {
+        return m_ruleDecls.values().stream();
     }
 
     @Override public Iterator< RuleDecl > iterator() {

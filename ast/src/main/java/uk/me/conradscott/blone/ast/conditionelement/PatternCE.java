@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, ConditionElementIfc {
@@ -54,6 +55,10 @@ public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, Cond
         }
 
         return value;
+    }
+
+    @Override public Stream< AttributeConstraintIfc > stream() {
+        return m_attributes.values().stream();
     }
 
     @Override public Iterator< AttributeConstraintIfc > iterator() {

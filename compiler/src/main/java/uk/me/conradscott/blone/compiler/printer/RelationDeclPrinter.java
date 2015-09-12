@@ -15,8 +15,11 @@ final class RelationDeclPrinter {
         Formatter.begin( out, relationDecl, depth );
 
         Formatter.format( out, "name", relationDecl.getName(), depth + 1 );
-        relationDecl.getDocumentationString()
-                    .ifPresent( s -> Formatter.format( out, "documentationString", s.getValue(), depth + 1 ) );
+
+        if ( relationDecl.getDocumentationString() != null ) {
+            Formatter.format( out, "documentationString", relationDecl.getDocumentationString().getValue(), depth + 1 );
+        }
+
         AttributeDeclPrinter.print( out, relationDecl, depth + 1 );
 
         Formatter.end( out );

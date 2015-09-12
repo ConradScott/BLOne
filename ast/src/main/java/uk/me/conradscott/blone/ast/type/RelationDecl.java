@@ -1,31 +1,32 @@
 package uk.me.conradscott.blone.ast.type;
 
 import com.google.common.collect.Maps;
-import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.declaration.AttributeDecl;
+import uk.me.conradscott.blone.ast.declaration.DeclarationIfc;
+import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
-import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
-public final class RelationDecl implements ScopeIfc< AttributeDecl >, LocatedIfc, TypeIfc {
+public final class RelationDecl implements DeclarationIfc, TypeIfc, ScopeIfc< AttributeDecl > {
     private final LocationIfc m_location;
-    private final String m_name;
+    private final IdentifierIfc m_identifier;
     @Nullable private final StringLiteral m_documentationString;
-    private final Map< String, AttributeDecl > m_attributes = Maps.newLinkedHashMap();
+    private final Map< String, AttributeDecl > m_attributes = Maps.newHashMap();
 
     public RelationDecl( final LocationIfc location,
-                         final String name,
+                         final IdentifierIfc identifier,
                          @Nullable final StringLiteral documentationString )
     {
         m_location = location;
-        m_name = name;
+        m_identifier = identifier;
         m_documentationString = documentationString;
     }
 
@@ -33,38 +34,32 @@ public final class RelationDecl implements ScopeIfc< AttributeDecl >, LocatedIfc
         return m_location;
     }
 
-    @Override public String getName() {
-        return m_name;
+    @Override public IdentifierIfc getIdentifier() {
+        return m_identifier;
     }
 
-    public Optional< StringLiteral > getDocumentationString() {
-        return Optional.ofNullable( m_documentationString );
+    @Override public String getName() {
+        return m_identifier.getName();
+    }
+
+    @Override public TypeIfc getType() {
+        return this;
+    }
+
+    @Nullable public StringLiteral getDocumentationString() {
+        return m_documentationString;
     }
 
     @Nullable @Override public AttributeDecl get( final String key ) {
-        @Nullable final AttributeDecl value = m_attributes.get( key );
-
-        assert ( value == null ) || value.getName().equals( key );
-
-        return value;
+        return m_attributes.get( key );
     }
 
     @Override public AttributeDecl put( final AttributeDecl value ) {
-        final String key = value.getName();
+        return m_attributes.put( value.getName(), value );
+    }
 
-        @Nullable final AttributeDecl previous = m_attributes.putIfAbsent( key, value );
-
-        if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "An attribute with name '"
-                                    + key
-                                    + "' is already defined in relation '"
-                                    + m_name
-                                    + '\'' );
-        }
-
-        return value;
+    @Override public Stream< AttributeDecl > stream() {
+        return m_attributes.values().stream();
     }
 
     @Override public Iterator< AttributeDecl > iterator() {
@@ -77,5 +72,9 @@ public final class RelationDecl implements ScopeIfc< AttributeDecl >, LocatedIfc
 
     @Override public Spliterator< AttributeDecl > spliterator() {
         return m_attributes.values().spliterator();
+    }
+
+    @Override public < T, R > R accept( final TypeVisitorIfc< T, R > visitor, final T t ) {
+        return visitor.visit( this, t );
     }
 }
