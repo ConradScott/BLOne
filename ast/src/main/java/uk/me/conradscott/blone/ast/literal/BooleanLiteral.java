@@ -7,7 +7,7 @@ public final class BooleanLiteral implements PrimitiveLiteralIfc< Boolean > {
     private final LocationIfc m_location;
     private final boolean m_value;
 
-    public BooleanLiteral( final LocationIfc location, final boolean value ) {
+    @SuppressWarnings( "BooleanParameter" ) public BooleanLiteral( final LocationIfc location, final boolean value ) {
         m_location = location;
         m_value = value;
     }
