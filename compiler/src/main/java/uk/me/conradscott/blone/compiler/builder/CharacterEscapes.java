@@ -1,7 +1,7 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 @SuppressWarnings( { "HardcodedLineSeparator", "HardcodedFileSeparator" } ) final class CharacterEscapes {
-    @SuppressWarnings( "MagicNumber" ) static final char[] s_literalEscapedCharValue = new char[ 256 ];
+    @SuppressWarnings( "MagicNumber" ) private static final char[] s_literalEscapedCharValue = new char[ 256 ];
 
     static {
         s_literalEscapedCharValue[ 'n' ] = '\n';
