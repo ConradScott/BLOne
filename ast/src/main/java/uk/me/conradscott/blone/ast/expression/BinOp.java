@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.expression;
 
-public enum BinOp {
+@SuppressWarnings( "HardcodedFileSeparator" ) public enum BinOp {
     GT( ">" ),
     LT( "<" ),
     EQUAL( "==" ),
