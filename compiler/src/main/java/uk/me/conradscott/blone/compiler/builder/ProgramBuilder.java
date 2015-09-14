@@ -56,7 +56,7 @@ public final class ProgramBuilder {
 
         @Override public Void visitAssertion( final BLOneParser.AssertionContext ctx ) {
             m_program.addAction( new Assertion( LocationBuilder.build( ctx ),
-                                                RelationExprBuilder.build( ctx.relationExpr(), m_errorCollector ) ) );
+                                                RelationExprBuilder.build( ctx.tupleExpr(), m_errorCollector ) ) );
 
             return defaultResult();
         }

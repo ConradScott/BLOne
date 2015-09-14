@@ -4,19 +4,19 @@ import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class Assertion implements ActionIfc {
     private final LocationIfc m_location;
-    private final RelationExpr m_relationExpr;
+    private final TupleExpr m_tupleExpr;
 
-    public Assertion( final LocationIfc location, final RelationExpr relationExpr ) {
+    public Assertion( final LocationIfc location, final TupleExpr tupleExpr ) {
         m_location = location;
-        m_relationExpr = relationExpr;
+        m_tupleExpr = tupleExpr;
     }
 
     @Override public LocationIfc getLocation() {
         return m_location;
     }
 
-    public RelationExpr getRelationExpr() {
-        return m_relationExpr;
+    public TupleExpr getTupleExpr() {
+        return m_tupleExpr;
     }
 
     @Override public < T, R > R accept( final ActionVisitorIfc< T, R > visitor, final T t ) {

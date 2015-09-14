@@ -27,7 +27,7 @@ final class ActionPrinter {
 
         @Override public Visitor visit( final Assertion assertion, final Integer depth ) {
             Formatter.begin( m_out, assertion, depth );
-            RelationExprPrinter.print( m_out, assertion.getRelationExpr(), depth + 1 );
+            RelationExprPrinter.print( m_out, assertion.getTupleExpr(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }

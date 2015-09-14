@@ -37,7 +37,7 @@ action
 // TODO: Allow multiple relations?
 
 assertion
-    : '(' 'assert' relationExpr ')'
+    : '(' 'assert' tupleExpr ')'
     ;
 
 // TODO: Allow multiple patterns?
@@ -57,21 +57,6 @@ documentationString
 
 attributeDecl
     : '(' Identifier type ')'
-    ;
-
-// Expressions
-
-relationExpr
-    : '(' Identifier attributeExpr* ')'
-    ;
-
-attributeExpr
-    : '(' Identifier expression ')'
-    ;
-
-expression
-    : literal   # LiteralExpression
-    | Variable  # VariableExpression
     ;
 
 // Conditional elements
@@ -124,6 +109,21 @@ constraint
     | '(' 'not' constraint ')'  # notConstraint
     | '(' 'and' constraint+ ')' # andConstraint
     | '(' 'or' constraint+ ')'  # orConstraint
+    ;
+
+// Expressions
+
+tupleExpr
+    : '(' Identifier attributeExpr* ')'
+    ;
+
+attributeExpr
+    : '(' Identifier expression ')'
+    ;
+
+expression
+    : literal   # LiteralExpression
+    | Variable  # VariableExpression
     ;
 
 // Types

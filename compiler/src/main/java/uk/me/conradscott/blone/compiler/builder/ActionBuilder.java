@@ -23,7 +23,7 @@ final class ActionBuilder {
 
         @Override public ActionIfc visitAssertion( final BLOneParser.AssertionContext ctx ) {
             return new Assertion( LocationBuilder.build( ctx ),
-                                  RelationExprBuilder.build( ctx.relationExpr(), m_errorCollector ) );
+                                  RelationExprBuilder.build( ctx.tupleExpr(), m_errorCollector ) );
         }
 
         @Override public ActionIfc visitRetraction( final BLOneParser.RetractionContext ctx ) {

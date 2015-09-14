@@ -13,12 +13,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
-public final class RelationExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
+public final class TupleExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
     private final LocationIfc m_location;
     private final String m_name;
     private final Map< String, AttributeExpr > m_attributes = Maps.newLinkedHashMap();
 
-    public RelationExpr( final LocationIfc location, final String name ) {
+    public TupleExpr( final LocationIfc location, final String name ) {
         m_location = location;
         m_name = name;
     }
