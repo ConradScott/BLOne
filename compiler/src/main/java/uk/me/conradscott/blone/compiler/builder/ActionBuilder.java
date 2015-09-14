@@ -28,7 +28,7 @@ final class ActionBuilder {
 
         @Override public ActionIfc visitRetraction( final BLOneParser.RetractionContext ctx ) {
             return new Retraction( LocationBuilder.build( ctx ),
-                                   PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) );
+                                   VariableBuilder.build( ctx.relationExpr().Variable() ) );
         }
     }
 }

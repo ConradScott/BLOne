@@ -28,7 +28,7 @@ final class ExpressionPrinter {
 
         @Override public Visitor visit( final Variable variable, final Integer depth ) {
             Formatter.begin( m_out, variable, depth );
-            Formatter.format( m_out, "variable", variable.getName(), depth + 1 );
+            VariablePrinter.print( m_out, variable, depth + 1 );
             Formatter.end( m_out );
             return this;
         }

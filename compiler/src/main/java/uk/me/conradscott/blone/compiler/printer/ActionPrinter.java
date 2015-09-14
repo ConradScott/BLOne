@@ -34,7 +34,7 @@ final class ActionPrinter {
 
         @Override public Visitor visit( final Retraction retraction, final Integer depth ) {
             Formatter.begin( m_out, retraction, depth );
-            ConditionElementPrinter.print( m_out, retraction.getPatternCE(), depth + 1 );
+            VariablePrinter.print( m_out, retraction.getVariable(), depth + 1 );
             Formatter.end( m_out );
             return this;
         }

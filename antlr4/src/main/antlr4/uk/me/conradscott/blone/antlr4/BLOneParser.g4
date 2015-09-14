@@ -44,7 +44,7 @@ assertion
 // TODO: And do multiple patterns form a conjunction, so it only retracts those joins that match?
 
 retraction
-    : '(' 'retract' patternCE ')'
+    : '(' 'retract' relationExpr ')'
     ;
 
 // Documentation strings
@@ -112,6 +112,12 @@ constraint
     ;
 
 // Expressions
+
+// TODO: We should also allow relation expressions and literals here (somewhat like patternCE's).
+
+relationExpr
+    : Variable
+    ;
 
 tupleExpr
     : '(' Identifier attributeExpr* ')'

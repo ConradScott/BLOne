@@ -63,7 +63,7 @@ public final class ProgramBuilder {
 
         @Override public Void visitRetraction( final BLOneParser.RetractionContext ctx ) {
             m_program.addAction( new Retraction( LocationBuilder.build( ctx ),
-                                                 PatternCEBuilder.build( ctx.patternCE(), m_errorCollector ) ) );
+                                                 VariableBuilder.build( ctx.relationExpr().Variable() ) ) );
 
             return defaultResult();
         }
