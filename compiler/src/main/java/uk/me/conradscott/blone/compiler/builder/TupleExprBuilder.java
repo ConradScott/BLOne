@@ -6,8 +6,8 @@ import uk.me.conradscott.blone.ast.action.AttributeExpr;
 import uk.me.conradscott.blone.ast.action.TupleExpr;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-final class RelationExprBuilder {
-    private RelationExprBuilder() {}
+final class TupleExprBuilder {
+    private TupleExprBuilder() {}
 
     static TupleExpr build( final BLOneParser.TupleExprContext ctx, final ErrorCollectorIfc errorCollector ) {
         final TupleExpr tupleExpr = new TupleExpr( LocationBuilder.build( ctx ),
