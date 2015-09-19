@@ -8,7 +8,7 @@ import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-import java.util.stream.StreamSupport;
+import static uk.me.conradscott.blone.hof.HOFs.foldl;
 
 final class AttributeConstraintTypeChecker {
     private AttributeConstraintTypeChecker() {}
@@ -18,10 +18,9 @@ final class AttributeConstraintTypeChecker {
                               final SymbolTable symbolTable,
                               final RelationDecl relationDecl )
     {
-        return StreamSupport.stream( attributeConstraints.spliterator(), false )
-                            .reduce( symbolTable,
-                                     ( previous, ac ) -> check( errorCollector, ac, previous, relationDecl ),
-                                     ( previous, current ) -> current );
+        return foldl( attributeConstraints,
+                      symbolTable,
+                      ( state, ac ) -> check( errorCollector, ac, state, relationDecl ) );
     }
 
     static SymbolTable check( final ErrorCollectorIfc errorCollector,
@@ -42,8 +41,7 @@ final class AttributeConstraintTypeChecker {
         }
 
         @Override
-        public SymbolTable visit( final SimpleAttributeConstraint attributeConstraint, final SymbolTable symbolTable )
-        {
+        public SymbolTable visit( final SimpleAttributeConstraint attributeConstraint, final SymbolTable symbolTable ) {
             return SimpleAttributeConstraintTypeChecker.check( m_errorCollector,
                                                                attributeConstraint,
                                                                symbolTable,

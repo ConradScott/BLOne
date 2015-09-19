@@ -10,6 +10,7 @@
         <module>antlr4</module>
         <module>ast</module>
         <module>compiler</module>
+        <module>hof</module>
         <module>jsr305</module>
     </modules>
 

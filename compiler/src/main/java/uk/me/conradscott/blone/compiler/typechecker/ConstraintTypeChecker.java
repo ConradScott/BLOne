@@ -10,6 +10,8 @@ import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.type.PrimitiveType;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
+import static uk.me.conradscott.blone.hof.HOFs.foldl;
+
 final class ConstraintTypeChecker {
     private ConstraintTypeChecker() {}
 
@@ -30,32 +32,20 @@ final class ConstraintTypeChecker {
             m_type = type;
         }
 
-        @Override public SymbolTable visit( final ExpressionConstraint constraint, final SymbolTable symbolTable )
-        {
+        @Override public SymbolTable visit( final ExpressionConstraint constraint, final SymbolTable symbolTable ) {
             return ExpressionTypeChecker.check( m_errorCollector, constraint.getExpression(), symbolTable, m_type );
         }
 
-        @Override public SymbolTable visit( final NegativeConstraint constraint, final SymbolTable symbolTable )
-        {
+        @Override public SymbolTable visit( final NegativeConstraint constraint, final SymbolTable symbolTable ) {
             return visit( constraint.getConstraint(), symbolTable );
         }
 
-        @Override public SymbolTable visit( final ConjunctiveConstraint constraint, final SymbolTable symbolTable )
-        {
-            return constraint.getConjuncts()
-                             .stream()
-                             .reduce( symbolTable,
-                                      ( previous, conjunct ) -> visit( conjunct, previous ),
-                                      ( previous, current ) -> current );
+        @Override public SymbolTable visit( final ConjunctiveConstraint constraint, final SymbolTable symbolTable ) {
+            return foldl( constraint.getConjuncts(), symbolTable, ( state, conjunct ) -> visit( conjunct, state ) );
         }
 
-        @Override public SymbolTable visit( final DisjunctiveConstraint constraint, final SymbolTable symbolTable )
-        {
-            return constraint.getDisjuncts()
-                             .stream()
-                             .reduce( symbolTable,
-                                      ( previous, disjunct ) -> visit( disjunct, previous ),
-                                      ( previous, current ) -> current );
+        @Override public SymbolTable visit( final DisjunctiveConstraint constraint, final SymbolTable symbolTable ) {
+            return foldl( constraint.getDisjuncts(), symbolTable, ( state, disjunct ) -> visit( disjunct, state ) );
         }
     }
 }

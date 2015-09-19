@@ -26,6 +26,8 @@ import java.util.Iterator;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
+import static uk.me.conradscott.blone.hof.HOFs.foldl;
+
 final class ConditionElementTypeChecker {
     private ConditionElementTypeChecker() {}
 
@@ -67,11 +69,9 @@ final class ConditionElementTypeChecker {
         }
 
         @Override public SymbolTable visit( final ConjunctiveCE conditionElement, final SymbolTable symbolTable ) {
-            return conditionElement.getConjuncts()
-                                   .stream()
-                                   .reduce( symbolTable,
-                                            ( previous, conjunct ) -> visit( conjunct, previous ),
-                                            ( previous, current ) -> current );
+            return foldl( conditionElement.getConjuncts(),
+                          symbolTable,
+                          ( state, conjunct ) -> visit( conjunct, state ) );
         }
 
         @Override public SymbolTable visit( final DisjunctiveCE conditionElement, final SymbolTable symbolTable ) {
