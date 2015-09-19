@@ -32,19 +32,24 @@ ruleDecl
 action
     : assertion
     | retraction
+    | modification
+    | println
     ;
-
-// TODO: Allow multiple relations?
 
 assertion
     : '(' 'assert' tupleExpr ')'
     ;
 
-// TODO: Allow multiple patterns?
-// TODO: And do multiple patterns form a conjunction, so it only retracts those joins that match?
-
 retraction
     : '(' 'retract' relationExpr ')'
+    ;
+
+modification
+    : '(' 'modify' relationExpr attributeExpr+ ')'
+    ;
+
+println
+    : '(' 'println' expression ')'
     ;
 
 // Documentation strings
