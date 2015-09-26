@@ -5,7 +5,6 @@
 (relation FloatingSize (x float) (y float))
 
 (assert (Position (x 1) (y 1)))
-(retract (Position (x ?x) (y ?x)))
 
 (assert (Wiggle (x 'x')))
 (assert (Wiggle (x "\0")))
