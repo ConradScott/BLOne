@@ -7,8 +7,8 @@ import java.io.PrintStream;
 final class TupleExprPrinter {
     private TupleExprPrinter() {}
 
-    static void print( final PrintStream out, final Iterable< TupleExpr > relationExprs, final int depth ) {
-        relationExprs.forEach( relationExpr -> print( out, relationExpr, depth ) );
+    static void print( final PrintStream out, final Iterable< TupleExpr > tupleExprs, final int depth ) {
+        tupleExprs.forEach( tupleExpr -> print( out, tupleExpr, depth ) );
     }
 
     static void print( final PrintStream out, final TupleExpr tupleExpr, final int depth ) {

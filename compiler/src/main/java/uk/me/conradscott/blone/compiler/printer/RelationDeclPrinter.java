@@ -1,8 +1,10 @@
 package uk.me.conradscott.blone.compiler.printer;
 
+import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 import java.io.PrintStream;
+import javax.annotation.Nullable;
 
 final class RelationDeclPrinter {
     private RelationDeclPrinter() {}
@@ -16,8 +18,10 @@ final class RelationDeclPrinter {
 
         Formatter.format( out, "name", relationDecl.getName(), depth + 1 );
 
-        if ( relationDecl.getDocumentationString() != null ) {
-            Formatter.format( out, "documentationString", relationDecl.getDocumentationString().getValue(), depth + 1 );
+        @Nullable final PrimitiveLiteralIfc< String > documentationString = relationDecl.getDocumentationString();
+
+        if ( documentationString != null ) {
+            Formatter.format( out, "documentationString", documentationString.getValue(), depth + 1 );
         }
 
         AttributeDeclPrinter.print( out, relationDecl, depth + 1 );

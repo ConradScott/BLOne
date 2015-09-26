@@ -27,51 +27,37 @@ final class LiteralPrinter {
         }
 
         @Override public Visitor visit( final BooleanLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final CharacterLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final DoubleFloatingPointLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final FloatingPointLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final IntegerLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final LongIntegerLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue().toString(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue().toString(), depth );
             return this;
         }
 
         @Override public Visitor visit( final StringLiteral literal, final Integer depth ) {
-            Formatter.begin( m_out, literal, depth );
-            Formatter.format( m_out, "value", literal.getValue(), depth + 1 );
-            Formatter.end( m_out );
+            Formatter.format( m_out, literal, literal.getValue(), depth );
             return this;
         }
     }

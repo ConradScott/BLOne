@@ -27,9 +27,7 @@ final class ExpressionPrinter {
         }
 
         @Override public Visitor visit( final Variable variable, final Integer depth ) {
-            Formatter.begin( m_out, variable, depth );
-            VariablePrinter.print( m_out, variable, depth + 1 );
-            Formatter.end( m_out );
+            VariablePrinter.print( m_out, variable, depth );
             return this;
         }
     }

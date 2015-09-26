@@ -18,6 +18,11 @@ final class Formatter {
         out.append( '>' );
     }
 
+    static void format( final PrintStream out, final LocatedIfc located, final String value, final int depth )
+    {
+        out.format( "%n%s<%s: %s>", indent( depth ), located.getClass().getSimpleName(), value );
+    }
+
     static void format( final PrintStream out, final String key, final String value, final int depth )
     {
         out.format( "%n%s%s: %s", indent( depth ), key, value );
