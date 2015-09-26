@@ -1,20 +1,29 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.google.common.collect.Maps;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.map.ImmutableMap;
+import com.gs.collections.impl.factory.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 final class RelationScope implements ScopeIfc< RelationDecl > {
-    private final Map< String, RelationDecl > m_relationDecls = Maps.newLinkedHashMap();
+    private static final RelationScope EMPTY = new RelationScope( Maps.immutable.empty() );
 
-    @Override public RelationDecl get( final String key ) {
+    private final ImmutableMap< String, RelationDecl > m_relationDecls;
+
+    static RelationScope empty() {
+        return EMPTY;
+    }
+
+    private RelationScope( final ImmutableMap< String, RelationDecl > relationDecls ) {
+        m_relationDecls = relationDecls;
+    }
+
+    @Nullable @Override public RelationDecl get( final String key ) {
         @Nullable final RelationDecl value = m_relationDecls.get( key );
 
         assert ( value == null ) || value.getName().equals( key );
@@ -22,36 +31,27 @@ final class RelationScope implements ScopeIfc< RelationDecl > {
         return value;
     }
 
-    @Override public RelationDecl put( final RelationDecl value ) {
+    @Override public RelationScope put( final RelationDecl value ) {
         final String key = value.getName();
 
-        @Nullable final RelationDecl previous = m_relationDecls.putIfAbsent( key, value );
+        @Nullable final LocatedIfc previous = get( key );
 
         if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "A relation with name '"
+            throw new ASTException( value.getLocation(),
+                                    "A relation with name '"
                                     + key
                                     + "' is already defined at "
                                     + previous.getLocation() );
         }
 
-        return value;
+        return new RelationScope( m_relationDecls.newWithKeyValue( key, value ) );
     }
 
-    @Override public Stream< RelationDecl > stream() {
-        return m_relationDecls.values().stream();
+    @Override public RichIterable< RelationDecl > values() {
+        return m_relationDecls.valuesView();
     }
 
     @Override public Iterator< RelationDecl > iterator() {
-        return m_relationDecls.values().iterator();
-    }
-
-    @Override public void forEach( final Consumer< ? super RelationDecl > action ) {
-        m_relationDecls.values().forEach( action );
-    }
-
-    @Override public Spliterator< RelationDecl > spliterator() {
-        return m_relationDecls.values().spliterator();
+        return m_relationDecls.iterator();
     }
 }

@@ -1,39 +1,85 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.google.common.collect.Lists;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.list.ImmutableList;
+import com.gs.collections.impl.factory.Lists;
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 
-import java.util.Collections;
-import java.util.List;
-
 public final class Program {
-    private final List< ActionIfc > m_actions = Lists.newLinkedList();
-    private final RelationScope m_relations = new RelationScope();
-    private final RuleScope m_rules = new RuleScope();
+    private static final Program EMPTY = new Program( Lists.immutable.empty(),
+                                                      RelationScope.empty(),
+                                                      RuleScope.empty() );
 
-    public List< ActionIfc > getActions() {
-        return Collections.unmodifiableList( m_actions );
+    private final ImmutableList< ActionIfc > m_actions;
+    private final RelationScope m_relations;
+    private final RuleScope m_rules;
+
+    public static Program empty() {
+        return EMPTY;
     }
 
-    public void addAction( final ActionIfc action ) {
-        m_actions.add( action );
+    public Program( final RelationDecl decl ) {
+        this( Lists.immutable.empty(), RelationScope.empty().put( decl ), RuleScope.empty() );
+    }
+
+    public Program( final RuleDecl decl ) {
+        this( Lists.immutable.empty(), RelationScope.empty(), RuleScope.empty().put( decl ) );
+    }
+
+    public Program( final ActionIfc decl ) {
+        this( Lists.immutable.of( decl ), RelationScope.empty(), RuleScope.empty() );
+    }
+
+    private Program( final ImmutableList< ActionIfc > actions,
+                     final RelationScope relationScope,
+                     final RuleScope ruleScope )
+    {
+        m_actions = actions;
+        m_relations = relationScope;
+        m_rules = ruleScope;
+    }
+
+    public Program put( final Program program ) {
+        Program result = this;
+
+        for ( final ActionIfc action : program.m_actions ) {
+            result = result.addAction( action );
+        }
+
+        for ( final RelationDecl decl : program.m_relations ) {
+            result = result.putRelationDecl( decl );
+        }
+
+        for ( final RuleDecl decl : program.m_rules ) {
+            result = result.putRuleDecl( decl );
+        }
+
+        return result;
+    }
+
+    public RichIterable< ActionIfc > getActions() {
+        return m_actions;
+    }
+
+    public Program addAction( final ActionIfc action ) {
+        return new Program( m_actions.newWith( action ), m_relations, m_rules );
     }
 
     public ScopeIfc< RelationDecl > getRelationDecls() {
-        return UnmodifiableScope.instance( m_relations );
+        return m_relations;
     }
 
-    public void putRelationDecl( final RelationDecl decl ) {
-        m_relations.put( decl );
+    public Program putRelationDecl( final RelationDecl decl ) {
+        return new Program( m_actions, m_relations.put( decl ), m_rules );
     }
 
     public ScopeIfc< RuleDecl > getRuleDecls() {
-        return UnmodifiableScope.instance( m_rules );
+        return m_rules;
     }
 
-    public void putRuleDecl( final RuleDecl decl ) {
-        m_rules.put( decl );
+    public Program putRuleDecl( final RuleDecl decl ) {
+        return new Program( m_actions, m_relations, m_rules.put( decl ) );
     }
 }

@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.InternalASTException;
 
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -48,7 +48,7 @@ final class IntegerParser {
         try {
             return parseSignedDigits( literal, end, javaClass );
         } catch ( final NumberFormatException e ) {
-            throw new ASTException( "Invalid integer literal '" + literal + "': " + e.getMessage(), e );
+            throw new InternalASTException( "Invalid integer literal '" + literal + "': " + e.getMessage(), e );
         }
     }
 
@@ -118,7 +118,7 @@ final class IntegerParser {
             return parseDigits( literal.substring( begin + 2, end ), sgn, BINARY_RADIX, javaClass );
         }
 
-        throw new ASTException( "Invalid integer literal '" + literal + '\'' );
+        throw new InternalASTException( "Invalid integer literal '" + literal + '\'' );
     }
 
     private static long parseDigits( final String literal,

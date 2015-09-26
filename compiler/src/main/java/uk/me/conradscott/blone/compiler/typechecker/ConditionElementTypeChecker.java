@@ -1,5 +1,7 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
+import com.gs.collections.api.RichIterable;
+import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.conditionelement.CapturedCE;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementVisitorIfc;
@@ -21,12 +23,8 @@ import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.ast.type.TypeIfc;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-
-import static uk.me.conradscott.blone.hof.HOFs.foldl;
 
 final class ConditionElementTypeChecker {
     private ConditionElementTypeChecker() {}
@@ -64,49 +62,52 @@ final class ConditionElementTypeChecker {
         }
 
         @Override public SymbolTable visit( final NegativeCE conditionElement, final SymbolTable symbolTable ) {
-            visit( conditionElement.getConditionElement(), new SymbolTable( symbolTable ) );
+            visit( conditionElement.getConditionElement(), symbolTable );
             return symbolTable;
         }
 
         @Override public SymbolTable visit( final ConjunctiveCE conditionElement, final SymbolTable symbolTable ) {
-            return foldl( conditionElement.getConjuncts(),
-                          symbolTable,
-                          ( state, conjunct ) -> visit( conjunct, state ) );
+            return conditionElement.getConjuncts()
+                                   .injectInto( symbolTable, ( state, conjunct ) -> visit( conjunct, state ) );
         }
 
         @Override public SymbolTable visit( final DisjunctiveCE conditionElement, final SymbolTable symbolTable ) {
-            final Collection< ConditionElementIfc > disjuncts = conditionElement.getDisjuncts();
+            final RichIterable< ConditionElementIfc > disjuncts = conditionElement.getDisjuncts();
 
             assert !disjuncts.isEmpty() : "There must be at least one disjunct.";
 
-            final Collection< SymbolTable > orphans = disjuncts.stream()
-                                                               .map( disjunct -> visit( disjunct,
-                                                                                        new SymbolTable( symbolTable ) )
-                                                                       .orphan() )
-                                                               .collect( Collectors.toList() );
+            final RichIterable< SymbolTable > symbolTables = disjuncts.collect( disjunct -> visit( disjunct,
+                                                                                                   symbolTable ) );
 
-            final Iterable< String > allSymbols = orphans.stream()
-                                                         .flatMap( orphan -> orphan.stream()
-                                                                                   .map( VariableDecl::getName ) )
-                                                         .collect( Collectors.toSet() );
+            // Collect all symbol names that are *introduced* in any of the disjuncts.
+            final RichIterable< String > symbols = symbolTables.flatCollect( SymbolTable::values )
+                                                               .collect( VariableDecl::getName )
+                                                               .reject( symbolTable::contains )
+                                                               .toSet();
 
-            final SymbolTable result = new SymbolTable( symbolTable );
+            return symbols.injectInto( symbolTable, ( state, name ) -> {
+                final IdentifierIfc identifier = new Identifier( conditionElement.getLocation(), name );
+                final TypeIfc type = mostSpecificType( symbolTables, identifier );
+                final VariableDecl decl = new VariableDecl( identifier, type );
 
-            for ( final String symbol : allSymbols ) {
-                final Identifier identifier = new Identifier( conditionElement.getLocation(), symbol );
-                final TypeIfc type = mostSpecificType( orphans, identifier );
-                result.put( new VariableDecl( identifier, type ) );
-            }
+                SymbolTable result = state;
 
-            return result;
+                try {
+                    result = result.put( decl );
+                } catch ( final ASTException e ) {
+                    m_errorCollector.error( e.getLocation(), e.getMessage() );
+                }
+
+                return result;
+            } );
         }
 
-        private static TypeIfc mostSpecificType( final Collection< SymbolTable > symbolTables,
+        private static TypeIfc mostSpecificType( final RichIterable< SymbolTable > symbolTables,
                                                  final IdentifierIfc identifier )
         {
             final String symbol = identifier.getName();
 
-            if ( symbolTables.stream().anyMatch( symbolTable -> symbolTable.get( symbol ) == null ) ) {
+            if ( symbolTables.anySatisfy( symbolTable -> symbolTable.get( symbol ) == null ) ) {
                 return new PartialType( identifier );
             }
 
@@ -142,13 +143,13 @@ final class ConditionElementTypeChecker {
         }
 
         @Override public SymbolTable visit( final ExistentialCE conditionElement, final SymbolTable symbolTable ) {
-            visit( conditionElement.getPredicate(), new SymbolTable( symbolTable ) );
+            visit( conditionElement.getPredicate(), symbolTable );
             return symbolTable;
         }
 
         @Override public SymbolTable visit( final UniversalCE conditionElement, final SymbolTable symbolTable ) {
-            visit( conditionElement.getRange(), new SymbolTable( symbolTable ) );
-            visit( conditionElement.getPredicate(), new SymbolTable( symbolTable ) );
+            visit( conditionElement.getRange(), symbolTable );
+            visit( conditionElement.getPredicate(), symbolTable );
             return symbolTable;
         }
     }

@@ -1,26 +1,32 @@
 package uk.me.conradscott.blone.ast.action;
 
-import com.google.common.collect.Maps;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.map.ImmutableMap;
+import com.gs.collections.impl.factory.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 public final class TupleExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
     private final LocationIfc m_location;
     private final String m_name;
-    private final Map< String, AttributeExpr > m_attributes = Maps.newLinkedHashMap();
+    private final ImmutableMap< String, AttributeExpr > m_attributes;
 
     public TupleExpr( final LocationIfc location, final String name ) {
+        this( location, name, Maps.immutable.empty() );
+    }
+
+    private TupleExpr( final LocationIfc location,
+                       final String name,
+                       final ImmutableMap< String, AttributeExpr > attributes )
+    {
         m_location = location;
         m_name = name;
+        m_attributes = attributes;
     }
 
     @Override public LocationIfc getLocation() {
@@ -31,7 +37,7 @@ public final class TupleExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
         return m_name;
     }
 
-    @Nullable @Override public AttributeExpr get( final String key ) {
+    @Override public AttributeExpr get( final String key ) {
         @Nullable final AttributeExpr value = m_attributes.get( key );
 
         assert ( value == null ) || value.getName().equals( key );
@@ -39,37 +45,28 @@ public final class TupleExpr implements ScopeIfc< AttributeExpr >, LocatedIfc {
         return value;
     }
 
-    @Override public AttributeExpr put( final AttributeExpr value ) {
+    @Override public TupleExpr put( final AttributeExpr value ) {
         final String key = value.getName();
 
-        @Nullable final AttributeExpr previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeExpr previous = get( key );
 
         if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "A value for the attribute '"
+            throw new ASTException( value.getLocation(),
+                                    "A value for the attribute '"
                                     + key
                                     + "' has already been given in the expression for '"
                                     + m_name
                                     + '\'' );
         }
 
-        return value;
+        return new TupleExpr( m_location, m_name, m_attributes.newWithKeyValue( key, value ) );
     }
 
-    @Override public Stream< AttributeExpr > stream() {
-        return m_attributes.values().stream();
+    @Override public RichIterable< AttributeExpr > values() {
+        return m_attributes.valuesView();
     }
 
     @Override public Iterator< AttributeExpr > iterator() {
-        return m_attributes.values().iterator();
-    }
-
-    @Override public void forEach( final Consumer< ? super AttributeExpr > action ) {
-        m_attributes.values().forEach( action );
-    }
-
-    @Override public Spliterator< AttributeExpr > spliterator() {
-        return m_attributes.values().spliterator();
+        return m_attributes.iterator();
     }
 }

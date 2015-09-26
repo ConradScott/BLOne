@@ -1,5 +1,7 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import com.gs.collections.api.list.ImmutableList;
+import com.gs.collections.impl.factory.Lists;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
@@ -8,9 +10,6 @@ import uk.me.conradscott.blone.ast.constraint.ConstraintIfc;
 import uk.me.conradscott.blone.ast.constraint.DisjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ExpressionConstraint;
 import uk.me.conradscott.blone.ast.constraint.NegativeConstraint;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 final class ConstraintBuilder {
     private ConstraintBuilder() {}
@@ -32,19 +31,15 @@ final class ConstraintBuilder {
         }
 
         @Override public ConstraintIfc visitAndConstraint( final BLOneParser.AndConstraintContext ctx ) {
-            final List< ConstraintIfc > conjuncts = ctx.constraint()
-                                                       .stream()
-                                                       .map( this::visit )
-                                                       .collect( Collectors.toList() );
+            final ImmutableList< ConstraintIfc > conjuncts = Lists.immutable.withAll( ctx.constraint() )
+                                                                            .collect( this::visit );
 
             return new ConjunctiveConstraint( LocationBuilder.build( ctx ), conjuncts );
         }
 
         @Override public ConstraintIfc visitOrConstraint( final BLOneParser.OrConstraintContext ctx ) {
-            final List< ConstraintIfc > disjuncts = ctx.constraint()
-                                                       .stream()
-                                                       .map( this::visit )
-                                                       .collect( Collectors.toList() );
+            final ImmutableList< ConstraintIfc > disjuncts = Lists.immutable.withAll( ctx.constraint() )
+                                                                            .collect( this::visit );
 
             return new DisjunctiveConstraint( LocationBuilder.build( ctx ), disjuncts );
         }

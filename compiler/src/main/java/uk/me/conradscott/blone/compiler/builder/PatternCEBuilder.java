@@ -10,19 +10,18 @@ final class PatternCEBuilder {
     private PatternCEBuilder() {}
 
     static PatternCE build( final BLOneParser.PatternCEContext ctx, final ErrorCollectorIfc errorCollector ) {
-        final PatternCE patternCE = new PatternCE( LocationBuilder.build( ctx ),
-                                                   ctx.Identifier().getSymbol().getText() );
+        PatternCE result = new PatternCE( LocationBuilder.build( ctx ), ctx.Identifier().getSymbol().getText() );
 
         for ( final BLOneParser.AttributeConstraintContext context : ctx.attributeConstraint() ) {
             final AttributeConstraintIfc attributeConstraint = AttributeConstraintBuilder.build( context );
 
             try {
-                patternCE.put( attributeConstraint );
+                result = result.put( attributeConstraint );
             } catch ( final ASTException e ) {
                 errorCollector.error( attributeConstraint.getLocation(), e.getMessage() );
             }
         }
 
-        return patternCE;
+        return result;
     }
 }

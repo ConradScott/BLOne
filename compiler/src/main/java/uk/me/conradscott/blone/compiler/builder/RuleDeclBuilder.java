@@ -1,5 +1,7 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.impl.factory.Lists;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
@@ -7,23 +9,18 @@ import uk.me.conradscott.blone.ast.conditionelement.ConjunctiveCE;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 final class RuleDeclBuilder {
     private RuleDeclBuilder() {}
 
     static RuleDecl build( final BLOneParser.RuleDeclContext ctx, final ErrorCollectorIfc errorCollector ) {
-        final List< ConditionElementIfc > conjuncts = ctx.conditionElement()
-                                                         .stream()
-                                                         .map( ce -> ConditionElementBuilder.build( ce,
-                                                                                                    errorCollector ) )
-                                                         .collect( Collectors.toList() );
+        final RichIterable< ConditionElementIfc > conjuncts = Lists.immutable.withAll( ctx.conditionElement() )
+                                                                             .collect( ce -> ConditionElementBuilder.build(
+                                                                                     ce,
+                                                                                     errorCollector ) );
 
-        final List< ActionIfc > actions = ctx.action()
-                                             .stream()
-                                             .map( action -> ActionBuilder.build( action, errorCollector ) )
-                                             .collect( Collectors.toList() );
+        final RichIterable< ActionIfc > actions = Lists.immutable.withAll( ctx.action() )
+                                                                 .collect( action -> ActionBuilder.build( action,
+                                                                                                          errorCollector ) );
 
         return new RuleDecl( LocationBuilder.build( ctx ),
                              ctx.Identifier().getSymbol().getText(),

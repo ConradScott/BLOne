@@ -1,5 +1,7 @@
 package uk.me.conradscott.blone.compiler.builder;
 
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.impl.factory.Lists;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.conditionelement.CapturedCE;
@@ -11,8 +13,6 @@ import uk.me.conradscott.blone.ast.conditionelement.NegativeCE;
 import uk.me.conradscott.blone.ast.conditionelement.UniversalCE;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 
 final class ConditionElementBuilder {
@@ -46,28 +46,22 @@ final class ConditionElementBuilder {
         }
 
         @Override public ConditionElementIfc visitAndCE( final BLOneParser.AndCEContext ctx ) {
-            final List< ConditionElementIfc > conjuncts = ctx.conditionElement()
-                                                             .stream()
-                                                             .map( this::visit )
-                                                             .collect( Collectors.toList() );
+            final RichIterable< ConditionElementIfc > conjuncts = Lists.immutable.withAll( ctx.conditionElement() )
+                                                                                 .collect( this::visit );
 
             return new ConjunctiveCE( LocationBuilder.build( ctx ), conjuncts );
         }
 
         @Override public ConditionElementIfc visitOrCE( final BLOneParser.OrCEContext ctx ) {
-            final List< ConditionElementIfc > disjuncts = ctx.conditionElement()
-                                                             .stream()
-                                                             .map( this::visit )
-                                                             .collect( Collectors.toList() );
+            final RichIterable< ConditionElementIfc > disjuncts = Lists.immutable.withAll( ctx.conditionElement() )
+                                                                                 .collect( this::visit );
 
             return new DisjunctiveCE( LocationBuilder.build( ctx ), disjuncts );
         }
 
         @Override public ConditionElementIfc visitExistsCE( final BLOneParser.ExistsCEContext ctx ) {
-            final List< ConditionElementIfc > conjuncts = ctx.conditionElement()
-                                                             .stream()
-                                                             .map( this::visit )
-                                                             .collect( Collectors.toList() );
+            final RichIterable< ConditionElementIfc > conjuncts = Lists.immutable.withAll( ctx.conditionElement() )
+                                                                                 .collect( this::visit );
 
             final ConjunctiveCE predicate = new ConjunctiveCE( LocationBuilder.build( ctx ), conjuncts );
 
@@ -77,10 +71,8 @@ final class ConditionElementBuilder {
         @Override public ConditionElementIfc visitForallCE( final BLOneParser.ForallCEContext ctx ) {
             final ConditionElementIfc range = visit( ctx.rangeCE );
 
-            final List< ConditionElementIfc > conjuncts = ctx.conditionElement()
-                                                             .stream()
-                                                             .map( this::visit )
-                                                             .collect( Collectors.toList() );
+            final RichIterable< ConditionElementIfc > conjuncts = Lists.immutable.withAll( ctx.conditionElement() )
+                                                                                 .collect( this::visit );
 
             final ConjunctiveCE predicate = new ConjunctiveCE( LocationBuilder.build( ctx ), conjuncts );
 

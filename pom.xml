@@ -10,7 +10,6 @@
         <module>antlr4</module>
         <module>ast</module>
         <module>compiler</module>
-        <module>hof</module>
         <module>jsr305</module>
     </modules>
 
@@ -21,9 +20,9 @@
 
         <version.antlr4>4.5.1</version.antlr4>
         <version.findbugs>2.0.1</version.findbugs>
+        <version.gs>6.2.0</version.gs>
         <version.junit>4.12</version.junit>
         <version.log4j>2.3</version.log4j>
-        <version.guava>18.0</version.guava>
     </properties>
 
     <build>
@@ -65,31 +64,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${version.junit}</version>
-                <scope>test</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-api</artifactId>
-                <version>${version.log4j}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.logging.log4j</groupId>
-                <artifactId>log4j-core</artifactId>
-                <version>${version.log4j}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${version.guava}</version>
-            </dependency>
-
-            <dependency>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr4-runtime</artifactId>
                 <version>${version.antlr4}</version>
@@ -105,6 +79,31 @@
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>annotations</artifactId>
                 <version>${version.findbugs}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.goldmansachs</groupId>
+                <artifactId>gs-collections</artifactId>
+                <version>${version.gs}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${version.log4j}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

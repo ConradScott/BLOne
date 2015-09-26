@@ -43,9 +43,7 @@ final class ExpressionTypeChecker {
         }
 
         @Override public SymbolTable visit( final Variable variable, final SymbolTable symbolTable ) {
-            VariableTypeChecker.check( m_errorCollector, variable, symbolTable, m_type );
-
-            return symbolTable;
+            return VariableTypeChecker.check( m_errorCollector, variable, symbolTable, m_type );
         }
     }
 }

@@ -1,14 +1,13 @@
 package uk.me.conradscott.blone.ast.constraint;
 
+import com.gs.collections.api.list.ImmutableList;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
-
-import java.util.List;
 
 public final class ConjunctiveConstraint implements ConstraintIfc {
     private final LocationIfc m_location;
-    private final List< ConstraintIfc > m_conjuncts;
+    private final ImmutableList< ConstraintIfc > m_conjuncts;
 
-    public ConjunctiveConstraint( final LocationIfc location, final List< ConstraintIfc > conjuncts ) {
+    public ConjunctiveConstraint( final LocationIfc location, final ImmutableList< ConstraintIfc > conjuncts ) {
         m_location = location;
         m_conjuncts = conjuncts;
     }
@@ -17,7 +16,7 @@ public final class ConjunctiveConstraint implements ConstraintIfc {
         return m_location;
     }
 
-    public List< ConstraintIfc > getConjuncts() {
+    public ImmutableList< ConstraintIfc > getConjuncts() {
         return m_conjuncts;
     }
 

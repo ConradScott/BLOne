@@ -1,61 +1,59 @@
 package uk.me.conradscott.blone.ast.declaration;
 
-import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.map.ImmutableMap;
+import com.gs.collections.impl.factory.Lists;
+import com.gs.collections.impl.factory.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 public final class SymbolTable implements ScopeIfc< VariableDecl > {
     /**
-     * An immutable empty symbol table to use as the ultimate parent of all symbol table stacks.
+     * An empty symbol table to use as the ultimate parent of all symbol table stacks.
      */
-    private static final class Root implements ScopeIfc< VariableDecl > {
+    private static final ScopeIfc< VariableDecl > ROOT = new ScopeIfc< VariableDecl >() {
+
         @Nullable @Override public VariableDecl get( final String key ) {
             return null;
         }
 
-        @Override public VariableDecl put( final VariableDecl value ) {
+        @Override public ScopeIfc< VariableDecl > put( final VariableDecl value ) {
             throw new UnsupportedOperationException( "Insertion is not supported on the root symbol table." );
         }
 
-        @Override public Stream< VariableDecl > stream() {
-            return Stream.empty();
+        @Override public RichIterable< VariableDecl > values() {
+            return Lists.immutable.empty();
         }
 
         @Override public Iterator< VariableDecl > iterator() {
-            return Collections.emptyIterator();
+            return Lists.immutable.< VariableDecl > empty().iterator();
         }
-    }
+    };
 
     private final ScopeIfc< VariableDecl > m_parent;
-    private final Map< String, VariableDecl > m_map;
+    private final ImmutableMap< String, VariableDecl > m_map;
 
     public SymbolTable() {
-        m_parent = new Root();
-        m_map = Maps.newLinkedHashMap();
+        this( ROOT, Maps.immutable.empty() );
     }
 
-    public SymbolTable( final ScopeIfc< VariableDecl > parent ) {
+    public SymbolTable( final SymbolTable parent ) {
+        this( parent, Maps.immutable.empty() );
+    }
+
+    private SymbolTable( final ScopeIfc< VariableDecl > parent, final ImmutableMap< String, VariableDecl > map ) {
         m_parent = parent;
-        m_map = Maps.newLinkedHashMap();
-    }
-
-    public SymbolTable( final Map< String, VariableDecl > map ) {
-        m_parent = new Root();
         m_map = map;
     }
 
-    @Nullable @Override public VariableDecl get( final String key ) {
+    @Override public VariableDecl get( final String key ) {
         @Nullable final VariableDecl value = m_map.get( key );
 
         if ( value != null ) {
-            assert value.getIdentifier().getName().equals( key );
+            assert value.getName().equals( key );
             return value;
         }
 
@@ -66,32 +64,29 @@ public final class SymbolTable implements ScopeIfc< VariableDecl > {
         return get( key.getIdentifier().getName() );
     }
 
-    @Override public VariableDecl put( final VariableDecl value ) {
+    @Override public SymbolTable put( final VariableDecl value ) {
         final String key = value.getIdentifier().getName();
 
         @Nullable final DeclarationIfc previous = get( key );
 
         if ( previous != null ) {
-            throw new ASTException( "A variable with name '"
+            assert previous.getName().equals( key );
+
+            throw new ASTException( value.getLocation(),
+                                    "A variable with name '"
                                     + key
                                     + "' is already defined at "
                                     + previous.getIdentifier().getLocation() );
         }
 
-        m_map.put( key, value );
-
-        return value;
+        return new SymbolTable( m_parent, m_map.newWithKeyValue( key, value ) );
     }
 
-    @Override public Stream< VariableDecl > stream() {
-        return Stream.concat( m_parent.stream(), m_map.values().stream() );
-    }
-
-    public SymbolTable orphan() {
-        return ( m_parent instanceof Root ) ? this : new SymbolTable( m_map );
+    @Override public RichIterable< VariableDecl > values() {
+        return Lists.immutable.withAll( m_parent.values() ).newWithAll( m_map.valuesView() );
     }
 
     @Override public Iterator< VariableDecl > iterator() {
-        return Iterators.concat( m_parent.iterator(), m_map.values().iterator() );
+        return m_map.iterator();
     }
 }

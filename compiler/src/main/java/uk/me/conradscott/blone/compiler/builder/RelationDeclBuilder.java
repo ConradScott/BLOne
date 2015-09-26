@@ -10,9 +10,9 @@ final class RelationDeclBuilder {
     private RelationDeclBuilder() {}
 
     static RelationDecl build( final BLOneParser.RelationDeclContext ctx, final ErrorCollectorIfc errorCollector ) {
-        final RelationDecl relationDecl = new RelationDecl( LocationBuilder.build( ctx ),
-                                                            VariableBuilder.build( ctx.Identifier() ),
-                                                            DocumentationStringBuilder.build( ctx.documentationString() ) );
+        RelationDecl result = new RelationDecl( LocationBuilder.build( ctx ),
+                                                VariableBuilder.build( ctx.Identifier() ),
+                                                DocumentationStringBuilder.build( ctx.documentationString() ) );
 
         for ( final BLOneParser.AttributeDeclContext context : ctx.attributeDecl() ) {
             final AttributeDecl attributeDecl = new AttributeDecl( LocationBuilder.build( context ),
@@ -20,12 +20,12 @@ final class RelationDeclBuilder {
                                                                    PrimitiveTypeBuilder.build( context.type() ) );
 
             try {
-                relationDecl.put( attributeDecl );
+                result = result.put( attributeDecl );
             } catch ( final ASTException e ) {
                 errorCollector.error( attributeDecl.getLocation(), e.getMessage() );
             }
         }
 
-        return relationDecl;
+        return result;
     }
 }

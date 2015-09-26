@@ -1,20 +1,29 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.google.common.collect.Maps;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.map.ImmutableMap;
+import com.gs.collections.impl.factory.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 final class RuleScope implements ScopeIfc< RuleDecl > {
-    private final Map< String, RuleDecl > m_ruleDecls = Maps.newLinkedHashMap();
+    private static final RuleScope EMPTY = new RuleScope( Maps.immutable.empty() );
 
-    @Nullable @Override public RuleDecl get( final String key ) {
+    private final ImmutableMap< String, RuleDecl > m_ruleDecls;
+
+    static RuleScope empty() {
+        return EMPTY;
+    }
+
+    private RuleScope( final ImmutableMap< String, RuleDecl > ruleDecls ) {
+        m_ruleDecls = ruleDecls;
+    }
+
+    @Override public RuleDecl get( final String key ) {
         @Nullable final RuleDecl value = m_ruleDecls.get( key );
 
         assert ( value == null ) || value.getName().equals( key );
@@ -22,33 +31,24 @@ final class RuleScope implements ScopeIfc< RuleDecl > {
         return value;
     }
 
-    @Override public RuleDecl put( final RuleDecl value ) {
+    @Override public RuleScope put( final RuleDecl value ) {
         final String key = value.getName();
 
-        @Nullable final RuleDecl previous = m_ruleDecls.putIfAbsent( key, value );
+        @Nullable final LocatedIfc previous = get( key );
 
         if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "A rule with name '" + key + "' is already defined at " + previous.getLocation() );
+            throw new ASTException( value.getLocation(), "A rule with name '" + key + "' is already defined at " +
+                                                         previous.getLocation() );
         }
 
-        return value;
+        return new RuleScope( m_ruleDecls.newWithKeyValue( key, value ) );
     }
 
-    @Override public Stream< RuleDecl > stream() {
-        return m_ruleDecls.values().stream();
+    @Override public RichIterable< RuleDecl > values() {
+        return m_ruleDecls.valuesView();
     }
 
     @Override public Iterator< RuleDecl > iterator() {
-        return m_ruleDecls.values().iterator();
-    }
-
-    @Override public void forEach( final Consumer< ? super RuleDecl > action ) {
-        m_ruleDecls.values().forEach( action );
-    }
-
-    @Override public Spliterator< RuleDecl > spliterator() {
-        return m_ruleDecls.values().spliterator();
+        return m_ruleDecls.iterator();
     }
 }

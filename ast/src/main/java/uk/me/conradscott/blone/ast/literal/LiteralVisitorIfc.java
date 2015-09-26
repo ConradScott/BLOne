@@ -1,12 +1,10 @@
 package uk.me.conradscott.blone.ast.literal;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.gs.collections.api.RichIterable;
 
 public interface LiteralVisitorIfc< A, R > {
-    default List< R > visit( final Collection< ? extends PrimitiveLiteralIfc< ? > > literals, final A a ) {
-        return literals.stream().map( literal -> visit( literal, a ) ).collect( Collectors.toList() );
+    default RichIterable< R > visit( final RichIterable< ? extends PrimitiveLiteralIfc< ? > > literals, final A a ) {
+        return literals.collect( literal -> visit( literal, a ) );
     }
 
     default R visit( final PrimitiveLiteralIfc< ? > literal, final A a ) {

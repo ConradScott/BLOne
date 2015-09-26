@@ -1,11 +1,16 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import java.util.stream.Stream;
+import com.gs.collections.api.RichIterable;
+
 import javax.annotation.Nullable;
 
 public interface ScopeIfc< V > extends Iterable< V > {
     @Nullable V get( String key );
-    V put( V value );
+    ScopeIfc< V > put( V value );
 
-    Stream< V > stream();
+    default boolean contains( final String key ) {
+        return get( key ) != null;
+    }
+
+    RichIterable< V > values();
 }

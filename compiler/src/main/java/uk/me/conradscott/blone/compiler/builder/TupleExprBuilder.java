@@ -10,19 +10,18 @@ final class TupleExprBuilder {
     private TupleExprBuilder() {}
 
     static TupleExpr build( final BLOneParser.TupleExprContext ctx, final ErrorCollectorIfc errorCollector ) {
-        final TupleExpr tupleExpr = new TupleExpr( LocationBuilder.build( ctx ),
-                                                   ctx.Identifier().getSymbol().getText() );
+        TupleExpr result = new TupleExpr( LocationBuilder.build( ctx ), ctx.Identifier().getSymbol().getText() );
 
         for ( final BLOneParser.AttributeExprContext context : ctx.attributeExpr() ) {
             final AttributeExpr attributeExpr = AttributeExprBuilder.build( context );
 
             try {
-                tupleExpr.put( attributeExpr );
+                result = result.put( attributeExpr );
             } catch ( final ASTException e ) {
                 errorCollector.error( attributeExpr.getLocation(), e.getMessage() );
             }
         }
 
-        return tupleExpr;
+        return result;
     }
 }

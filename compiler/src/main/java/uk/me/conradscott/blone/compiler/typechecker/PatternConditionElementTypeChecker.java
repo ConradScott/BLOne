@@ -44,10 +44,12 @@ final class PatternConditionElementTypeChecker {
             return symbolTable;
         }
 
+        SymbolTable result = symbolTable;
+
         if ( captureVariable != null ) {
-            VariableTypeChecker.check( errorCollector, captureVariable, symbolTable, relationDecl );
+            result = VariableTypeChecker.check( errorCollector, captureVariable, result, relationDecl );
         }
 
-        return AttributeConstraintTypeChecker.check( errorCollector, conditionElement, symbolTable, relationDecl );
+        return AttributeConstraintTypeChecker.check( errorCollector, conditionElement.values(), result, relationDecl );
     }
 }

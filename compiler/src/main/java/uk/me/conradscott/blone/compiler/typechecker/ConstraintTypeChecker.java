@@ -7,10 +7,8 @@ import uk.me.conradscott.blone.ast.constraint.DisjunctiveConstraint;
 import uk.me.conradscott.blone.ast.constraint.ExpressionConstraint;
 import uk.me.conradscott.blone.ast.constraint.NegativeConstraint;
 import uk.me.conradscott.blone.ast.declaration.SymbolTable;
-import uk.me.conradscott.blone.ast.type.PrimitiveType;
+import uk.me.conradscott.blone.ast.type.TypeIfc;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
-
-import static uk.me.conradscott.blone.hof.HOFs.foldl;
 
 final class ConstraintTypeChecker {
     private ConstraintTypeChecker() {}
@@ -18,16 +16,16 @@ final class ConstraintTypeChecker {
     static SymbolTable check( final ErrorCollectorIfc errorCollector,
                               final ConstraintIfc constraint,
                               final SymbolTable symbolTable,
-                              final PrimitiveType type )
+                              final TypeIfc type )
     {
         return new Visitor( errorCollector, type ).visit( constraint, symbolTable );
     }
 
     private static final class Visitor implements ConstraintVisitorIfc< SymbolTable, SymbolTable > {
         private final ErrorCollectorIfc m_errorCollector;
-        private final PrimitiveType m_type;
+        private final TypeIfc m_type;
 
-        private Visitor( final ErrorCollectorIfc errorCollector, final PrimitiveType type ) {
+        private Visitor( final ErrorCollectorIfc errorCollector, final TypeIfc type ) {
             m_errorCollector = errorCollector;
             m_type = type;
         }
@@ -41,11 +39,11 @@ final class ConstraintTypeChecker {
         }
 
         @Override public SymbolTable visit( final ConjunctiveConstraint constraint, final SymbolTable symbolTable ) {
-            return foldl( constraint.getConjuncts(), symbolTable, ( state, conjunct ) -> visit( conjunct, state ) );
+            return constraint.getConjuncts().injectInto( symbolTable, ( state, conjunct ) -> visit( conjunct, state ) );
         }
 
         @Override public SymbolTable visit( final DisjunctiveConstraint constraint, final SymbolTable symbolTable ) {
-            return foldl( constraint.getDisjuncts(), symbolTable, ( state, disjunct ) -> visit( disjunct, state ) );
+            return constraint.getDisjuncts().injectInto( symbolTable, ( state, disjunct ) -> visit( disjunct, state ) );
         }
     }
 }

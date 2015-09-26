@@ -1,12 +1,12 @@
 package uk.me.conradscott.blone.ast.rule;
 
+import com.gs.collections.api.RichIterable;
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
-import java.util.List;
 import javax.annotation.Nullable;
 
 public final class RuleDecl implements LocatedIfc {
@@ -14,13 +14,13 @@ public final class RuleDecl implements LocatedIfc {
     private final String m_name;
     @Nullable private final StringLiteral m_documentationString;
     private final ConditionElementIfc m_conditionElement;
-    private final List< ActionIfc > m_actions;
+    private final RichIterable< ActionIfc > m_actions;
 
     public RuleDecl( final LocationIfc location,
                      final String name,
                      @Nullable final StringLiteral documentationString,
                      final ConditionElementIfc conditionElement,
-                     final List< ActionIfc > actions )
+                     final RichIterable< ActionIfc > actions )
     {
         m_location = location;
         m_name = name;
@@ -45,7 +45,7 @@ public final class RuleDecl implements LocatedIfc {
         return m_conditionElement;
     }
 
-    public List< ActionIfc > getActions() {
+    public RichIterable< ActionIfc > getActions() {
         return m_actions;
     }
 }

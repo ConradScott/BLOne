@@ -1,26 +1,32 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import com.google.common.collect.Maps;
+import com.gs.collections.api.RichIterable;
+import com.gs.collections.api.map.ImmutableMap;
+import com.gs.collections.impl.factory.Maps;
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
 import javax.annotation.Nullable;
 
 public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, ConditionElementIfc {
     private final LocationIfc m_location;
     private final String m_name;
-    private final Map< String, AttributeConstraintIfc > m_attributes = Maps.newLinkedHashMap();
+    private final ImmutableMap< String, AttributeConstraintIfc > m_attributes;
 
     public PatternCE( final LocationIfc location, final String name ) {
+        this( location, name, Maps.immutable.empty() );
+    }
+
+    private PatternCE( final LocationIfc location,
+                       final String name,
+                       final ImmutableMap< String, AttributeConstraintIfc > attributes )
+    {
         m_location = location;
         m_name = name;
+        m_attributes = attributes;
     }
 
     @Override public LocationIfc getLocation() {
@@ -39,38 +45,29 @@ public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, Cond
         return value;
     }
 
-    @Override public AttributeConstraintIfc put( final AttributeConstraintIfc value ) {
+    @Override public PatternCE put( final AttributeConstraintIfc value ) {
         final String key = value.getName();
 
-        @Nullable final AttributeConstraintIfc previous = m_attributes.putIfAbsent( key, value );
+        @Nullable final AttributeConstraintIfc previous = get( key );
 
         if ( previous != null ) {
-            assert previous.getName().equals( key );
-
-            throw new ASTException( "A constraint for the attribute '"
+            throw new ASTException( value.getLocation(),
+                                    "A constraint for the attribute '"
                                     + key
                                     + "' has already been given in the pattern for '"
                                     + m_name
                                     + '\'' );
         }
 
-        return value;
+        return new PatternCE( m_location, m_name, m_attributes.newWithKeyValue( key, value ) );
     }
 
-    @Override public Stream< AttributeConstraintIfc > stream() {
-        return m_attributes.values().stream();
+    @Override public RichIterable< AttributeConstraintIfc > values() {
+        return m_attributes.valuesView();
     }
 
     @Override public Iterator< AttributeConstraintIfc > iterator() {
-        return m_attributes.values().iterator();
-    }
-
-    @Override public void forEach( final Consumer< ? super AttributeConstraintIfc > action ) {
-        m_attributes.values().forEach( action );
-    }
-
-    @Override public Spliterator< AttributeConstraintIfc > spliterator() {
-        return m_attributes.values().spliterator();
+        return m_attributes.iterator();
     }
 
     @Override public < T, R > R accept( final ConditionElementVisitorIfc< T, R > visitor, final T t ) {

@@ -1,12 +1,10 @@
 package uk.me.conradscott.blone.ast.action;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.gs.collections.api.RichIterable;
 
 public interface ActionVisitorIfc< T, R > {
-    default List< R > visit( final Collection< ? extends ActionIfc > actions, final T t ) {
-        return actions.stream().map( action -> visit( action, t ) ).collect( Collectors.toList() );
+    default RichIterable< R > visit( final RichIterable< ? extends ActionIfc > actions, final T t ) {
+        return actions.collect( action -> visit( action, t ) );
     }
 
     default R visit( final ActionIfc action, final T t ) {

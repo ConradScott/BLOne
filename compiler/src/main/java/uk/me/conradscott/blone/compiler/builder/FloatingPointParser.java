@@ -1,7 +1,7 @@
 package uk.me.conradscott.blone.compiler.builder;
 
 import sun.misc.FloatingDecimal;
-import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.InternalASTException;
 
 final class FloatingPointParser {
     private FloatingPointParser() {}
@@ -10,7 +10,7 @@ final class FloatingPointParser {
         try {
             return FloatingDecimal.parseFloat( literal );
         } catch ( final NumberFormatException e ) {
-            throw new ASTException( "Invalid floating point literal '" + literal + "': " + e.getMessage(), e );
+            throw new InternalASTException( "Invalid floating point literal '" + literal + "': " + e.getMessage(), e );
         }
     }
 
@@ -18,7 +18,7 @@ final class FloatingPointParser {
         try {
             return FloatingDecimal.parseDouble( literal );
         } catch ( final NumberFormatException e ) {
-            throw new ASTException( "Invalid floating point literal '" + literal + "': " + e.getMessage(), e );
+            throw new InternalASTException( "Invalid floating point literal '" + literal + "': " + e.getMessage(), e );
         }
     }
 }

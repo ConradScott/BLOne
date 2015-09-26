@@ -80,9 +80,7 @@ public final class BLOne {
             return StatusCode.ERROR;
         }
 
-        final Program program = new Program();
-
-        ProgramBuilder.build( errorCollector, program, ctx );
+        final Program program = ProgramBuilder.build( errorCollector, ctx );
 
         if ( errorCollector.getErrors() != 0 ) {
             errorCollector.reportErrors( LOGGER );

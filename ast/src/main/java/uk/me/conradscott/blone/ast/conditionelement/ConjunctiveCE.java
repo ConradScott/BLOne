@@ -1,14 +1,13 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
+import com.gs.collections.api.RichIterable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
-
-import java.util.List;
 
 public final class ConjunctiveCE implements ConditionElementIfc {
     private final LocationIfc m_location;
-    private final List< ConditionElementIfc > m_conjuncts;
+    private final RichIterable< ConditionElementIfc > m_conjuncts;
 
-    public ConjunctiveCE( final LocationIfc location, final List< ConditionElementIfc > conditionElements )    {
+    public ConjunctiveCE( final LocationIfc location, final RichIterable< ConditionElementIfc > conditionElements ) {
         m_location = location;
         m_conjuncts = conditionElements;
     }
@@ -17,7 +16,7 @@ public final class ConjunctiveCE implements ConditionElementIfc {
         return m_location;
     }
 
-    public List< ConditionElementIfc > getConjuncts() {
+    public RichIterable< ConditionElementIfc > getConjuncts() {
         return m_conjuncts;
     }
 

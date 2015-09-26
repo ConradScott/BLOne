@@ -36,21 +36,20 @@ final class ActionBuilder {
         }
 
         @Override public ActionIfc visitModification( final BLOneParser.ModificationContext ctx ) {
-            final Modification modification = new Modification( LocationBuilder.build( ctx ),
-                                                                VariableBuilder.build( ctx.relationExpr()
-                                                                                          .Variable() ) );
+            Modification result = new Modification( LocationBuilder.build( ctx ),
+                                                    VariableBuilder.build( ctx.relationExpr().Variable() ) );
 
             for ( final BLOneParser.AttributeExprContext context : ctx.attributeExpr() ) {
                 final AttributeExpr attributeExpr = AttributeExprBuilder.build( context );
 
                 try {
-                    modification.put( attributeExpr );
+                    result = result.put( attributeExpr );
                 } catch ( final ASTException e ) {
                     m_errorCollector.error( attributeExpr.getLocation(), e.getMessage() );
                 }
             }
 
-            return modification;
+            return result;
         }
 
         @Override public ActionIfc visitPrintln( final BLOneParser.PrintlnContext ctx ) {

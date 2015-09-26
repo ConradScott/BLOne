@@ -1,6 +1,8 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import java.util.List;
+import com.gs.collections.api.list.ImmutableList;
+
+import java.util.function.Consumer;
 
 @SuppressWarnings( "HardcodedFileSeparator" ) final class StringParser {
     private StringParser() {}
@@ -19,7 +21,7 @@ import java.util.List;
                                                                      literal ).toString();
     }
 
-    static String parseLiterals( final List< String > literals ) {
+    static String parseLiterals( final ImmutableList< String > literals ) {
         switch ( literals.size() ) {
         case 0:
             return "";
@@ -28,11 +30,17 @@ import java.util.List;
             return parseLiteral( literals.get( 0 ) );
 
         default:
-            final int capacity = literals.stream().mapToInt( String::length ).sum();
+            final long sum = literals.collectInt( String::length ).sum();
+
+            assert sum >= ( 2 * literals.size() ) : "String literals are too small; there's no room for the quotes";
+            assert sum <= Integer.MAX_VALUE : "String literals are too long to fit into a single string.";
+
+            @SuppressWarnings( "NumericCastThatLosesPrecision" ) final int capacity = ( int ) sum;
 
             final StringBuilder builder = new StringBuilder( capacity );
 
-            literals.forEach( s -> parseLiteralInto( builder, s ) );
+            final Consumer< ? super String > procedure = ( String s ) -> parseLiteralInto( builder, s );
+            literals.forEach( procedure );
 
             return builder.toString();
         }

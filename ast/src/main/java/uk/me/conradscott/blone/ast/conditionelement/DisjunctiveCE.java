@@ -1,14 +1,13 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
+import com.gs.collections.api.RichIterable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
-
-import java.util.List;
 
 public final class DisjunctiveCE implements ConditionElementIfc {
     private final LocationIfc m_location;
-    private final List< ConditionElementIfc > m_disjuncts;
+    private final RichIterable< ConditionElementIfc > m_disjuncts;
 
-    public DisjunctiveCE( final LocationIfc location, final List< ConditionElementIfc > disjuncts ) {
+    public DisjunctiveCE( final LocationIfc location, final RichIterable< ConditionElementIfc > disjuncts ) {
         m_location = location;
         m_disjuncts = disjuncts;
     }
@@ -17,7 +16,7 @@ public final class DisjunctiveCE implements ConditionElementIfc {
         return m_location;
     }
 
-    public List< ConditionElementIfc > getDisjuncts() {
+    public RichIterable< ConditionElementIfc > getDisjuncts() {
         return m_disjuncts;
     }
 

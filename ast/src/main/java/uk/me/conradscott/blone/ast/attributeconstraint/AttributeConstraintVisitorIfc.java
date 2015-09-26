@@ -1,12 +1,10 @@
 package uk.me.conradscott.blone.ast.attributeconstraint;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.gs.collections.api.RichIterable;
 
 public interface AttributeConstraintVisitorIfc< T, R > {
-    default List< R > visit( final Collection< ? extends AttributeConstraintIfc > constraints, final T t ) {
-        return constraints.stream().map( constraint -> visit( constraint, t ) ).collect( Collectors.toList() );
+    default RichIterable< R > visit( final RichIterable< ? extends AttributeConstraintIfc > constraints, final T t ) {
+        return constraints.collect( constraint -> visit( constraint, t ) );
     }
 
     default R visit( final AttributeConstraintIfc attributeConstraint, final T t ) {

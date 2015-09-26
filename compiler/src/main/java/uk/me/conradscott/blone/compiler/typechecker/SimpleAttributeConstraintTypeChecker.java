@@ -1,7 +1,7 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
 import uk.me.conradscott.blone.ast.attributeconstraint.SimpleAttributeConstraint;
-import uk.me.conradscott.blone.ast.declaration.AttributeDecl;
+import uk.me.conradscott.blone.ast.declaration.DeclarationIfc;
 import uk.me.conradscott.blone.ast.declaration.IdentifierIfc;
 import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
@@ -37,7 +37,7 @@ final class SimpleAttributeConstraintTypeChecker {
     {
         final String name = attributeConstraint.getName();
 
-        @Nullable final AttributeDecl attributeDecl = relationDecl.get( name );
+        @Nullable final DeclarationIfc attributeDecl = relationDecl.get( name );
 
         if ( attributeDecl == null ) {
             errorCollector.error( attributeConstraint.getLocation(),
@@ -45,13 +45,15 @@ final class SimpleAttributeConstraintTypeChecker {
             return symbolTable;
         }
 
+        SymbolTable result = symbolTable;
+
         if ( captureVariable != null ) {
-            VariableTypeChecker.check( errorCollector, captureVariable, symbolTable, attributeDecl.getType() );
+            result = VariableTypeChecker.check( errorCollector, captureVariable, result, attributeDecl.getType() );
         }
 
         return ConstraintTypeChecker.check( errorCollector,
                                             attributeConstraint.getConstraint(),
-                                            symbolTable,
+                                            result,
                                             attributeDecl.getType() );
     }
 }

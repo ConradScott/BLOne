@@ -20,10 +20,10 @@ final class VariableTypeChecker {
      * @param symbolTable
      * @param type
      */
-    static DeclarationIfc check( final ErrorCollectorIfc errorCollector,
-                                 final IdentifierIfc variable,
-                                 final SymbolTable symbolTable,
-                                 final TypeIfc type )
+    static SymbolTable check( final ErrorCollectorIfc errorCollector,
+                              final IdentifierIfc variable,
+                              final SymbolTable symbolTable,
+                              final TypeIfc type )
     {
         @Nullable final DeclarationIfc declaration = symbolTable.get( variable.getName() );
 
@@ -35,6 +35,6 @@ final class VariableTypeChecker {
         // The name has already been declared (in this scope), so this occurrence is a use.
         TypeCompatibilityChecker.check( errorCollector, type, variable, declaration );
 
-        return declaration;
+        return symbolTable;
     }
 }

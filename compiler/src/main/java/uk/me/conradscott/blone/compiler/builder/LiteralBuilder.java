@@ -3,6 +3,8 @@ package uk.me.conradscott.blone.compiler.builder;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
+import uk.me.conradscott.blone.ast.ASTException;
+import uk.me.conradscott.blone.ast.InternalASTException;
 import uk.me.conradscott.blone.ast.literal.BooleanLiteral;
 import uk.me.conradscott.blone.ast.literal.CharacterLiteral;
 import uk.me.conradscott.blone.ast.literal.DoubleFloatingPointLiteral;
@@ -11,6 +13,7 @@ import uk.me.conradscott.blone.ast.literal.IntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.LongIntegerLiteral;
 import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
+import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 import javax.annotation.Nullable;
 
@@ -29,26 +32,64 @@ final class LiteralBuilder {
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitInteger( final BLOneParser.IntegerContext ctx ) {
-            return new IntegerLiteral( LocationBuilder.build( ctx ),
-                                       IntegerParser.parseIntLiteral( ctx.IntegerLiteral().getText() ) );
+            final LocationIfc location = LocationBuilder.build( ctx );
+            final String text = ctx.IntegerLiteral().getText();
+
+            final int value;
+
+            try {
+                value = IntegerParser.parseIntLiteral( text );
+            } catch ( final InternalASTException e ) {
+                throw new ASTException( location, e );
+            }
+
+            return new IntegerLiteral( location, value );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitLongInteger( final BLOneParser.LongIntegerContext ctx ) {
-            return new LongIntegerLiteral( LocationBuilder.build( ctx ),
-                                           IntegerParser.parseLongLiteral( ctx.LongIntegerLiteral().getText() ) );
+            final LocationIfc location = LocationBuilder.build( ctx );
+            final String text = ctx.LongIntegerLiteral().getText();
+
+            final long value;
+
+            try {
+                value = IntegerParser.parseLongLiteral( text );
+            } catch ( final InternalASTException e ) {
+                throw new ASTException( location, e );
+            }
+
+            return new LongIntegerLiteral( location, value );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitFloatingPoint( final BLOneParser.FloatingPointContext ctx ) {
-            return new FloatingPointLiteral( LocationBuilder.build( ctx ),
-                                             FloatingPointParser.parseFloatLiteral( ctx.FloatingPointLiteral()
-                                                                                       .getText() ) );
+            final LocationIfc location = LocationBuilder.build( ctx );
+            final String text = ctx.FloatingPointLiteral().getText();
+
+            final float value;
+
+            try {
+                value = FloatingPointParser.parseFloatLiteral( text );
+            } catch ( final InternalASTException e ) {
+                throw new ASTException( location, e );
+            }
+
+            return new FloatingPointLiteral( location, value );
         }
 
         @Override
         public PrimitiveLiteralIfc< ? > visitDoubleFloatingPoint( final BLOneParser.DoubleFloatingPointContext ctx ) {
-            return new DoubleFloatingPointLiteral( LocationBuilder.build( ctx ),
-                                                   FloatingPointParser.parseDoubleLiteral( ctx.DoubleFloatingPointLiteral()
-                                                                                              .getText() ) );
+            final LocationIfc location = LocationBuilder.build( ctx );
+            final String text = ctx.DoubleFloatingPointLiteral().getText();
+
+            final double value;
+
+            try {
+                value = FloatingPointParser.parseDoubleLiteral( text );
+            } catch ( final InternalASTException e ) {
+                throw new ASTException( location, e );
+            }
+
+            return new DoubleFloatingPointLiteral( location, value );
         }
 
         @Override public PrimitiveLiteralIfc< ? > visitCharacter( final BLOneParser.CharacterContext ctx ) {

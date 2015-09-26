@@ -1,16 +1,12 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+import com.gs.collections.impl.utility.StringIterate;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 
 import java.io.PrintStream;
-import java.util.Map;
 
 final class Formatter {
     private static final String INDENT = "    ";
-
-    private static final Map< Integer, String > s_indentCache = Maps.newHashMap();
 
     private Formatter() {}
 
@@ -28,6 +24,6 @@ final class Formatter {
     }
 
     private static String indent( final int depth ) {
-        return s_indentCache.computeIfAbsent( depth, k -> Strings.repeat( INDENT, k ) );
+        return StringIterate.repeat( INDENT, depth );
     }
 }

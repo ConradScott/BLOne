@@ -30,7 +30,7 @@ public final class Variable implements IdentifierIfc, ExpressionIfc {
         @Nullable final DeclarationIfc declaration = symbolTable.get( m_name );
 
         if ( declaration == null ) {
-            throw new ASTException( "Variable '" + m_name + "' has not been assigned a type" );
+            throw new ASTException( m_location, "Variable '" + m_name + "' has not been assigned a type" );
         }
 
         return declaration.getType();

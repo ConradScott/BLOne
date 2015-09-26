@@ -1,5 +1,6 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
+import com.gs.collections.api.RichIterable;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintVisitorIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.CapturedAttributeConstraint;
@@ -8,19 +9,16 @@ import uk.me.conradscott.blone.ast.declaration.SymbolTable;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
 
-import static uk.me.conradscott.blone.hof.HOFs.foldl;
-
 final class AttributeConstraintTypeChecker {
     private AttributeConstraintTypeChecker() {}
 
     static SymbolTable check( final ErrorCollectorIfc errorCollector,
-                              final Iterable< AttributeConstraintIfc > attributeConstraints,
+                              final RichIterable< AttributeConstraintIfc > attributeConstraints,
                               final SymbolTable symbolTable,
                               final RelationDecl relationDecl )
     {
-        return foldl( attributeConstraints,
-                      symbolTable,
-                      ( state, ac ) -> check( errorCollector, ac, state, relationDecl ) );
+        return attributeConstraints.injectInto( symbolTable,
+                                                ( state, ac ) -> check( errorCollector, ac, state, relationDecl ) );
     }
 
     static SymbolTable check( final ErrorCollectorIfc errorCollector,

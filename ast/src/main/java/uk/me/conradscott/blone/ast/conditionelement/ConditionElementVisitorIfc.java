@@ -1,12 +1,11 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.gs.collections.api.RichIterable;
 
 public interface ConditionElementVisitorIfc< T, R > {
-    default List< R > visit( final Collection< ? extends ConditionElementIfc > conditionElements, final T t ) {
-        return conditionElements.stream().map( ce -> visit( ce, t ) ).collect( Collectors.toList() );
+    default RichIterable< R > visit( final RichIterable< ? extends ConditionElementIfc > ces, final T t )
+    {
+        return ces.collect( ce -> visit( ce, t ) );
     }
 
     default R visit( final ConditionElementIfc conditionElement, final T t ) {
