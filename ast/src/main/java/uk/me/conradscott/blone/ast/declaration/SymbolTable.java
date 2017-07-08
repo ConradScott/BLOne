@@ -1,14 +1,15 @@
 package uk.me.conradscott.blone.ast.declaration;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.map.ImmutableMap;
-import com.gs.collections.impl.factory.Lists;
-import com.gs.collections.impl.factory.Maps;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.impl.factory.Lists;
+import org.eclipse.collections.impl.factory.Maps;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
-
-import java.util.Iterator;
-import javax.annotation.Nullable;
 
 public final class SymbolTable implements ScopeIfc< VariableDecl > {
     /**
@@ -33,7 +34,7 @@ public final class SymbolTable implements ScopeIfc< VariableDecl > {
         }
     };
 
-    private final ScopeIfc< VariableDecl > m_parent;
+    private final ScopeIfc< VariableDecl >             m_parent;
     private final ImmutableMap< String, VariableDecl > m_map;
 
     public SymbolTable() {

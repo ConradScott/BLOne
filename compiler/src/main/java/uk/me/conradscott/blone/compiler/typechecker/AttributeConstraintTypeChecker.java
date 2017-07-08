@@ -1,6 +1,7 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintVisitorIfc;
 import uk.me.conradscott.blone.ast.attributeconstraint.CapturedAttributeConstraint;

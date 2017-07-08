@@ -1,7 +1,8 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.impl.factory.Lists;
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.impl.factory.Lists;
+
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;

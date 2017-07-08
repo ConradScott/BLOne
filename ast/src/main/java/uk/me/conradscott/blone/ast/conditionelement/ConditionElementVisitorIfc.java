@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
 
 public interface ConditionElementVisitorIfc< T, R > {
     default RichIterable< R > visit( final RichIterable< ? extends ConditionElementIfc > ces, final T t )

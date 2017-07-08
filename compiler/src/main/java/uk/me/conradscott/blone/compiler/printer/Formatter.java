@@ -1,9 +1,10 @@
 package uk.me.conradscott.blone.compiler.printer;
 
-import com.gs.collections.impl.utility.StringIterate;
-import uk.me.conradscott.blone.ast.location.LocatedIfc;
-
 import java.io.PrintStream;
+
+import org.eclipse.collections.impl.utility.StringIterate;
+
+import uk.me.conradscott.blone.ast.location.LocatedIfc;
 
 final class Formatter {
     private static final String INDENT = "    ";

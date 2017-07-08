@@ -1,12 +1,13 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import com.gs.collections.api.list.ImmutableList;
-import com.gs.collections.impl.factory.Lists;
+import javax.annotation.Nullable;
+
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.impl.factory.Lists;
+
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
-
-import javax.annotation.Nullable;
 
 final class DocumentationStringBuilder {
     private DocumentationStringBuilder() {}

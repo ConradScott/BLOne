@@ -1,10 +1,11 @@
 package uk.me.conradscott.blone.ast.constraint;
 
-import com.gs.collections.api.list.ImmutableList;
+import org.eclipse.collections.api.list.ImmutableList;
+
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class ConjunctiveConstraint implements ConstraintIfc {
-    private final LocationIfc m_location;
+    private final LocationIfc                    m_location;
     private final ImmutableList< ConstraintIfc > m_conjuncts;
 
     public ConjunctiveConstraint( final LocationIfc location, final ImmutableList< ConstraintIfc > conjuncts ) {

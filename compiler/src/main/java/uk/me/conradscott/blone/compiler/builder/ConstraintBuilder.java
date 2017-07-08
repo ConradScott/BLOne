@@ -1,8 +1,9 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import com.gs.collections.api.list.ImmutableList;
-import com.gs.collections.impl.factory.Lists;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.impl.factory.Lists;
+
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.constraint.ConjunctiveConstraint;

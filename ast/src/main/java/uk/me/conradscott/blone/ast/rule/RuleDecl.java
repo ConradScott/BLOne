@@ -1,20 +1,21 @@
 package uk.me.conradscott.blone.ast.rule;
 
-import com.gs.collections.api.RichIterable;
+import javax.annotation.Nullable;
+
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
 import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
-import javax.annotation.Nullable;
-
 public final class RuleDecl implements LocatedIfc {
-    private final LocationIfc m_location;
-    private final String m_name;
-    @Nullable private final StringLiteral m_documentationString;
-    private final ConditionElementIfc m_conditionElement;
-    private final RichIterable< ActionIfc > m_actions;
+    private final           LocationIfc               m_location;
+    private final           String                    m_name;
+    @Nullable private final StringLiteral             m_documentationString;
+    private final           ConditionElementIfc       m_conditionElement;
+    private final           RichIterable< ActionIfc > m_actions;
 
     public RuleDecl( final LocationIfc location,
                      final String name,

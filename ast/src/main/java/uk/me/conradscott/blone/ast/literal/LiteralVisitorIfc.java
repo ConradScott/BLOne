@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.literal;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
 
 public interface LiteralVisitorIfc< A, R > {
     default RichIterable< R > visit( final RichIterable< ? extends PrimitiveLiteralIfc< ? > > literals, final A a ) {

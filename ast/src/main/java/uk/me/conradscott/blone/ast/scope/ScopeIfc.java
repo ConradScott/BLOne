@@ -1,8 +1,8 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.gs.collections.api.RichIterable;
-
 import javax.annotation.Nullable;
+
+import org.eclipse.collections.api.RichIterable;
 
 public interface ScopeIfc< V > extends Iterable< V > {
     @Nullable V get( String key );

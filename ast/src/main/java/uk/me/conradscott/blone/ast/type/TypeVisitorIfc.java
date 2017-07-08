@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.type;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
 
 public interface TypeVisitorIfc< T, R > {
     default RichIterable< R > visit( final RichIterable< ? extends TypeIfc > actions, final T t ) {

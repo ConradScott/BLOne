@@ -1,19 +1,20 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.map.ImmutableMap;
-import com.gs.collections.impl.factory.Maps;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.impl.factory.Maps;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.attributeconstraint.AttributeConstraintIfc;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
-import java.util.Iterator;
-import javax.annotation.Nullable;
-
 public final class PatternCE implements ScopeIfc< AttributeConstraintIfc >, ConditionElementIfc {
-    private final LocationIfc m_location;
-    private final String m_name;
+    private final LocationIfc                                    m_location;
+    private final String                                         m_name;
     private final ImmutableMap< String, AttributeConstraintIfc > m_attributes;
 
     public PatternCE( final LocationIfc location, final String name ) {

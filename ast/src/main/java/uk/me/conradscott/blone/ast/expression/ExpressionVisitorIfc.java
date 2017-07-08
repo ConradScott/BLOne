@@ -1,6 +1,7 @@
 package uk.me.conradscott.blone.ast.expression;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.literal.PrimitiveLiteralIfc;
 
 public interface ExpressionVisitorIfc< T, R > {

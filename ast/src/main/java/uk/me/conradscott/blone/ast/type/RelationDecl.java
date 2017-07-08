@@ -1,8 +1,12 @@
 package uk.me.conradscott.blone.ast.type;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.map.ImmutableMap;
-import com.gs.collections.impl.factory.Maps;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.impl.factory.Maps;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.declaration.AttributeDecl;
 import uk.me.conradscott.blone.ast.declaration.DeclarationIfc;
@@ -11,14 +15,11 @@ import uk.me.conradscott.blone.ast.literal.StringLiteral;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
-import java.util.Iterator;
-import javax.annotation.Nullable;
-
 public final class RelationDecl implements DeclarationIfc, TypeIfc, ScopeIfc< AttributeDecl > {
-    private final LocationIfc m_location;
-    private final IdentifierIfc m_identifier;
-    @Nullable private final StringLiteral m_documentationString;
-    private final ImmutableMap< String, AttributeDecl > m_attributes;
+    private final           LocationIfc                           m_location;
+    private final           IdentifierIfc                         m_identifier;
+    @Nullable private final StringLiteral                         m_documentationString;
+    private final           ImmutableMap< String, AttributeDecl > m_attributes;
 
     public RelationDecl( final LocationIfc location,
                          final IdentifierIfc identifier,

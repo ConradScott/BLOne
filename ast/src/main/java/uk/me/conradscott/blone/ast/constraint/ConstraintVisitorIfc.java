@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.constraint;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
 
 public interface ConstraintVisitorIfc< T, R > {
     default RichIterable< R > visit( final RichIterable< ? extends ConstraintIfc > constraints, final T t ) {

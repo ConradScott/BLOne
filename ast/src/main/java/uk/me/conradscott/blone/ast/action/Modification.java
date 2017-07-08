@@ -1,19 +1,20 @@
 package uk.me.conradscott.blone.ast.action;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.map.ImmutableMap;
-import com.gs.collections.impl.factory.Maps;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.impl.factory.Maps;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.expression.Variable;
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 import uk.me.conradscott.blone.ast.scope.ScopeIfc;
 
-import java.util.Iterator;
-import javax.annotation.Nullable;
-
 public final class Modification implements ActionIfc, ScopeIfc< AttributeExpr > {
-    private final LocationIfc m_location;
-    private final Variable m_variable;
+    private final LocationIfc                           m_location;
+    private final Variable                              m_variable;
     private final ImmutableMap< String, AttributeExpr > m_attributes;
 
     public Modification( final LocationIfc location, final Variable variable ) {

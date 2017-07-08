@@ -1,10 +1,11 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class ConjunctiveCE implements ConditionElementIfc {
-    private final LocationIfc m_location;
+    private final LocationIfc                         m_location;
     private final RichIterable< ConditionElementIfc > m_conjuncts;
 
     public ConjunctiveCE( final LocationIfc location, final RichIterable< ConditionElementIfc > conditionElements ) {

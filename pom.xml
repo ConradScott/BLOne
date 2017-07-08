@@ -19,8 +19,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.antlr4>4.7</version.antlr4>
+        <version.eclipse-collections>8.1.0</version.eclipse-collections>
         <version.findbugs>3.0.1</version.findbugs>
-        <version.gs>7.0.3</version.gs>
         <version.junit>4.12</version.junit>
         <version.log4j>2.8.2</version.log4j>
     </properties>
@@ -83,9 +83,15 @@
             </dependency>
 
             <dependency>
-                <groupId>com.goldmansachs</groupId>
-                <artifactId>gs-collections</artifactId>
-                <version>${version.gs}</version>
+                <groupId>org.eclipse.collections</groupId>
+                <artifactId>eclipse-collections-api</artifactId>
+                <version>${version.eclipse-collections}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.eclipse.collections</groupId>
+                <artifactId>eclipse-collections</artifactId>
+                <version>${version.eclipse-collections}</version>
             </dependency>
 
             <dependency>

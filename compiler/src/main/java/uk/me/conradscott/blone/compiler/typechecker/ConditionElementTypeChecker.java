@@ -1,6 +1,10 @@
 package uk.me.conradscott.blone.compiler.typechecker;
 
-import com.gs.collections.api.RichIterable;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.conditionelement.CapturedCE;
 import uk.me.conradscott.blone.ast.conditionelement.ConditionElementIfc;
@@ -22,9 +26,6 @@ import uk.me.conradscott.blone.ast.type.PartialType;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
 import uk.me.conradscott.blone.ast.type.TypeIfc;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
-
-import java.util.Iterator;
-import javax.annotation.Nullable;
 
 final class ConditionElementTypeChecker {
     private ConditionElementTypeChecker() {}

@@ -1,8 +1,9 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.list.ImmutableList;
-import com.gs.collections.impl.factory.Lists;
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.list.ImmutableList;
+import org.eclipse.collections.impl.factory.Lists;
+
 import uk.me.conradscott.blone.ast.action.ActionIfc;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
 import uk.me.conradscott.blone.ast.type.RelationDecl;
@@ -13,8 +14,8 @@ public final class Program {
                                                       RuleScope.empty() );
 
     private final ImmutableList< ActionIfc > m_actions;
-    private final RelationScope m_relations;
-    private final RuleScope m_rules;
+    private final RelationScope              m_relations;
+    private final RuleScope                  m_rules;
 
     public static Program empty() {
         return EMPTY;

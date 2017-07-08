@@ -1,7 +1,10 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.impl.factory.Lists;
+import javax.annotation.Nullable;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.impl.factory.Lists;
+
 import uk.me.conradscott.blone.antlr4.BLOneParser;
 import uk.me.conradscott.blone.antlr4.BLOneParserBaseVisitor;
 import uk.me.conradscott.blone.ast.conditionelement.CapturedCE;
@@ -12,8 +15,6 @@ import uk.me.conradscott.blone.ast.conditionelement.ExistentialCE;
 import uk.me.conradscott.blone.ast.conditionelement.NegativeCE;
 import uk.me.conradscott.blone.ast.conditionelement.UniversalCE;
 import uk.me.conradscott.blone.compiler.ErrorCollectorIfc;
-
-import javax.annotation.Nullable;
 
 final class ConditionElementBuilder {
     private ConditionElementBuilder() {}

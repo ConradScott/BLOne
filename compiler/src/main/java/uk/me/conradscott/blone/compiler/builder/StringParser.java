@@ -1,8 +1,8 @@
 package uk.me.conradscott.blone.compiler.builder;
 
-import com.gs.collections.api.list.ImmutableList;
-
 import java.util.function.Consumer;
+
+import org.eclipse.collections.api.list.ImmutableList;
 
 @SuppressWarnings( "HardcodedFileSeparator" ) final class StringParser {
     private StringParser() {}

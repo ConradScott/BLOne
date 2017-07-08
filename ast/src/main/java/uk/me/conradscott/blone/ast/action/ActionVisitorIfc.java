@@ -1,6 +1,6 @@
 package uk.me.conradscott.blone.ast.action;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
 
 public interface ActionVisitorIfc< T, R > {
     default RichIterable< R > visit( final RichIterable< ? extends ActionIfc > actions, final T t ) {

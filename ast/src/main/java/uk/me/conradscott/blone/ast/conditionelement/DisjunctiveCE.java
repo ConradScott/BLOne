@@ -1,10 +1,11 @@
 package uk.me.conradscott.blone.ast.conditionelement;
 
-import com.gs.collections.api.RichIterable;
+import org.eclipse.collections.api.RichIterable;
+
 import uk.me.conradscott.blone.ast.location.LocationIfc;
 
 public final class DisjunctiveCE implements ConditionElementIfc {
-    private final LocationIfc m_location;
+    private final LocationIfc                         m_location;
     private final RichIterable< ConditionElementIfc > m_disjuncts;
 
     public DisjunctiveCE( final LocationIfc location, final RichIterable< ConditionElementIfc > disjuncts ) {

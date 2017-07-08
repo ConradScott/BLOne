@@ -1,14 +1,15 @@
 package uk.me.conradscott.blone.ast.scope;
 
-import com.gs.collections.api.RichIterable;
-import com.gs.collections.api.map.ImmutableMap;
-import com.gs.collections.impl.factory.Maps;
+import javax.annotation.Nullable;
+import java.util.Iterator;
+
+import org.eclipse.collections.api.RichIterable;
+import org.eclipse.collections.api.map.ImmutableMap;
+import org.eclipse.collections.impl.factory.Maps;
+
 import uk.me.conradscott.blone.ast.ASTException;
 import uk.me.conradscott.blone.ast.location.LocatedIfc;
 import uk.me.conradscott.blone.ast.rule.RuleDecl;
-
-import java.util.Iterator;
-import javax.annotation.Nullable;
 
 final class RuleScope implements ScopeIfc< RuleDecl > {
     private static final RuleScope EMPTY = new RuleScope( Maps.immutable.empty() );
