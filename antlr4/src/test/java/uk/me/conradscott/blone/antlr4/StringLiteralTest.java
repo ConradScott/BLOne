@@ -3,7 +3,7 @@ package uk.me.conradscott.blone.antlr4;
 import org.antlr.v4.runtime.Token;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings( "HardcodedFileSeparator" ) public final class StringLiteralTest {
     private static final String[] VALID_STRING_LITERALS = { "\"\"", "\"abc\"", "\"\\\"\"", "\"\\\\\"", "\"\\t\"" };
@@ -13,9 +13,9 @@ import static org.junit.Assert.assertEquals;
             final Token token = Lexer.getSingleTokenFromString( expected );
             final String actual = token.getText();
 
-            assertEquals( "String literal " + expected + " should be returned untouched by the lexical analyser",
-                          expected,
-                          actual );
+            assertThat( actual ).as( "String literal " +
+                                     expected +
+                                     " should be returned untouched by the lexical analyser" ).isEqualTo( expected );
         }
     }
 
@@ -31,9 +31,11 @@ import static org.junit.Assert.assertEquals;
             final String actual = Lexer.getSingleInvalidTokenFromString( literal );
             final String expected = String.format( "token recognition error at: '%s'", literal );
 
-            assertEquals( "String literal " + literal + " should have raised the syntax error \'" + expected + "\'.",
-                          expected,
-                          actual );
+            assertThat( actual ).as( "String literal " +
+                                     literal +
+                                     " should have raised the syntax error \'" +
+                                     expected +
+                                     "\'." ).isEqualTo( expected );
         }
     }
 }

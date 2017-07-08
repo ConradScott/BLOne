@@ -2,9 +2,10 @@ package uk.me.conradscott.blone.compiler.builder;
 
 import org.antlr.v4.runtime.Token;
 import org.junit.Test;
+
 import uk.me.conradscott.blone.antlr4.Lexer;
 
-import static org.junit.Assert.assertArrayEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public final class IntegerParserTest {
     private static final String[] literals = { "0",
@@ -30,7 +31,7 @@ public final class IntegerParserTest {
             actual[ i ] = getInt( literals[ i ] );
         }
 
-        assertArrayEquals( "Zero literals should equal zero.", expected, actual );
+        assertThat( actual ).as( "Zero literals should equal zero." ).isEqualTo( expected );
     }
 
     @Test public void testLiteralZeroLongs() {
@@ -42,7 +43,7 @@ public final class IntegerParserTest {
             actual[ i ] = getLong( literals[ i ] + 'L' );
         }
 
-        assertArrayEquals( "Zero literals should equal zero.", expected, actual );
+        assertThat( actual ).as( "Zero literals should equal zero." ).isEqualTo( expected );
     }
 
     private static int getInt( final String s ) {

@@ -3,7 +3,7 @@ package uk.me.conradscott.blone.antlr4;
 import org.antlr.v4.runtime.Token;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public final class IntegerLiteralTest {
     @Test public void testValidIntegers() {
@@ -13,9 +13,9 @@ public final class IntegerLiteralTest {
             final Token token = Lexer.getSingleTokenFromString( expected );
             final String actual = token.getText();
 
-            assertEquals( "Integer literal " + expected + " should be returned untouched by the lexical analyser",
-                          expected,
-                          actual );
+            assertThat( actual ).as( "Integer literal " +
+                                     expected +
+                                     " should be returned untouched by the lexical analyser" ).isEqualTo( expected );
         }
     }
 }

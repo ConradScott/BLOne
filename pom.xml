@@ -19,6 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <version.antlr4>4.7</version.antlr4>
+        <version.assertj>3.8.0</version.assertj>
         <version.eclipse-collections>8.1.0</version.eclipse-collections>
         <version.findbugs>3.0.1</version.findbugs>
         <version.junit>4.12</version.junit>
@@ -104,6 +105,15 @@
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${version.log4j}</version>
+            </dependency>
+
+            <!-- Test dependencies-->
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${version.assertj}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>

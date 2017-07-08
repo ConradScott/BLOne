@@ -1,5 +1,7 @@
 package uk.me.conradscott.blone.antlr4;
 
+import javax.annotation.Nullable;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.BufferedTokenStream;
@@ -8,11 +10,7 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 
-import javax.annotation.Nullable;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Functions to help test the BLOne lexical analyser.
@@ -53,19 +51,23 @@ public final class Lexer {
 
         assert token.getCharPositionInLine() == token.getStartIndex();
 
-        assertNotNull( "The lexical analyser should return one token.", token );
-        assertNotEquals( "The first token should not be an EOF token.", Token.EOF, token.getType() );
-        assertEquals( "The first token should start at the beginning of the input string.", 0, token.getStartIndex() );
-        assertEquals( "The entire input should be consumed by the first token.", s.length(), token.getStopIndex() + 1 );
+        assertThat( token ).as( "The lexical analyser should return one token." ).isNotNull();
+        assertThat( token.getType() ).as( "The first token should not be an EOF token." ).isNotEqualTo( Token.EOF );
+        assertThat( token.getStartIndex() ).as( "The first token should start at the beginning of the input string." )
+                                           .isEqualTo( 0 );
+        assertThat( token.getStopIndex() + 1 ).as( "The entire input should be consumed by the first token." )
+                                              .isEqualTo( s.length() );
 
         final Token eof = tokens.LT( 2 );
 
         assert eof.getCharPositionInLine() == eof.getStartIndex();
 
-        assertNotNull( "The lexical analyser should return a second token.", eof );
-        assertEquals( "The second token should be an EOF token.", Token.EOF, eof.getType() );
-        assertEquals( "The second token should start at the end of the input.", s.length(), eof.getStartIndex() );
-        assertEquals( "The second token should not contain any text.", eof.getStartIndex(), eof.getStopIndex() + 1 );
+        assertThat( eof ).as( "The lexical analyser should return a second token." ).isNotNull();
+        assertThat( eof.getType() ).as( "The second token should be an EOF token." ).isEqualTo( Token.EOF );
+        assertThat( eof.getStartIndex() ).as( "The second token should start at the end of the input." )
+                                         .isEqualTo( s.length() );
+        assertThat( eof.getStopIndex() + 1 ).as( "The second token should not contain any text." )
+                                            .isEqualTo( eof.getStartIndex() );
 
         return token;
     }
@@ -87,14 +89,16 @@ public final class Lexer {
 
         final Token token = tokens.LT( 1 );
 
-        assertNotNull( "The lexical analyser should return a token.", token );
-        assertEquals( "The token should be an EOF token.", Token.EOF, token.getType() );
-        assertEquals( "The token should start at the end of the input.", s.length(), token.getStartIndex() );
-        assertEquals( "The token should not contain any text.", token.getStartIndex(), token.getStopIndex() + 1 );
+        assertThat( token ).as( "The lexical analyser should return a token." ).isNotNull();
+        assertThat( token.getType() ).as( "The token should be an EOF token." ).isEqualTo( Token.EOF );
+        assertThat( token.getStartIndex() ).as( "The token should start at the end of the input." )
+                                           .isEqualTo( s.length() );
+        assertThat( token.getStopIndex() + 1 ).as( "The token should not contain any text." )
+                                              .isEqualTo( token.getStartIndex() );
 
         @Nullable final String msg = listener.getMsg();
 
-        assertNotNull( "The lexer should have reported a syntax error.", msg );
+        assertThat( msg ).as( "The lexer should have reported a syntax error." ).isNotNull();
 
         return msg;
     }
