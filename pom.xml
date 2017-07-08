@@ -18,11 +18,11 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.antlr4>4.5.1</version.antlr4>
-        <version.findbugs>2.0.1</version.findbugs>
-        <version.gs>6.2.0</version.gs>
+        <version.antlr4>4.7</version.antlr4>
+        <version.findbugs>3.0.1</version.findbugs>
+        <version.gs>7.0.3</version.gs>
         <version.junit>4.12</version.junit>
-        <version.log4j>2.3</version.log4j>
+        <version.log4j>2.8.2</version.log4j>
     </properties>
 
     <build>
@@ -30,7 +30,8 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.3</version>
+                <version>3.6.1</version>
+
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -49,13 +50,13 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>1.9.1</version>
+                    <version>3.0.0</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>3.0.2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
