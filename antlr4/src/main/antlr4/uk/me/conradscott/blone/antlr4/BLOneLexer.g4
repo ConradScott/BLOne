@@ -4,6 +4,29 @@ options {
     language = Java;
 }
 
+tokens { INDENT, DEDENT }
+
+@lexer::header {
+    import uk.me.conradscott.blone.dentation.Dentation;
+}
+
+@lexer::members {
+    private final Dentation m_dentation =
+        new Dentation( () -> super.nextToken(),
+                       NL, INDENT, DEDENT,
+                       new int[] { RELATION, RULE, ASSERT, RETRACT, MODIFY, PRINTLN },
+                       _tokenFactorySourcePair );
+
+    @Override
+    public Token nextToken() {
+        final Token token = m_dentation.nextToken();
+
+        emit( token );
+
+        return token;
+    }
+}
+
 // Reserved words
 
 BOOLEAN     : 'boolean' ;
@@ -383,10 +406,18 @@ LetterOrDigit
 
 // Whitespace and comments
 
-WS
-    : [ \t\r\n\u000C]+ -> skip
+NL
+    : EOL SPACES?
+    | SPACES { _tokenStartCharIndex == 0 }?
     ;
 
-LINE_COMMENT
-    : ';' ~[\r\n]* -> skip
-    ;
+WS : ( SPACES | LINE_COMMENT ) -> skip ;
+
+fragment
+EOL : ( '\r'? '\n' | '\r' | '\f' ) ;
+
+fragment
+SPACES : ' '+ ;
+
+fragment
+LINE_COMMENT : ';' ~[\r\n\f]* ;

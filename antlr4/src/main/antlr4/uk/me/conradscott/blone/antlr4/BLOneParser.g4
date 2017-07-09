@@ -22,11 +22,11 @@ statement
 // TODO: Allow multiple relations?
 
 relationDecl
-    : '(' 'relation' Identifier documentationString? attributeDecl* ')'
+    : 'relation' INDENT Identifier documentationString? attributeDecl* DEDENT
     ;
 
 ruleDecl
-    : '(' 'rule' Identifier documentationString?  conditionElement+ '=>' action+ ')'
+    : 'rule' INDENT Identifier documentationString?  conditionElement+ '=>' action+ DEDENT
     ;
 
 action
@@ -37,19 +37,19 @@ action
     ;
 
 assertion
-    : '(' 'assert' tupleExpr ')'
+    : 'assert' INDENT tupleExpr DEDENT
     ;
 
 retraction
-    : '(' 'retract' relationExpr ')'
+    : 'retract' INDENT relationExpr DEDENT
     ;
 
 modification
-    : '(' 'modify' relationExpr attributeExpr+ ')'
+    : 'modify' INDENT relationExpr attributeExpr+ DEDENT
     ;
 
 println
-    : '(' 'println' expression ')'
+    : 'println' INDENT expression DEDENT
     ;
 
 // Documentation strings

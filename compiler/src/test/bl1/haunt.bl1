@@ -1,31 +1,28 @@
-(relation X (x int))
-(relation Current (type string) (name string))
-(relation Input (input string))
+relation X (x int)
+relation Current (type string) (name string)
+relation Input (input string)
 
-(rule name01
-  (X (x 0))
-  ?current = (Current (type "operator") (name "readfirst"))
-  ?input = (Input (input ""))
-  =>
-  (retract ?input)
-  ;(call println "I assume that means yes.")
-  ;(update ?current (name "read"))
-  )
+rule name01
+     (X (x 0))
+     ?current = (Current (type "operator") (name "readfirst"))
+     ?input = (Input (input ""))
+     =>
+     retract ?input
+     ;(call println "I assume that means yes.")
+     ;(update ?current (name "read"))
 
-(rule name02
-  (X (x 10))
-  ?current = (Current (type "operator") (name "readfirst"))
-  ?input = (Input (input (or "yes" "y" "oui" "")))
-  =>
-  (retract ?input)
-  ;(update ?current (name "read"))
-  )
+rule name02
+     (X (x 10))
+     ?current = (Current (type "operator") (name "readfirst"))
+     ?input = (Input (input (or "yes" "y" "oui" "")))
+     =>
+     retract ?input
+     ;(update ?current (name "read"))
 
-(rule name06
-  (X (x 0))
-  ?current = (Current (type "operator") (name "process"))
-  ?input = (Input (input (or "yes" "y" "oui" "")))
-  =>
-  (retract ?input)
-  ;(update ?current (name "read"))
-  )
+rule name06
+     (X (x 0))
+     ?current = (Current (type "operator") (name "process"))
+     ?input = (Input (input (or "yes" "y" "oui" "")))
+     =>
+     retract ?input
+     ;(update ?current (name "read"))
